@@ -1,0 +1,48 @@
+CREATE TABLE Member(
+	mid INTEGER AUTO_INCREMENT PRIMARY KEY,
+	fname VARCHAR(32) NOT NULL,
+	lname VARCHAR(32) NOT NULL,
+	email VARCHAR(64)
+)ENGINE=InnoDB;
+
+CREATE TABLE Event(
+	eid INTEGER AUTO_INCREMENT PRIMARY KEY,
+	title VARCHAR(64) NOT NULL,
+	description VARCHAR(1024),
+	type VARCHAR(32),
+	date_time TIMESTAMP NOT NULL
+)ENGINE=InnoDB;
+
+CREATE TABLE Address(
+	aid INTEGER AUTO_INCREMENT PRIMARY KEY,
+	street_number INTEGER NOT NULL,
+	suite_number VARCHAR(32),
+	street VARCHAR(64) NOT NULL,
+	city VARCHAR(64) DEFAULT='Columbia',
+	state CHAR(2) DEFAULT='MO',
+	zip CHAR(5) DEFAULT='65201'
+)ENGINE=InnoDB;
+
+CREATE TABLE member_lives_at_address(
+	mid INTEGER,
+	aid INTEGER,
+	PRIMARY KEY(mid, aid),
+	FOREIGN KEY(mid) REFERENCES Member(mid),
+	FOREIGN KEY(aid) REFERENCES Address(aid)
+)ENGINE=InnoDB;
+
+CREATE TABLE member_attends_event(
+	mid INTEGER,
+	eid INTEGER,
+	PRIMARY KEY(mid, eid),
+	FOREIGN KEY (mid) REFERENCES Member(mid),
+	FOREIGN KEY (eid) REFERENCES Event(eid)
+)ENGINE=InnoDB;
+
+CREATE TABLE event_occurs_at_address(
+	eid INTEGER,
+	aid INTEGER,
+	PRIMARY KEY(eid, aid),
+	FOREIGN KEY (eid) REFERENCES Event(eid),
+	FOREIGN KEY (aid) REFERENCES Address(aid)
+)ENGINE=InnoDB;
