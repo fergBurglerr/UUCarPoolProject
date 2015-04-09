@@ -62,11 +62,13 @@ CREATE TABLE person_has_car(
 
 CREATE TABLE Photos(
 	pid INTEGER AUTO_INCREMENT NOT NULL,
+	#Add a tuple for the photo file
 	updloadDate TIMESTAMP NOT NULL,
 	PRIMARY KEY(pid))ENGINE=InnoDB;
 
 CREATE TABLE Announcement(
 	aid INTEGER AUTO_INCREMENT NOT NULL,
+	pid INTEGER REFERENCES Person(pid),
 	content VARCHAR(2047) NOT NULL,
 	aDate TIMESTAMP NOT NULL,
 	PRIMARY KEY(aid))ENGINE=InnoDB;
