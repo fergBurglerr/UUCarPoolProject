@@ -22,13 +22,13 @@ SELECT P.name FROM Person P WHERE P.pid NOT IN (SELECT P.pid FROM Person_Email I
 SELECT P.name FROM Person P WHERE NOT EXISTS (SELECT E.eid FROM Events E WHERE E.eid NOT IN (SELECT Pae.eid FROM Person_attends_Event Pae WHERE Pae.pid = P.pid));
 #Query 10 (Find all announcements from the "Religious Studies" group)
 SELECT message FROM Announcement INNER JOIN Group_has_announcement gha INNER JOIN Group G WHERE G.name = 'Religious Education';
-#Query 11
-#Query 12
-#Query 13
-#Query 14
-#Query 15
-#Query 16
-#Query 17
-#Query 18
-#Query 19
-#Query 20
+#Query 11 (Find all announcements from "Pastor Roth")
+#Query 12 (Find a list of all people who need a ride to the "Happy Hour")
+#Query 13 (Return the number of people who attended the "Bible Study" on 4-13-2012)
+#Query 14 (Find how many people can drive to "Bible Study" on 3-12-2013)
+#Query 15 (Find the name of the person who attended the most events)
+#Query 16 (Find a list of all people under the age of 18 "not adults")
+#Query 17 (Find a list of all events in order of attendence)
+#Query 18 (Find the average number of pictures taken at all events)
+#Query 19 (Find the months which have the most events on average)
+#Query 20 (Find the names of everyone who has driven to AT LEAST one event)
