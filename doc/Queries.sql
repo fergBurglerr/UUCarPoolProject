@@ -23,8 +23,11 @@ SELECT P.name FROM Person P WHERE NOT EXISTS (SELECT E.eid FROM Events E WHERE E
 #Query 10 (Find all announcements from the "Religious Studies" group)
 SELECT message FROM Announcement INNER JOIN Group_has_announcement gha INNER JOIN Group G WHERE G.name = 'Religious Education';
 #Query 11 (Find all announcements from "Pastor Roth")
+SELECT message FROM Announcement INNER JOIN Person P WHERE P.name = 'Pastor Roth';
 #Query 12 (Find a list of all people who need a ride to the "Happy Hour")
+SELECT P.firstname, P.lastname FROM Person P INNER JOIN person_needs_ride_for_event P2 INNER JOIN Event E WHERE E.name = 'Happy Hour';
 #Query 13 (Return the number of people who attended the "Bible Study" on 4-13-2012)
+SELECT count(pid) FROM 
 #Query 14 (Find how many people can drive to "Bible Study" on 3-12-2013)
 #Query 15 (Find the name of the person who attended the most events)
 #Query 16 (Find a list of all people under the age of 18 "not adults")
