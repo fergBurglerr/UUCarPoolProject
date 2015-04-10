@@ -27,9 +27,11 @@ SELECT message FROM Announcement INNER JOIN Person P WHERE P.name = 'Pastor Roth
 #Query 12 (Find a list of all people who need a ride to the "Happy Hour")
 SELECT P.firstname, P.lastname FROM Person P INNER JOIN person_needs_ride_for_event P2 INNER JOIN Event E WHERE E.name = 'Happy Hour';
 #Query 13 (Return the number of people who attended the "Bible Study" on 4-13-2012)
-SELECT count(pid) FROM 
+SELECT E.name, count(pid) FROM Person_attends_Event pae INNER JOIN Event E WHERE E.name = 'Bible Study' GROUP BY (E.name);
 #Query 14 (Find how many people can drive to "Bible Study" on 3-12-2013)
+SELECT count(person_drives_for_event.pid) FROM person_drives_for_event INNER JOIN Event E WHERE E.name = 'Bible Study' AND E.startTime = '2013-3-12 17:00:00' GROUP BY (person_drives_for_event.eid);
 #Query 15 (Find the name of the person who attended the most events)
+SELECT P.name FROM Person P INNER JOIN Person_attends_Event pae GROUP BY (pae.pid) ORDER BY count(pae.eid) DESC LIMIT 1;
 #Query 16 (Find a list of all people under the age of 18 "not adults")
 #Query 17 (Find a list of all events in order of attendence)
 #Query 18 (Find the average number of pictures taken at all events)
