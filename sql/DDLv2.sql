@@ -30,6 +30,8 @@ DROP TABLE IF EXISTS `Group`;
 
 DROP TABLE IF EXISTS group_has_members;
 
+DROP TABLE IF EXISTS group_has_photos;
+
 DROP TABLE IF EXISTS group_has_announcements;
 
 DROP TABLE IF EXISTS annoucement_has_photos;
@@ -49,6 +51,8 @@ DROP TABLE IF EXISTS person_has_phone;
 DROP TABLE IF EXISTS Email;
 
 DROP TABLE IF EXISTS person_has_email;
+
+DROP TABLE IF EXISTS person_goes_to_event;
 SET foreign_key_checks=1;
 
 
@@ -251,8 +255,8 @@ CREATE TABLE person_has_email(
 
 CREATE TABLE person_goes_to_event(
 	pid INTEGER,
-	eid INTEGER
-	PRIMARY KEY(pid, eid),
+	eid INTEGER,
+	PRIMARY KEY(pid,eid),
 	FOREIGN KEY(pid) REFERENCES Person(pid) ON DELETE CASCADE,
-	FOREIGN KEY(pid) REFERENCES Event(eid) ON DELETE CASCADE,
+	FOREIGN KEY(eid) REFERENCES Event(eid) ON DELETE CASCADE
 	)ENGINE=InnoDB;
