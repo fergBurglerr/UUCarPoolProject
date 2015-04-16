@@ -103,6 +103,13 @@ CREATE TABLE group_has_memebers(
 	FOREIGN KEY(pid) REFERENCES Person(pid) ON DELETE CASCADE,
 	PRIMARY KEY(gid,pid))ENGINE=InnoDB;
 
+CREATE TABLE group_has_photos(
+	gid INTEGER NOT NULL,
+	phid INTEGER NOT NULL,
+	FOREIGN KEY(gid) REFERENCES Group(gid) ON DELETE CASCADE,
+	FOREIGN KEY(phid) REFERENCES Photos(pid) ON DELETE CASCADE,
+	PRIMARY KEY(gid,phid))ENGINE=InnoDB;
+
 CREATE TABLE group_has_announcements(
 	gid INTEGER NOT NULL,
 	aid INTEGER NOT NULL,
@@ -161,3 +168,11 @@ CREATE TABLE person_has_email(
     FOREIGN KEY(address) REFERENCES Email(address) ON DELETE CASCADE,
     FOREIGN KEY(pid) REFERENCES Person(pid) ON DELETE CASCADE,
     PRIMARY KEY(address, pid))ENGINE=InnoDB;
+
+CREATE TABLE person_goes_to_event(
+	pid INTEGER,
+	eid INTEGER
+	PRIMARY KEY(pid, eid),
+	FOREIGN KEY(pid) REFERENCES Person(pid) ON DELETE CASCADE,
+	FOREIGN KEY(pid) REFERENCES Event(eid) ON DELETE CASCADE,
+	)ENGINE=InnoDB;
