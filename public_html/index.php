@@ -9,6 +9,15 @@
 	<script src="js/UU.js"></script>
 </head>
 <body>
+	<h3 id="pageHeader">Unitarian Universalist Church of Columbia, Missouri</h3>
+	<ul id="navBar">
+		<a href="index.php"><li id="Home" class="navButton">Home</li></a>
+		<li id="Events" class="navButton">Events</li>
+		<li id="Announcements" class="navButton">Announcements</li>
+		<li id="Groups" class="navButton">Groups</li>
+		<li id="Carpooling" class="navButton">Carpooling</li>
+		<li id="administration" class="navButton">Admin</li>	
+	</ul>
 	<div id="fg">
 	</div>
 	<?php
