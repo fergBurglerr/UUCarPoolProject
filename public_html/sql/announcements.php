@@ -1,6 +1,6 @@
 <?PHP
 
-include("db_info.php");//including my database connection
+include("dbinfo.php");//including my database connection
 $conn = new mysqli($host, $user, $pass, $db);
 if(!$conn->connect_error){
 	echo"<p>Connection to database failed...</p>";
