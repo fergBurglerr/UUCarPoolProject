@@ -8,7 +8,7 @@ if(!$conn->connect_error){
 
 
 # Function to add a new announcement 
-if $_POST['action']=='add'{
+if ($_POST['action']=='add'){
 
 	$message = htmlspecialchars($_POST['text']);
 
@@ -28,17 +28,17 @@ if $_POST['action']=='add'{
 }
 
 # Function to edit an announcement
-else if $_POST['action']=='edit'{
+else if ($_POST['action']=='edit'){
 
 }
 
 # Function to remove an announcement
-else if $_POST['action']=='remove'{
+else if ($_POST['action']=='remove'){
 
 }
 
 #Retrieves all announcements 
-else if $_POST['action']=='get' {
+else if ($_POST['action']=='get'){
 
 }
 
