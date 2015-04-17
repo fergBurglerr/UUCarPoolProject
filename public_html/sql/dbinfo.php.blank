@@ -1,3 +1,8 @@
+//steps for use
+//1. cp dbinfo.php.blank dbinfo.php
+//2. fill out your mysql credentials
+//3. ???
+//4. profit
 <?php
 	$user="";
 	$pass="";
