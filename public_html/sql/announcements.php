@@ -1,6 +1,6 @@
 <?PHP
 
-include("db_info.php");//including my database connection
+include("dbinfo.php");//including my database connection
 $conn = new mysqli($host, $user, $pass, $db);
 if(!$conn->connect_error){
 	echo"<p>Connection to database failed...</p>";
@@ -13,9 +13,9 @@ if ($_POST['action']=='add'){
 	$message = htmlspecialchars($_POST['text']);
 
 	if (strlen($message) < 2047) {
-		$query = 'INSERT INTO Announcement (aid, content, aDate) VALUES (?, ?, ?);';
+		$query = 'INSERT INTO Announcement (aid, content, aDate) VALUES (default, ?, ?);';
 		$stmt = $conn->prepare($query);
-		$stmt->bind_param("iss", default, $message, date("Y-m-d H:i:s"));
+		$stmt->bind_param("iss", $message, date("Y-m-d H:i:s"));
 		$stmt->execute();
 
 		echo "New announcement created successfully!!!";
