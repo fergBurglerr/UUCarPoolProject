@@ -30,7 +30,15 @@ if($conn->connect_error){
 
 ##### Function to edit an announcement
 #else if ($_POST['action']=='edit'){
+	#$announcement_id = htmlspecialchars($_POST['announcement_id']);
+	$announcement_id = htmlspecialchars('1');
 
+	$query = 'DELETE FROM Announcement WHERE (aid = ?) LIMIT 1;';
+	$stmt = $conn->prepare($query);
+	$stmt->bind_param("i", $announcement_id);
+	if ($stmt->execute()) {
+		echo "Successfully removed announcement!!!"
+	}
 #}
 
 ##### Function to remove an announcement
