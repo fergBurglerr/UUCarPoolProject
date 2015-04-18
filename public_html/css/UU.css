@@ -8,9 +8,26 @@
 div#fg{
 	position: absolute;
 	left: 15%;
-	top: 10%;
+	top: 20%;
 	background-color:rgb(255,255,255);
 	height: 90%;
 	width: 85%;
 	border-top-left-radius: 10%;
+}
+
+h3#pageHeader{
+	color:white;
+	padding:2%;
+}
+
+ul#navBar{
+	position:	absolute;
+	top:	10%;
+	left:	15%;
+}
+
+li.navButton{
+	color:	white;
+	border-radius:	0%;
+	list-style:	none;
 }
