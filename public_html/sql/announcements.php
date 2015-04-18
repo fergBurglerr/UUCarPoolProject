@@ -3,7 +3,7 @@
 include("dbinfo.php");//including my database connection
 $conn = new mysqli($host, $user, $pass, $db);
 if($conn->connect_error){
-	echo"<p>Connection to database failed...</p>".$conn->connect_error;
+	echo "<p>Connection to database failed...</p>".$conn->connect_error;
 }
 
 
