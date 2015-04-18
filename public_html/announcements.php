@@ -37,7 +37,7 @@ if($conn->connect_error){
 	$stmt = $conn->prepare($query);
 	$stmt->bind_param("i", $announcement_id);
 	if ($stmt->execute()) {
-		echo "Successfully removed announcement!!!"
+		echo "Successfully removed announcement!!!";
 	}
 #}
 
