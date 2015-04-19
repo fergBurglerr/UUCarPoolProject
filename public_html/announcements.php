@@ -38,9 +38,9 @@ if($conn->connect_error){
 	#$announcement_key = $_POST['announcement_primary_key'];  #this would also be a hidden field 
 	$announcement_key = 3;
 
-	$query = 'UPDATE Announcement SET content=?, aDate=? WHERE (aid = $announcement_key);';
+	$query = 'UPDATE Announcement SET content=?, aDate=? WHERE (aid = ?);';
 	$stmt = $conn->prepare($query);
-	$stmt->bind_param("ss", $message, date("Y-m-d H:i:s"));
+	$stmt->bind_param("ssi", $message, date("Y-m-d H:i:s"), $announcement_key);
 	if ($stmt->execute()) {
 		echo "The announcement was updated";
 	}
