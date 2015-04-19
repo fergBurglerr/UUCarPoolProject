@@ -30,10 +30,10 @@
 
 	###Remove function for Address
 	if ($_POST['action']=='remove'){
-		$address_id = $_POST['address_id'];
+		$aid = $_POST['aid'];
 
 		$result = $conn->prepare("DELETE FROM Address WHERE (aid = ?) LIMIT 1;");
-		$result->bind_param('i', $address_id);
+		$result->bind_param('i', $aid);
 		if ($result->execute()) {
 			echo $result->affected_rows()." Address was removed successfully!";
 		}
