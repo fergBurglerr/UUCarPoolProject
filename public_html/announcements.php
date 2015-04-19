@@ -17,9 +17,12 @@ if($conn->connect_error){
 		$query = 'INSERT INTO Announcement (content, aDate) VALUES (?, ?);';
 		$stmt = $conn->prepare($query);
 		$stmt->bind_param("ss", $message, date("Y-m-d H:i:s"));
-		$stmt->execute();
-
-		echo "New announcement created successfully!!!";
+		if ($stmt->execute()) {
+			echo "New announcement created successfully!!!";
+		}
+		else {
+			echo "Something went wrong with insert function";
+		}
 		$stmt->close();
 	}
 	else {
@@ -30,6 +33,25 @@ if($conn->connect_error){
 
 ##### Function to edit an announcement
 #else if ($_POST['action']=='edit'){
+	#$message = htmlspecialchars($_POST['content']);  #this post and the one below would be hidden fields
+	$message = htmlspecialchars('The old the old message'); 
+	#$announcement_key = $_POST['announcement_primary_key'];  #this would also be a hidden field 
+	$announcement_key = 3;
+
+	$query = 'UPDATE Announcement SET content=?, aDate=? WHERE (aid = $announcement_key);';
+	$stmt = $conn->prepare($query);
+	$stmt->bind_param("ss", $message, date("Y-m-d H:i:s"));
+	if ($stmt->execute()) {
+		echo "The announcement was updated";
+	}
+	else {
+		echo "Something went wrong with the edit function";
+	}
+	$stmt->close();
+#}
+
+##### Function to remove an announcement
+#else if ($_POST['action']=='remove'){
 	#$announcement_id = htmlspecialchars($_POST['announcement_id']);
 	$announcement_id = htmlspecialchars('1');
 
@@ -39,11 +61,10 @@ if($conn->connect_error){
 	if ($stmt->execute()) {
 		echo "Successfully removed announcement!!!";
 	}
-#}
-
-##### Function to remove an announcement
-#else if ($_POST['action']=='remove'){
-
+	else {
+		echo "Something went wrong with remove function";
+	}
+	$stmt->close();
 #}
 
 ##### Retrieves all announcements 
