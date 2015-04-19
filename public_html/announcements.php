@@ -71,12 +71,13 @@ if($conn->connect_error){
 #else if ($_POST['action']=='get'){
 	$query = 'SELECT content, aDate FROM Announcement;';
 	$stmt = $conn->prepare($query);
-	$stmt->execute();
+	#$stmt->execute();
 	while($row = $stmt->fetch_array(MYSQLI_BOTH))
 		{
 			echo $row['aDate'] . ": " . $row['content'];
 			echo "<br />";
 		}
+	$stmt->execute();
 #}
 
 #else {
