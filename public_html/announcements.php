@@ -73,7 +73,7 @@ if($conn->connect_error){
 	$stmt = $conn->prepare($query);
 	$stmt->execute();
 	$stmt->bind_result($content, $aDate);
-	while($row = $result->fetch())
+	while($stmt->fetch())
 		{
 			echo $content. ": " . $aDate;
 			echo "<br />";
