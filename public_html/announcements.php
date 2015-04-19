@@ -72,10 +72,10 @@ if($conn->connect_error){
 	$query = 'SELECT content, aDate FROM Announcement;';
 	$stmt = $conn->prepare($query);
 	$stmt->execute();
-	$result = $stmt->get_result();
+	$stmt->bind_result($content, $aDate);
 	while($row = $result->fetch_array(MYSQLI_BOTH))
 		{
-			echo $row['aDate'] . ": " . $row['content'];
+			echo $content. ": " . $aDate;
 			echo "<br />";
 			echo "$row";
 			echo $row;
