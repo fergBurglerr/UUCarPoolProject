@@ -68,7 +68,7 @@
 		$result = $conn->prepare("SELECT houseNumber, suiteNumber, street, city, zipcode FROM Address;");
 		#$result->bind_param('i',$offset);
 
-		$offset=0;
+		#$offset=0;
 		$result->execute();
 		$result->bind_result($houseNumber, $suiteNumber, $street, $city, $zipcode);
 		while ($result->fetch()) {
