@@ -69,7 +69,14 @@ if($conn->connect_error){
 
 ##### Retrieves all announcements 
 #else if ($_POST['action']=='get'){
-
+	$query = 'SELECT content, aDate FROM Announcement;';
+	$stmt = $conn->prepare($query);
+	$stmt->execute();
+	while($row = $stmt->fetch_array())
+		{
+			echo $row['aDate'] . ": " . $row['content'];
+			echo "<br />";
+		}
 #}
 
 #else {
