@@ -77,7 +77,7 @@ else if ($_POST['action']=='remove'){
 }
 
 ##### Retrieves all announcements 
-#else if ($_POST['action']=='get'){  #This all works perfectly 
+else if ($_POST['action']=='get'){  #This all works perfectly 
 	$query = 'SELECT content, aDate FROM Announcement;';
 	$stmt = $conn->prepare($query);
 	$stmt->execute();
@@ -89,11 +89,11 @@ else if ($_POST['action']=='remove'){
 			echo "$row";
 			echo $row;
 		}
-	#$stmt->execute();
-#}
+	$stmt->execute();
+}
 
-#else {
-	#echo"There was an error with the POST request, please contact Joe since it is probably his fault";
-#}
+else {
+	echo"There was an error with the POST request, please contact Joe since it is probably his fault";
+}
 mysqli_close($conn);
 ?>

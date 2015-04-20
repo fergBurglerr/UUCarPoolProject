@@ -62,7 +62,7 @@
 		}
 	}
 
-	#if ($_POST['action'] == 'get') {
+	if ($_POST['action'] == 'get') {
 		#$offest=$_POST['aid'];
 		#$offset=0;
 		$result = $conn->prepare("SELECT houseNumber, suiteNumber, street, city, zipcode FROM Address;");
@@ -74,7 +74,7 @@
 		while ($result->fetch()) {
 	        printf ("houseNumber: %s suiteNumber: %s street: %s city: %s zipcode: %s\n <br>", $houseNumber, $suiteNumber, $street, $city, $zipcode);
 	    }
-	#}
+	}
 
 	$result->close();
 	$conn->close();
