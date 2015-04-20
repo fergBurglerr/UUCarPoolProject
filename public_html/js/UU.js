@@ -1,3 +1,3 @@
-$(function(){
-	$(".navButton").button({});
+$(document).ready(function () {
+    $("#navBar").tabs();
 });

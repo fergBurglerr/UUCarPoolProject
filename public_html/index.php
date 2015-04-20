@@ -10,16 +10,36 @@
 </head>
 <body>
 	<h3 id="pageHeader">Unitarian Universalist Church of Columbia, Missouri</h3>
-	<ul id="navBar">
-		<a href="index.php"><li id="Home" class="navButton">Home</li></a>
-		<li id="Events" class="navButton">Events</li>
-		<li id="Announcements" class="navButton">Announcements</li>
-		<li id="Groups" class="navButton">Groups</li>
-		<li id="Carpooling" class="navButton">Carpooling</li>
-		<li id="administration" class="navButton">Admin</li>	
-	</ul>
-	<div id="fg">
+	<div id="navBar">
+		<ul>
+			<li><a href="#home">Home</a></li>
+			<li><a href="#events">Events</a></li>
+			<li><a href="#announce">Announcements</a></li>
+			<li><a href="#groups">Groups</a></li>
+			<li><a href="#carpool">Carpooling</a></li>
+			<li><a href="#admin">Admin</a></li>	
+		</ul>
+		<div id="home">
+			Home
+		</div>
+		<div id="events">
+			Events
+		</div>
+		<div id="announce">
+			Announcements
+		</div>
+		<div id="groups">
+			Groups
+		</div>
+		<div id="carpool">
+			Carpool
+		</div>
+		<div id="admin">
+			Admin
+		</div>
 	</div>
+	
+	
 	<?php
 
 	?>

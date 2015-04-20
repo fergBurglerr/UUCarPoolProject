@@ -1,6 +1,4 @@
-*{
-	margin:0;
-	padding:0;
+body{
 	font-family:"arial";
 	background-color:rgb(65,92,72);
 }
@@ -13,6 +11,7 @@ div#fg{
 	height: 90%;
 	width: 85%;
 	border-top-left-radius: 10%;
+	
 }
 
 h3#pageHeader{
@@ -28,6 +27,37 @@ ul#navBar{
 
 li.navButton{
 	color:	white;
-	border-radius:	0%;
+	
 	list-style:	none;
 }
+
+div#navBar{
+	z-index: 99;
+	position:	absolute;
+	top:	15%;
+	left:	15%;
+	width: 86%;
+	height: 85%;
+}
+
+.ui-widget-header{
+	position:	relative;
+	top:	-5px;
+	left:	-9px;
+	background-color:#415c48;
+	border-color:	#415c48;
+}
+.ui-state-active a, .ui-state-active a:link{
+	color:#415c48;
+}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active{
+	border-color: #EEEEEE;
+	background:	#EEEEEE;
+}
+
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited{
+	color:	#415C48;
+}
+
