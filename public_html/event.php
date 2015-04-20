@@ -60,7 +60,7 @@ if(strcmp($_POST['action'], "delete")==0){
 }
 
 //getevent 
-//if(strcmp($_POST['action'],"get")==0){
+if(strcmp($_POST['action'],"get")==0){
 	$result = $conn->prepare("SELECT eid,eventName,startTime,endTime,description,eventType FROM Event ORDER BY startTime limit 10 offset ?");
 	$result->bind_param('i',$offset);
 
@@ -70,7 +70,7 @@ if(strcmp($_POST['action'], "delete")==0){
 	while ($result->fetch()) {
         printf ("id: %s name: %s start time: %s end time: %s description: %s type: %s\n <br>", $eid, $name,$start,$end,$description,$type);
     }
-//}
+}
 
 
 $result->close();
