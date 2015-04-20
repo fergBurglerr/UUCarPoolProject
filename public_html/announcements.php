@@ -1,5 +1,4 @@
 <?PHP
-
 include("sql/dbinfo.php");//including my database connection
 $conn = new mysqli($host, $user, $pass, $db);
 if($conn->connect_error){
@@ -8,7 +7,7 @@ if($conn->connect_error){
 
 
 ##### Function to add a new announcement 
-#if ($_POST['action']=='add'){
+if ($_POST['action']=='add'){
 
 	#$message = htmlspecialchars($_POST['text']);
 	$message = htmlspecialchars("This worked fine!!!");
@@ -38,7 +37,7 @@ if($conn->connect_error){
 		die("Content of message is too long!!!");
 	}
 
-#}
+}
 
 ##### Function to edit an announcement
 else if ($_POST['action']=='edit'){
@@ -93,6 +92,7 @@ else if ($_POST['action']=='get'){  #This all works perfectly
 }
 
 else {
+
 	echo"There was an error with the POST request, please contact Joe since it is probably his fault";
 }
 mysqli_close($conn);
