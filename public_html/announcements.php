@@ -7,7 +7,7 @@ if($conn->connect_error){
 
 
 ##### Function to add a new announcement 
-if ($_POST['action']=='add'){
+if (strcmp($_POST['action'],'add')==0){
 
 	#$message = htmlspecialchars($_POST['text']);
 	$message = htmlspecialchars("This worked fine!!!");
@@ -40,7 +40,7 @@ if ($_POST['action']=='add'){
 }
 
 ##### Function to edit an announcement
-else if ($_POST['action']=='edit'){
+else if (strcmp($_POST['action'],'edit')==0){
 	$message = htmlspecialchars($_POST['content']);  #this post and the one below would be hidden fields
 	#$message = htmlspecialchars('The old the old message'); 
 	$announcement_key = $_POST['announcement_primary_key'];  #this would also be a hidden field 
@@ -59,7 +59,7 @@ else if ($_POST['action']=='edit'){
 }
 
 ##### Function to remove an announcement
-else if ($_POST['action']=='remove'){
+else if (strcmp($_POST['action'],'remove')==0){
 	$announcement_id = htmlspecialchars($_POST['announcement_id']);
 	#$announcement_id = htmlspecialchars('1');
 
@@ -76,7 +76,7 @@ else if ($_POST['action']=='remove'){
 }
 
 ##### Retrieves all announcements 
-else if ($_POST['action']=='get'){  #This all works perfectly 
+else if (strcmp($_POST['action'],'get')==0){  #This all works perfectly 
 	$query = 'SELECT content, aDate FROM Announcement;';
 	$stmt = $conn->prepare($query);
 	$stmt->execute();

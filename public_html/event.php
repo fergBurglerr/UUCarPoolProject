@@ -48,7 +48,7 @@ if(strcmp($_POST['action'],"edit")==0){
 
 
 //remove
-if(strcmp($_POST['action'], "delete")==0){
+if(strcmp($_POST['action'], "remove")==0){
 	$result = $conn->prepare("DELETE FROM Event WHERE eid=?");
 	$result->bind_param('i',$eventid);
 
