@@ -10,7 +10,7 @@
 	} 
 
 	###Insert function for Address 
-	if (strcmp($_POST['action'],'add')==0){
+	if ($_POST['action']=='add'){
 		$houseNumber = htmlspecialchars($_POST['houseNumber']);
 		$suiteNumber = htmlspecialchars($_POST['suiteNumber']);
 		$street = htmlspecialchars($_POST['street']);
@@ -29,7 +29,7 @@
 	}
 
 	###Remove function for Address
-	if (strcmp($_POST['action']=='remove'){
+	if ($_POST['action']=='remove'){
 		$aid = $_POST['aid'];
 
 		$result = $conn->prepare("DELETE FROM Address WHERE (aid = ?) LIMIT 1;");
@@ -43,7 +43,7 @@
 	}
 
 	###Edit function for Address
-	if (strcmp($_POST['action'],'edit')==0) {
+	if ($_POST['action']=='edit') {
 		$aid = $_POST['aid']; #Address ID 
 		$houseNumber = htmlspecialchars($_POST['houseNumber']);
 		$suiteNumber = htmlspecialchars($_POST['suiteNumber']);
@@ -62,7 +62,7 @@
 		}
 	}
 
-	if (strcmp($_POST['action'],'get')==0) {
+	if ($_POST['action'] == 'get') {
 		#$offest=$_POST['aid'];
 		#$offset=0;
 		$result = $conn->prepare("SELECT houseNumber, suiteNumber, street, city, zipcode FROM Address;");
@@ -72,8 +72,11 @@
 		$result->execute();
 		$result->bind_result($houseNumber, $suiteNumber, $street, $city, $zipcode);
 		while ($result->fetch()) {
-	        printf ("houseNumber: %s suiteNumber: %s street: %s city: %s zipcode: %s\n <br>", $houseNumber, $suiteNumber, $street, $city, $zipcode);
+			array_push($returnObject, array("House_number"=>$houseNumber, "Suite"=>$suiteNumber,"Street"=>$street,"city"=>$city,"Zipcode"=>$zipcode));
+			//printf ("houseNumber: %s suiteNumber: %s street: %s city: %s zipcode: %s\n <br>", $houseNumber, $suiteNumber, $street, $city, $zipcode);
 	    }
+    	echo json_encode($returnObject);
+
 	}
 
 	$result->close();
