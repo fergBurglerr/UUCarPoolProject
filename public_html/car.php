@@ -11,7 +11,7 @@
 	} 
 
 	###Insert function for Cars 
-	if (strcmp($_POST['action'],'add')==0){
+	if (strcmp($_GET['action'],'add')==0){
 		$result = $conn->prepare("INSERT INTO Car (openSeats,make,model,color,license_num) 
 		VALUES (?,?,?,?,?)");
 		
@@ -41,7 +41,7 @@
 	}
 
 	###Remove function for Cars
-	if (strcmp($_POST['action'],'remove')==0){
+	if (strcmp($_GET['action'],'remove')==0){
 		$result = $conn->prepare("DELETE FROM Car WHERE cid=?");
 		$result->bind_param('i',$carid);
 
@@ -54,7 +54,7 @@
 
 	###Edit function for Cars
 	###Change number of open seats
-	if (strcmp($_POST['action'],'edit')==0){
+	if (strcmp($_GET['action'],'edit')==0){
 		echo "update";
 		$result = $conn->prepare("UPDATE Car SET openSeats=? WHERE cid=?");
 		echo $result->prepare_error;
@@ -68,16 +68,19 @@
 		$result->close();
 	}
 
-	if (strcmp($_POST['action'],'get')==0) {
+	if ($_POST['action'] == 'get') {
 		$result = $conn->prepare("SELECT color, make, model, license_num, openSeats FROM Car;");
 
 		#$offset=0;
 		$result->execute();
 		$result->bind_result($color, $make, $model, $license_num, $openSeats);
 		while ($result->fetch()) {
-	        printf ("color: %s make: %s model: %s license_num: %s openSeats: %s\n <br>", $color, $make, $model, $license_num, $openSeats);
+	        array_push($returnObject, array("Color"=>$color, "Make"=>$make, "Model"=>$model,"License_num"=>$license_num,"Open_Seats"=>$openSeats));
+	        //printf ("color: %s make: %s model: %s license_num: %s openSeats: %s\n <br>", $color, $make, $model, $license_num, $openSeats);
 	    }
 		$result->close();
+		echo json_encode($returnObject);
+
 	}
 
 	$conn->close();
