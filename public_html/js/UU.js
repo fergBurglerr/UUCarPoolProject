@@ -9,9 +9,9 @@ $(document).ready(function () {
 	$('#announce').html('');
 	$.post('announcements.php',
 	{
-		action:"get"	
+		action:"get"
 	}, function(data){
-		$('#announce').html(data);
+		$('#a0nnounce').html(data);
 	});
     });
 });

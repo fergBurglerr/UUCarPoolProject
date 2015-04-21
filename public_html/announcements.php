@@ -77,22 +77,29 @@ else if ($_POST['action']=='remove'){
 
 ##### Retrieves all announcements 
 else if ($_POST['action']=='get'){  #This all works perfectly 
+	echo "hit";
 	$query = 'SELECT content, aDate FROM Announcement;';
 	$stmt = $conn->prepare($query);
 	$stmt->execute();
 	$stmt->bind_result($content, $aDate);
 	while($stmt->fetch())
 		{
+			$returnObject = array("Content"=>$content, "Date"=>$aDate);
+			echo json_encode(array("fug"=>"daBolice"));
+			/*
 			echo $content. ": " . $aDate;
 			echo "<br />";
 			echo "$row";
-			echo $row;
+			echo $row;*/
 		}
 	$stmt->execute();
+	echo "what";
+	echo json_encode(array("fug"=>"daBolice"));
+
 }
 
 else {
-	#echo"There was an error with the POST request, please contact Joe since it is probably his fault";
+	echo"There was an error with the POST request, please contact Joe since it is probably his fault";
 }
 mysqli_close($conn);
 ?>
