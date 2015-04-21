@@ -22,4 +22,16 @@ $(document).ready(function () {
 		});
 	});
     });
+
+    $('#eventTab').click(function(){
+	$('#event').html('');
+	$.post('event.php',
+	{
+		action:"get",
+		offset:0
+	}, function(json){
+		$('#event').html('<div id="events"></div>');
+		$('#events').html(json);
+	});
+    });
 });
