@@ -61,6 +61,7 @@ if(strcmp($_POST['action'], "delete")==0){
 
 //getevent 
 if(strcmp($_POST['action'],"get")==0){
+	$returnObject=array();
 	$result = $conn->prepare("SELECT eid,eventName,startTime,endTime,description,eventType FROM Event ORDER BY startTime limit 10 offset ?");
 	$result->bind_param('i',$offset);
 
