@@ -109,9 +109,13 @@
 
 	###Edit function for numbers
 	#if ($_POST['action']=='edit') {
-		$bad_num = $_POST['bad_num'];
-		$good_num = $_POST['good_num'];
-		$pid = $_POST['pid'];
+		#$bad_num = $_POST['bad_num'];
+		#$good_num = $_POST['good_num'];
+		#$pid = $_POST['pid'];
+
+		$bad_num = '2223334444';
+		$good_num = '1234567890';
+		$pid = 1;
 
 		$stmt = $conn->prepare("UPDATE person_has_phone SET phone_number = ? WHERE pid=? AND phone_number = ?");
 		$stmt->bind_param('sis', $good_num, $pid, $bad_num);
