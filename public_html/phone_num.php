@@ -113,9 +113,29 @@
 		#$good_num = $_POST['good_num'];
 		#$pid = $_POST['pid'];
 
-		$good_num = '2223334444';
-		$bad_num = '1234567890';
+		$good_num = '9998887777';
+		$bad_num = '2223334444';
 		$pid = 1;
+
+		$query = "SELECT count(pid) as total FROM Phone WHERE ('phone_number' = ?);";
+		$result = $conn->prepare($query); 
+		$result->bind_param('s', $good_num);
+		$result->execute();
+		$result->bind_result($col);
+		$result->fetch();
+		$result->close();
+		if($col == 0) {
+			$num = $conn->prepare("INSERT INTO Phone VALUES (?);");
+			$num->bind_param('s', $good_num);
+
+			if ($num->execute()) {
+				echo "Number was added to Phone table";
+			}
+			else {
+				echo "Number could not be added to Phone table";
+			}
+			$num->close();
+		}
 
 		$stmt = $conn->prepare("UPDATE person_has_phone SET phone_number = ? WHERE pid = ? AND phone_number = ?;");
 		$stmt->bind_param('sis', $good_num, $pid, $bad_num);
