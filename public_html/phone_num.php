@@ -68,6 +68,7 @@
 		#$pid = $_POST['pid'];
 
 		$number = '1112223333';
+		$number2 = '1112223333';
 		$pid = 1;
 
 		$result = $conn->prepare("DELETE FROM person_has_phone WHERE (number = ?) AND (pid = ?) LIMIT 1;");
@@ -90,7 +91,7 @@
 			if ($col1 == 0 ){
 				$query2 = "DELETE FROM Phone WHERE (number = ?) LIMIT 1;";
 				$delete = $conn->prepare($query2);
-				$delete->bind_param('s', $number);
+				$delete->bind_param('s', $number2);
 				if($delete->execute()) {
 					echo "\n$number Number deleted from Phone table";
 				}
