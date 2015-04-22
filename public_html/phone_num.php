@@ -84,7 +84,7 @@
 		$result2->execute();
 
 		$row = $result2->fetch_assoc();
-		echo "$row['total']";
+		echo " $row ";
 		if ($row['total'] > 0 ){
 			echo "THIS WORKED";
 		}
