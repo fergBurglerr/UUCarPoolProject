@@ -84,7 +84,7 @@
 		$result2->execute();
 
 		$row = $result2->fetch();
-		echo " $row ";
+		echo " $row['total'] ";
 		if ($row['total'] > 0 ){
 			echo "THIS WORKED";
 		}
