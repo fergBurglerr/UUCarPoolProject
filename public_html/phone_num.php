@@ -70,7 +70,7 @@
 		$result = $conn->prepare("DELETE FROM person_has_phone WHERE (number = ?) AND (pid = ?) LIMIT 1;");
 		$result->bind_param('si', $number, $pid);
 		if ($result->execute()) {
-			echo $result->affected_rows()." Phone Number was removed successfully!";
+			echo $result->affected_rows." Phone Number was removed successfully!";
 		}
 		else {
 			echo "Phone Number was NOT removed successfully";
