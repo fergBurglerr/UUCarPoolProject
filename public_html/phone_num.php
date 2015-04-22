@@ -148,6 +148,7 @@
 		}
 		else {
 			echo "Something went wrong with updating the phone number";
+			printf("Error: %s.\n", $stmt->error);
 			$stmt->close();
 		}
 	#}
