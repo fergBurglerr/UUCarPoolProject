@@ -41,11 +41,11 @@
 					echo "Person does not exist";
 				}
 				$result2->close();
-				$this->close();
 			}
 			else {
 				echo "Phone number NOT added successfully";
 			}
+			$this->close();
 		} // end if 
 		else { // if the number exists, it ONLY adds a tuple to the person_has_phone table 
 			$result2 = $conn->prepare("INSERT INTO person_has_phone VALUES (?,?);");
