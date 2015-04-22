@@ -84,10 +84,19 @@
 		if ($result2->execute()) {
 			$result2->bind_result($col1);
 
-			$row = $result2->fetch();
+			$result2->fetch();
 			echo "$col1";
-			if ($col1 > 0 ){
-				echo "THIS WORKED";
+			if ($col1 == 0 ){
+				$query2 = "DELETE FROM Phone WHERE (number = ?);";
+				$delete = $conn->prepare($query2);
+				$delete->bind_param('s', $number);
+				if($delete->execute()) {
+					echo "\nNumber deleted from Phone table";
+				}
+				else {
+					echo "There were problems";
+				}
+				$delete->close();
 			}
 			else {
 				echo "FIX THIS";
