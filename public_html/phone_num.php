@@ -90,15 +90,15 @@
 			echo "$col1";
 			if ($col1 == 0 ){
 				$query2 = "DELETE FROM Phone WHERE (number = ?) LIMIT 1;";
-				$delete = $conn->prepare($query2);
-				$delete->bind_param('s', $number2);
-				if($delete->execute()) {
+				$stmt = $conn->prepare($query2);
+				$stmt->bind_param('s', $number2);
+				if($stmt->execute()) {
 					echo "\n$number Number deleted from Phone table";
 				}
 				else {
 					echo "There were problems deleting from the Phone table";
 				}
-				$delete->close();
+				$stmt->close();
 			}
 			else {
 				echo "The number exists for other people still";
