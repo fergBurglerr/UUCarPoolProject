@@ -14,7 +14,7 @@
 		#$number = $_POST['number']; // the phone number 
 		#$pid = $_POST['pid'];  //ID of the person the phone number is tied to 
 		$pid = 1;
-		$number = '1112223336';
+		$number = '1112223338';
 
 		$test = $conn->prepare("SELECT * FROM Phone WHERE number = ?;");
 		$test->bind_param('s', $number);
@@ -35,7 +35,7 @@
 				$result2->bind_param('si', $number, $pid);
 
 				if ($result2->execute()) {
-					echo $num->affected_rows(). "Phone number added successfully";
+					echo $num->affected_rows. "Phone number added successfully";
 				}
 				else {
 					echo "Person does not exist";
