@@ -82,9 +82,9 @@
 		$result2 = $conn->prepare($query);
 		$result2->bind_param('s', $number);
 		$result2->execute();
-		$result2->get_result();
+		$new = $result2->get_result();
 
-		$row = $result2->fetch_array(MYSQLI_ASSOC);
+		$row = $new->fetch_array(MYSQLI_ASSOC);
 		echo $row['total'];
 		if ($row['total'] > 0 ){
 			echo "THIS WORKED";
