@@ -84,13 +84,14 @@
 		$result2 = $conn->prepare($query);
 		if ($result2) echo "true"; 
 		$result2->bind_param('s', $number);
-		if ($result2->execute()) {
+		$param = $result2->execute()
+		if ($param) {
 			$result2->bind_result($col1);
 
 			$result2->fetch();
 			echo "$col1";
 			if ($col1 == 0 ){
-				$query2 = "DELETE FROM Phone WHERE (phone_number = ?) LIMIT 1;";
+				$query2 = "DELETE FROM (Phone) WHERE (phone_number = ?) LIMIT 1;";
 				$stmt = $conn->prepare($query2);
 				$stmt->bind_param('s', $number2);
 				if($stmt->execute()) {
