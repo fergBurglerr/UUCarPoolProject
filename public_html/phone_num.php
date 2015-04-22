@@ -117,7 +117,7 @@
 		$good_num = '1234567890';
 		$pid = 1;
 
-		$stmt = $conn->prepare("UPDATE person_has_phone SET phone_number = ? WHERE pid = ? AND phone_number = ?");
+		$stmt = $conn->prepare("UPDATE person_has_phone SET phone_number = ? WHERE pid = ? AND phone_number = ?;");
 		$stmt->bind_param('sis', $good_num, $pid, $bad_num);
 		if ($stmt->execute()) {
 			$stmt->close();
