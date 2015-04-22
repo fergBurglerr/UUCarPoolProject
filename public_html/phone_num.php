@@ -83,7 +83,7 @@
 		$result2->bind_param('s', $number);
 		$result2->execute();
 
-		$row = $result2->fetch_assoc();
+		$row = $result2->fetch();
 		echo " $row ";
 		if ($row['total'] > 0 ){
 			echo "THIS WORKED";
