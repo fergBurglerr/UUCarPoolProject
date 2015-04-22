@@ -80,8 +80,9 @@
 			echo "Phone Number was NOT removed successfully";
 		}
 
-		$query = "SELECT count(pid) as total FROM person_has_phone WHERE (number = ?);";
+		$query = "SELECT count(pid) as total FROM person_has_phone WHERE (phone_number = ?);";
 		$result2 = $conn->prepare($query);
+		echo "$result2";
 		$result2->bind_param('s', $number);
 		if ($result2->execute()) {
 			$result2->bind_result($col1);
