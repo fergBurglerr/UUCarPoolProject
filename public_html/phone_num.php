@@ -71,7 +71,7 @@
 		$number2 = '1112223333';
 		$pid = 1;
 
-		$result = $conn->prepare("DELETE FROM person_has_phone WHERE (number = ?) AND (pid = ?) LIMIT 1;");
+		$result = $conn->prepare("DELETE FROM person_has_phone WHERE (phone_number = ?) AND (pid = ?) LIMIT 1;");
 		$result->bind_param('si', $number, $pid);
 		if ($result->execute()) {
 			echo $result->affected_rows." Phone Number was removed successfully!";
@@ -89,7 +89,7 @@
 			$result2->fetch();
 			echo "$col1";
 			if ($col1 == 0 ){
-				$query2 = "DELETE FROM Phone WHERE (number = ?) LIMIT 1;";
+				$query2 = "DELETE FROM Phone WHERE (phone_number = ?) LIMIT 1;";
 				$stmt = $conn->prepare($query2);
 				$stmt->bind_param('s', $number2);
 				if($stmt->execute()) {

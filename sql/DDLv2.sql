@@ -230,15 +230,15 @@ CREATE TABLE Family(
 
 CREATE TABLE Phone(
 	phone_number CHAR(10) NOT NULL,
-	PRIMARY KEY(number))ENGINE=InnoDB;
+	PRIMARY KEY(phone_number))ENGINE=InnoDB;
 
 
 CREATE TABLE person_has_phone(
 	phone_number CHAR(10) NOT NULL,
 	pid INTEGER NOT NULL,
-	FOREIGN KEY(number) REFERENCES Phone(number) ON DELETE CASCADE,
+	FOREIGN KEY(phone_number) REFERENCES Phone(phone_number) ON DELETE CASCADE,
 	FOREIGN KEY(pid) REFERENCES Person(pid) ON DELETE CASCADE,
-	PRIMARY KEY(number, pid))ENGINE=InnoDB;
+	PRIMARY KEY(phone_number, pid))ENGINE=InnoDB;
 
 
 CREATE TABLE Email(
