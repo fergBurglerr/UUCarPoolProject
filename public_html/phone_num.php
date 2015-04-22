@@ -117,7 +117,7 @@
 		$bad_num = '2223334444';
 		$pid = 1;
 
-		$query = "SELECT count(pid) as total FROM Phone WHERE ('phone_number' = ?);";
+		$query = "SELECT count(*) as total FROM Phone WHERE ('phone_number' = ?);";
 		$result = $conn->prepare($query); 
 		$result->bind_param('s', $good_num);
 		$result->execute();
