@@ -88,7 +88,7 @@
 			$result2->fetch();
 			echo "$col1";
 			if ($col1 == 0 ){
-				$query2 = "DELETE FROM Phone WHERE (number = ?);";
+				$query2 = "DELETE FROM Phone WHERE (number = ?) LIMIT 1;";
 				$delete = $conn->prepare($query2);
 				$delete->bind_param('s', $number);
 				if($delete->execute()) {
