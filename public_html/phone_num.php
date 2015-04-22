@@ -63,7 +63,7 @@
 	}
 
 	###Remove function for numbers 
-	if ($_POST['action']=='remove') {
+	#if ($_POST['action']=='remove') {
 		$number = $_POST['number'];
 		$pid = $_POST['pid'];
 
@@ -92,7 +92,7 @@
 
 		$result2->close();
 		$result->close();
-	}
+	#}
 
 	###Edit function for numbers
 	if ($_POST['action']=='edit') {
