@@ -177,6 +177,7 @@
 	#if ($_POST['action']=='get') {
 		#$pid = $_POST['pid'];
 		$pid = 1;
+		$returnObject=array();
 
 		$result = $conn->prepare("SELECT firstName, lastName, phone_number FROM Person INNER JOIN person_has_phone WHERE Person.pid = ?;");
 		$result->bind_param('i',$pid);
