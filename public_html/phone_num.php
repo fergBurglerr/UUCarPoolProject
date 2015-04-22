@@ -84,7 +84,7 @@
 		$result2 = $conn->prepare($query);
 		if ($result2) echo "true"; 
 		$result2->bind_param('s', $number);
-		$param = $result2->execute()
+		$param = $result2->execute();
 		if ($param) {
 			$result2->bind_result($col1);
 
