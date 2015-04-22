@@ -127,7 +127,7 @@
 				$result->close();
 				if ($col1 == 0 ){
 					$stmt = $conn->prepare("DELETE FROM Phone WHERE phone_number = ? LIMIT 1");
-					$stmt->bind_param('s', $number);
+					$stmt->bind_param('s', $bad_num);
 					if($stmt->execute()) {
 						echo "\n$number Number deleted from Phone table";
 					}
