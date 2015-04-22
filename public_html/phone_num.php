@@ -85,7 +85,7 @@
 		$result2->get_result();
 
 		$row = $result2->fetch_array(MYSQLI_ASSOC);
-		echo " $row['total'] ";
+		echo $row['total'];
 		if ($row['total'] > 0 ){
 			echo "THIS WORKED";
 		}
