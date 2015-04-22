@@ -113,8 +113,8 @@
 		#$good_num = $_POST['good_num'];
 		#$pid = $_POST['pid'];
 
-		$bad_num = '2223334444';
-		$good_num = '1234567890';
+		$good_num = '2223334444';
+		$bad_num = '1234567890';
 		$pid = 1;
 
 		$stmt = $conn->prepare("UPDATE person_has_phone SET phone_number = ? WHERE pid = ? AND phone_number = ?;");
@@ -130,7 +130,7 @@
 
 				$result->fetch();
 				$result->close();
-				if ($col1 != null && $col1 == 0 ){
+				if ($col1 == 0 ){
 					$stmt = $conn->prepare("DELETE FROM Phone WHERE phone_number = ? LIMIT 1");
 					$stmt->bind_param('s', $bad_num);
 					if($stmt->execute()) {
