@@ -71,7 +71,6 @@ CREATE TABLE Person(
 	pid INTEGER AUTO_INCREMENT NOT NULL,
 	firstName VARCHAR(63) NOT NULL,
 	lastName VARCHAR(63) NOT NULL,
-	address INTEGER NOT NULL,
 	emailAddress VARCHAR(255) NOT NULL,
 	PRIMARY KEY (pid))ENGINE=InnoDB;
 
@@ -230,12 +229,12 @@ CREATE TABLE Family(
 
 
 CREATE TABLE Phone(
-	number CHAR(10) NOT NULL,
+	phone_number CHAR(10) NOT NULL,
 	PRIMARY KEY(number))ENGINE=InnoDB;
 
 
 CREATE TABLE person_has_phone(
-	number CHAR(10) NOT NULL,
+	phone_number CHAR(10) NOT NULL,
 	pid INTEGER NOT NULL,
 	FOREIGN KEY(number) REFERENCES Phone(number) ON DELETE CASCADE,
 	FOREIGN KEY(pid) REFERENCES Person(pid) ON DELETE CASCADE,
