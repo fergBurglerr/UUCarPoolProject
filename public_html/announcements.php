@@ -7,38 +7,43 @@ if($conn->connect_error){
 }
 
 
-##### Function to add a new announcement 
-#if ($_POST['action']=='add'){
+##### Function to add a new announcement and adds a tuple into the event_has_announcement table to tie
+##### the announcement with an event 
+if ($_POST['action']=='add'){
 
-	#$message = htmlspecialchars($_POST['text']);
-	$message = htmlspecialchars("This worked fine!!!");
-	#$eid = $_POST['eid']; ### Event ID for the event in which the announcement is made for 
-	$eid = 1;
+	$message = htmlspecialchars($_POST['text']);
+	#$message = htmlspecialchars("This worked fine!!!"); ### test data 
+	$eid = $_POST['eid']; ### Event ID for the event in which the announcement is made for 
+	#$eid = 1; ### test data 
 
-	if (strlen($message) < 2047) {
+	if (strlen($message) < 2047) { //checks that the message isn't too long 
 		$query = 'INSERT INTO Announcement (content, aDate) VALUES (?, ?);';
 		$stmt = $conn->prepare($query);
 		$stmt->bind_param("ss", $message, date("Y-m-d H:i:s"));
-		if ($stmt->execute()) {
+		if ($stmt->execute()) { // after the announcement is valid, tie it to the event that it is for 
 			echo "$stmt->insert_id";
-			$aid = $stmt->insert_id;
+			$aid = $stmt->insert_id; //Grabs the most recent aid created 
 			$stmt2 = $conn->prepare("INSERT INTO event_has_announcements (aid, eid) VALUES (?,?);");
 			$stmt2->bind_param('ii', $aid, $eid);
 
-			if ($stmt2->execute()) {
+			if ($stmt2->execute()) { //print out a success message if both work successfully 
 				echo "New announcement created successfully!!!";
+			}
+			else {
+				echo "The event does not exist";
 			}
 		}
 		else {
 			echo "Something went wrong with insert function";
 		}
 		$stmt->close();
+		$stmt2->close();
 	}
 	else {
 		die("Content of message is too long!!!");
 	}
 
-#}
+}
 
 ##### Function to edit an announcement
 else if ($_POST['action']=='edit'){
@@ -89,11 +94,10 @@ else if ($_POST['action']=='remove'){
 			echo "$row";
 			echo $row;
 		}
-	#$stmt->execute();
 #}
 
 #else {
 	#echo"There was an error with the POST request, please contact Joe since it is probably his fault";
 #}
-mysqli_close($conn);
+$conn->close();
 ?>
