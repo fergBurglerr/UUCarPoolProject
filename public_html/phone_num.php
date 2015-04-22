@@ -68,6 +68,7 @@
 		#$pid = $_POST['pid'];
 
 		$number = '1112223333';
+		$pid = 1;
 
 		$result = $conn->prepare("DELETE FROM person_has_phone WHERE (number = ?) AND (pid = ?) LIMIT 1;");
 		$result->bind_param('si', $number, $pid);
@@ -91,15 +92,15 @@
 				$delete = $conn->prepare($query2);
 				$delete->bind_param('s', $number);
 				if($delete->execute()) {
-					echo "\nNumber deleted from Phone table";
+					echo "\n$number Number deleted from Phone table";
 				}
 				else {
-					echo "There were problems";
+					echo "There were problems deleting from the Phone table";
 				}
 				$delete->close();
 			}
 			else {
-				echo "FIX THIS";
+				echo "The number exists for other people still";
 			}
 		}
 
