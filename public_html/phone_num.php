@@ -10,22 +10,22 @@
 	} 
 
 	###Insert function for numbers 
-	#if ($_POST['action']=='add'){
-		#$number = $_POST['number']; // the phone number 
-		#$pid = $_POST['pid'];  //ID of the person the phone number is tied to 
-		$pid = 1;
-		$number = '1112223338';
+	if ($_POST['action']=='add'){
+		$number = $_POST['number']; // the phone number 
+		$pid = $_POST['pid'];  //ID of the person the phone number is tied to 
+		#$pid = 1;
+		#$number = '1112223338';
 
 		$test = $conn->prepare("SELECT * FROM Phone WHERE number = ?;");
 		$test->bind_param('s', $number);
 		$test->execute();
 		$test->store_result();
 
-		echo "$test->num_rows";
+		#echo "$test->num_rows";
 
 		if ($test->num_rows == 0) { //checks to see if the number already exists in the table
 			
-			echo "THIS WORKED!!!!!!!!!!!!1";
+			#echo "THIS WORKED!!!!!!!!!!!!1";
 
 			$num = $conn->prepare("INSERT INTO Phone VALUES (?);");
 			$num->bind_param('s', $number);
@@ -60,7 +60,7 @@
 			$result2->close();
 		} // end else 
 		$test->close();
-	#}
+	}
 
 	###Remove function for numbers 
 	if ($_POST['action']=='remove') {
@@ -75,6 +75,22 @@
 		else {
 			echo "Phone Number was NOT removed successfully";
 		}
+
+		$query = 'SELECT count(pid) as total FROM person_has_phone P WHERE number = ?';
+		$result2 = $conn->prepare($query2);
+		$result2->bind_param($number);
+		$result2->execute();
+
+		$row = $result2->fetch_assoc();
+
+		if ($row['total'] > 0 ){
+			echo "THIS WORKED";
+		}
+		else {
+			echo "FIX THIS";
+		}
+
+		$result2->close();
 		$result->close();
 	}
 
