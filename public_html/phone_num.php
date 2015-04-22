@@ -27,15 +27,15 @@
 			
 			echo "THIS WORKED!!!!!!!!!!!!1";
 
-			$this = $conn->prepare("INSERT INTO Phone VALUES (?);");
-			$this->bind_param('s', $number);
+			$num = $conn->prepare("INSERT INTO Phone VALUES (?);");
+			$num->bind_param('s', $number);
 
-			if ($this->execute()) {
+			if ($num->execute()) {
 				$result2 = $conn->prepare("INSERT INTO person_has_phone VALUES (?,?);");
 				$result2->bind_param('si', $number, $pid);
 
 				if ($result2->execute()) {
-					echo $this->affected_rows(). "Phone number added successfully";
+					echo $num->affected_rows(). "Phone number added successfully";
 				}
 				else {
 					echo "Person does not exist";
@@ -45,7 +45,7 @@
 			else {
 				echo "Phone number NOT added successfully";
 			}
-			$this->close();
+			$num->close();
 		} // end if 
 		else { // if the number exists, it ONLY adds a tuple to the person_has_phone table 
 			$result2 = $conn->prepare("INSERT INTO person_has_phone VALUES (?,?);");
