@@ -111,7 +111,7 @@
 	#if ($_POST['action']=='edit') {
 		$bad_num = $_POST['bad_num'];
 		$good_num = $_POST['good_num'];
-		$pid = $_POST['pid']
+		$pid = $_POST['pid'];
 
 		$stmt = $conn->prepare("UPDATE person_has_phone SET phone_number = ? WHERE pid=? AND phone_number = ?");
 		$stmt->bind_param('sis', $good_num, $pid, $bad_num);
