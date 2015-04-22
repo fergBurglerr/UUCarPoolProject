@@ -16,7 +16,7 @@
 		$pid = 1;
 		$number = '1112223336';
 
-		$test = $conn->prepare("SELECT * FROM Phone WHERE phone = ?;");
+		$test = $conn->prepare("SELECT * FROM Phone WHERE number = ?;");
 		$test->bind_param('s', $number);
 		$test->execute();
 		$test->store_result();
