@@ -178,13 +178,13 @@
 		#$pid = $_POST['pid'];
 		$pid = 1;
 
-		$result = $conn->prepare("SELECT first_name, last_name, phone_number FROM Person INNER JOIN person_has_number WHERE pid = ?;");
+		$result = $conn->prepare("SELECT firstName, lastName, phone_number FROM Person INNER JOIN person_has_number WHERE pid = ?;");
 		$result->bind_param('i',$pid);
 
 		$result->execute();
-		$result->bind_result($first_name, $last_name, $pid);
+		$result->bind_result($firstName, $lastName, $pid);
 		while ($result->fetch()) {
-			array_push($returnObject, array("FirstName"=>$first_name,"LastName"=>$last_name,"pid"=>$pid));
+			array_push($returnObject, array("FirstName"=>$firstName,"LastName"=>$lastName,"pid"=>$pid));
 
 	        //printf ("id: %s name: %s start time: %s end time: %s description: %s type: %s\n <br>", $eid, $name,$start,$end,$description,$type);
 	    }
