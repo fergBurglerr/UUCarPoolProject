@@ -63,12 +63,12 @@
 	}
 
 	###Remove function for numbers 
-	#if ($_POST['action']=='remove') {
-		#$number = $_POST['number'];
-		#$pid = $_POST['pid'];
+	if ($_POST['action']=='remove') {
+		$number = $_POST['number'];
+		$pid = $_POST['pid'];
 
-		$number = '1112223333';
-		$pid = 1;
+		#$number = '1112223333';
+		#$pid = 1;
 
 		$result = $conn->prepare("DELETE FROM person_has_phone WHERE (phone_number = ?) AND (pid = ?) LIMIT 1;");
 		$result->bind_param('si', $number, $pid);
@@ -80,8 +80,7 @@
 		}
 
 		$query = "SELECT count(pid) as total FROM person_has_phone WHERE ('phone_number' = ?);";
-		$result2 = $conn->prepare($query);
-		if ($result2) echo "true"; 
+		$result2 = $conn->prepare($query); 
 		$result2->bind_param('s', $number);
 		$param = $result2->execute();
 		if ($param) {
@@ -89,7 +88,6 @@
 
 			$result2->fetch();
 			$result2->close();
-			echo "$col1";
 			if ($col1 == 0 ){
 				$stmt = $conn->prepare("DELETE FROM Phone WHERE phone_number = ? LIMIT 1");
 				$stmt->bind_param('s', $number);
@@ -107,12 +105,47 @@
 		}
 
 		$result->close();
-	#}
+	}
 
 	###Edit function for numbers
-	if ($_POST['action']=='edit') {
+	#if ($_POST['action']=='edit') {
+		$bad_num = $_POST['bad_num'];
+		$good_num = $_POST['good_num'];
+		$pid = $_POST['pid']
 
-	}
+		$stmt = $conn->prepare("UPDATE person_has_phone SET phone_number = ? WHERE pid=? AND phone_number = ?");
+		$stmt->bind_param('sis', $good_num, $pid, $bad_num);
+		if ($stmt->execute()) {
+			$query = "SELECT count(pid) as total FROM person_has_phone WHERE ('phone_number' = ?);";
+			$result = $conn->prepare($query); 
+			$result->bind_param('s', $bad_num);
+			$param = $result->execute();
+			if ($param) {
+				$result->bind_result($col1);
+
+				$result->fetch();
+				$result->close();
+				if ($col1 == 0 ){
+					$stmt = $conn->prepare("DELETE FROM Phone WHERE phone_number = ? LIMIT 1");
+					$stmt->bind_param('s', $number);
+					if($stmt->execute()) {
+						echo "\n$number Number deleted from Phone table";
+					}
+					else {
+						echo "There were problems deleting from the Phone table";
+					}
+					$stmt->close();
+				}
+				else {
+					echo "The number exists for other people still";
+				}
+			}
+		}
+		else {
+			echo "Something went wrong with updating the phone number";
+			$stmt->close();
+		}
+	#}
 
 	###Get function for numbers
 	#if ($_POST['action']=='get') {
