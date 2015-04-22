@@ -119,8 +119,7 @@
 			$query = "SELECT count(pid) as total FROM person_has_phone WHERE ('phone_number' = ?);";
 			$result = $conn->prepare($query); 
 			$result->bind_param('s', $bad_num);
-			$param = $result->execute();
-			if ($param) {
+			if ($result->execute()) {
 				$result->bind_result($col1);
 
 				$result->fetch();
