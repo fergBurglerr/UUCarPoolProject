@@ -91,8 +91,7 @@
 			$result2->fetch();
 			echo "$col1";
 			if ($col1 == 0 ){
-				$query2 = "DELETE FROM (Phone) WHERE (phone_number = ?) LIMIT 1;";
-				$stmt = $conn->prepare($query2);
+				$stmt = $conn->prepare("DELETE FROM (Phone) WHERE phone_number = ? LIMIT 1;");
 				$stmt->bind_param('s', $number2);
 				if($stmt->execute()) {
 					echo "\n$number Number deleted from Phone table";
