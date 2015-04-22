@@ -182,9 +182,9 @@
 		$result->bind_param('i',$pid);
 
 		$result->execute();
-		$result->bind_result($firstName, $lastName, $pid);
+		$result->bind_result($firstName, $lastName, $number);
 		while ($result->fetch()) {
-			array_push($returnObject, array("FirstName"=>$firstName,"LastName"=>$lastName,"pid"=>$pid));
+			array_push($returnObject, array("FirstName"=>$firstName,"LastName"=>$lastName,"Number"=>$number));
 
 	        //printf ("id: %s name: %s start time: %s end time: %s description: %s type: %s\n <br>", $eid, $name,$start,$end,$description,$type);
 	    }
