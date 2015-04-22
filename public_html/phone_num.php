@@ -10,16 +10,22 @@
 	} 
 
 	###Insert function for numbers 
-	if ($_POST['action']=='add'){
-		$number = $_POST['number']; // the phone number 
-		$pid = $_POST['pid'];  //ID of the person the phone number is tied to 
+	#if ($_POST['action']=='add'){
+		#$number = $_POST['number']; // the phone number 
+		#$pid = $_POST['pid'];  //ID of the person the phone number is tied to 
+		$pid = 1;
+		$number = 1112223336;
 
 		$test = $conn->prepare("SELECT * FROM Phone WHERE phone = ?;");
 		$test->bind_param('s', $number);
 		$test->execute();
 		$test->store_result();
 
+		echo "$test->num_rows";
+
 		if ($test->num_rows == 0) { //checks to see if the number already exists in the table
+			
+			echo "THIS WORKED!!!!!!!!!!!!1";
 
 			$this = $conn->prepare("INSERT INTO Phone VALUES (?);");
 			$this->bind_param('s', $number);
@@ -54,7 +60,7 @@
 			$result2->close();
 		} // end else 
 		$test->close();
-	}
+	#}
 
 	###Remove function for numbers 
 	if ($_POST['action']=='remove') {
