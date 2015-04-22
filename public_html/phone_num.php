@@ -120,6 +120,7 @@
 		$stmt = $conn->prepare("UPDATE person_has_phone SET phone_number = ? WHERE pid = ? AND phone_number = ?;");
 		$stmt->bind_param('sis', $good_num, $pid, $bad_num);
 		if ($stmt->execute()) {
+			echo "$bad_num updated to $good_num";
 			$stmt->close();
 			$query = "SELECT count(pid) as total FROM person_has_phone WHERE ('phone_number' = ?);";
 			$result = $conn->prepare($query); 
