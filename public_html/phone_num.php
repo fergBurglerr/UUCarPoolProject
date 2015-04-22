@@ -81,16 +81,17 @@
 		$query = "SELECT count(pid) as total FROM person_has_phone WHERE (number = ?);";
 		$result2 = $conn->prepare($query);
 		$result2->bind_param('s', $number);
-		$result2->execute();
-		$new = $result2->get_result();
+		if ($result2->execute()) {
+			$new = $result2->get_result();
 
-		$row = $new->fetch_array(MYSQLI_ASSOC);
-		echo $row['total'];
-		if ($row['total'] > 0 ){
-			echo "THIS WORKED";
-		}
-		else {
-			echo "FIX THIS";
+			$row = $new->fetch_array(MYSQLI_ASSOC);
+			echo $row['total'];
+			if ($row['total'] > 0 ){
+				echo "THIS WORKED";
+			}
+			else {
+				echo "FIX THIS";
+			}
 		}
 
 		$result2->close();
