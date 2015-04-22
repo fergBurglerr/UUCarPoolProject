@@ -14,7 +14,7 @@
 		#$number = $_POST['number']; // the phone number 
 		#$pid = $_POST['pid'];  //ID of the person the phone number is tied to 
 		$pid = 1;
-		$number = 1112223336;
+		$number = '1112223336';
 
 		$test = $conn->prepare("SELECT * FROM Phone WHERE phone = ?;");
 		$test->bind_param('s', $number);
