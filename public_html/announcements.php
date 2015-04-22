@@ -1,5 +1,4 @@
 <?PHP
-
 include("sql/dbinfo.php");//including my database connection
 $conn = new mysqli($host, $user, $pass, $db);
 if($conn->connect_error){
@@ -7,10 +6,13 @@ if($conn->connect_error){
 }
 
 
+
 ##### Function to add a new announcement and adds a tuple into the event_has_announcement table to tie
 ##### the announcement with an event 
 if ($_POST['action']=='add'){
 
+##### Function to add a new announcement 
+if (strcmp($_POST['action'],'add')==0){
 	$message = htmlspecialchars($_POST['text']);
 	#$message = htmlspecialchars("This worked fine!!!"); ### test data 
 	$eid = $_POST['eid']; ### Event ID for the event in which the announcement is made for 
@@ -46,7 +48,7 @@ if ($_POST['action']=='add'){
 }
 
 ##### Function to edit an announcement
-else if ($_POST['action']=='edit'){
+else if (strcmp($_POST['action'],'edit')==0){
 	$message = htmlspecialchars($_POST['content']);  #this post and the one below would be hidden fields
 	#$message = htmlspecialchars('The old the old message'); 
 	$announcement_key = $_POST['announcement_primary_key'];  #this would also be a hidden field 
@@ -65,7 +67,7 @@ else if ($_POST['action']=='edit'){
 }
 
 ##### Function to remove an announcement
-else if ($_POST['action']=='remove'){
+else if (strcmp($_POST['action'],'remove')==0){
 	$announcement_id = htmlspecialchars($_POST['announcement_id']);
 	#$announcement_id = htmlspecialchars('1');
 
@@ -82,22 +84,32 @@ else if ($_POST['action']=='remove'){
 }
 
 ##### Retrieves all announcements 
-#else if ($_POST['action']=='get'){  #This all works perfectly 
+else if (strcmp($_POST['action'],'get')==0){  #This all works perfectly 
+	$returnObject=array();
 	$query = 'SELECT content, aDate FROM Announcement;';
 	$stmt = $conn->prepare($query);
 	$stmt->execute();
 	$stmt->bind_result($content, $aDate);
 	while($stmt->fetch())
 		{
+			array_push($returnObject, array("Content"=>$content, "Date"=>$aDate));
+			//echo json_encode($returnObject);
+			/*
 			echo $content. ": " . $aDate;
 			echo "<br />";
 			echo "$row";
-			echo $row;
+			echo $row;*/
 		}
+
 #}
 
 #else {
 	#echo"There was an error with the POST request, please contact Joe since it is probably his fault";
 #}
 $conn->close();
+
+	$stmt->execute();
+	echo json_encode($returnObject);
+}
+
 ?>

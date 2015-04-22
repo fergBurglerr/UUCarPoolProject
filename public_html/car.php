@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	###PHP functions to add, modify, delete, and add assign cars to people
 	include("sql/dbinfo.php");
 
@@ -10,6 +11,7 @@
 	} 
 
 	###Insert function for Cars 
+<<<<<<< HEAD
 	if ($_POST['action']=='add'){
 		$openSeats = $_POST['openSeats'];
 		$make = htmlspecialchars($_POST['make']);
@@ -62,17 +64,20 @@
 		}
 	}
 
-	#if ($_POST['action'] == 'get') {
+	if ($_POST['action'] == 'get') {
 		$result = $conn->prepare("SELECT color, make, model, license_num, openSeats FROM Car;");
 
 		#$offset=0;
 		$result->execute();
 		$result->bind_result($color, $make, $model, $license_num, $openSeats);
 		while ($result->fetch()) {
-	        printf ("color: %s make: %s model: %s license_num: %s openSeats: %s\n <br>", $color, $make, $model, $license_num, $openSeats);
+	        array_push($returnObject, array("Color"=>$color, "Make"=>$make, "Model"=>$model,"License_num"=>$license_num,"Open_Seats"=>$openSeats));
+	        //printf ("color: %s make: %s model: %s license_num: %s openSeats: %s\n <br>", $color, $make, $model, $license_num, $openSeats);
 	    }
-	#}
+		$result->close();
+		echo json_encode($returnObject);
 
-	$result->close();
+	}
+
 	$conn->close();
 ?>

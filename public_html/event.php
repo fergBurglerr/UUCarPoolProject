@@ -53,14 +53,14 @@ if(strcmp($_POST['action'], "delete")==0){
 	$result->bind_param('i',$eventid);
 
 	$eventid=$_POST['eid'];
-	$result->execute();
-	printf("%d Row Deleted.\n", $result->affected_rows);
+	if($result->execute())
+		printf("%d Row Deleted.\n", $result->affected_rows);
 
 	$result->close();
 }
 
 //getevent 
-//if(strcmp($_POST['action'],"get")==0){
+if(strcmp($_POST['action'],"get")==0){
 	$result = $conn->prepare("SELECT eid,eventName,startTime,endTime,description,eventType FROM Event ORDER BY startTime limit 10 offset ?");
 	$result->bind_param('i',$offset);
 
@@ -68,9 +68,13 @@ if(strcmp($_POST['action'], "delete")==0){
 	$result->execute();
 	$result->bind_result($eid,$name,$start,$end,$description,$type);
 	while ($result->fetch()) {
-        printf ("id: %s name: %s start time: %s end time: %s description: %s type: %s\n <br>", $eid, $name,$start,$end,$description,$type);
+		array_push($returnObject, array("Name"=>$name, "Start"=>$start,"End"=>$end,"Description"=>$description,"Type"=>$type));
+
+        //printf ("id: %s name: %s start time: %s end time: %s description: %s type: %s\n <br>", $eid, $name,$start,$end,$description,$type);
     }
-//}
+    	echo json_encode($returnObject);
+
+}
 
 
 $result->close();

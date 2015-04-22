@@ -62,7 +62,7 @@
 		}
 	}
 
-	#if ($_POST['action'] == 'get') {
+	if ($_POST['action'] == 'get') {
 		#$offest=$_POST['aid'];
 		#$offset=0;
 		$result = $conn->prepare("SELECT houseNumber, suiteNumber, street, city, zipcode FROM Address;");
@@ -72,9 +72,12 @@
 		$result->execute();
 		$result->bind_result($houseNumber, $suiteNumber, $street, $city, $zipcode);
 		while ($result->fetch()) {
-	        printf ("houseNumber: %s suiteNumber: %s street: %s city: %s zipcode: %s\n <br>", $houseNumber, $suiteNumber, $street, $city, $zipcode);
+			array_push($returnObject, array("House_number"=>$houseNumber, "Suite"=>$suiteNumber,"Street"=>$street,"city"=>$city,"Zipcode"=>$zipcode));
+			//printf ("houseNumber: %s suiteNumber: %s street: %s city: %s zipcode: %s\n <br>", $houseNumber, $suiteNumber, $street, $city, $zipcode);
 	    }
-	#}
+    	echo json_encode($returnObject);
+
+	}
 
 	$result->close();
 	$conn->close();
