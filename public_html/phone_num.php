@@ -108,14 +108,14 @@
 	}
 
 	###Edit function for numbers
-	#if ($_POST['action']=='edit') {
-		#$bad_num = $_POST['bad_num'];
-		#$good_num = $_POST['good_num'];
-		#$pid = $_POST['pid'];
+	if ($_POST['action']=='edit') {
+		$bad_num = $_POST['bad_num'];
+		$good_num = $_POST['good_num'];
+		$pid = $_POST['pid'];
 
-		$good_num = '9998887777';
-		$bad_num = '2223334444';
-		$pid = 1;
+		#$good_num = '9998887777';
+		#$bad_num = '2223334444';
+		#$pid = 1;
 
 		$query = "SELECT count(*) as total FROM Phone WHERE ('phone_number' = ?);";
 		$result = $conn->prepare($query); 
@@ -171,11 +171,25 @@
 			printf("Error: %s.\n", $stmt->error);
 			$stmt->close();
 		}
-	#}
+	}
 
 	###Get function for numbers
 	#if ($_POST['action']=='get') {
-		
+		#$pid = $_POST['pid'];
+		$pid = 1;
+
+		$result = $conn->prepare("SELECT first_name, last_name, phone_number FROM Person INNER JOIN person_has_number WHERE pid = ?;");
+		$result->bind_param('i',$pid);
+
+		$result->execute();
+		$result->bind_result($first_name, $last_name, $pid);
+		while ($result->fetch()) {
+			array_push($returnObject, array("FirstName"=>$first_name,"LastName"=>$last_name,"pid"=>$pid));
+
+	        //printf ("id: %s name: %s start time: %s end time: %s description: %s type: %s\n <br>", $eid, $name,$start,$end,$description,$type);
+	    }
+	    	echo json_encode($returnObject);
+	    $result->close();
 	#}
 
 	$conn->close();

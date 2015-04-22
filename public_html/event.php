@@ -76,9 +76,7 @@ if(strcmp($_POST['action'],"get")==0){
 
 }
 
-
 $result->close();
-
 
 $conn->close();
 ?>
