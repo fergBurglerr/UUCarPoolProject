@@ -84,9 +84,9 @@
 		if ($result2->execute()) {
 			$result2->bind_result($col1);
 
-			$row = $result2->fetch_array(MYSQLI_ASSOC);
-			echo $row['total'];
-			if ($row['total'] > 0 ){
+			$row = $result2->fetch();
+			echo "$col1";
+			if ($col1 > 0 ){
 				echo "THIS WORKED";
 			}
 			else {
