@@ -82,7 +82,7 @@
 
 		$query = "SELECT count(pid) as total FROM person_has_phone WHERE ('phone_number' = ?);";
 		$result2 = $conn->prepare($query);
-		echo "$result2";
+		if ($result2) echo "true"; 
 		$result2->bind_param('s', $number);
 		if ($result2->execute()) {
 			$result2->bind_result($col1);
