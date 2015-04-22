@@ -89,6 +89,7 @@
 			$result2->bind_result($col1);
 
 			$result2->fetch();
+			$result2->close();
 			echo "$col1";
 			if ($col1 == 0 ){
 				$stmt = $conn->prepare("DELETE FROM Phone WHERE phone_number = ? LIMIT 1");
@@ -106,7 +107,6 @@
 			}
 		}
 
-		$result2->close();
 		$result->close();
 	#}
 
