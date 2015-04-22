@@ -64,8 +64,10 @@
 
 	###Remove function for numbers 
 	#if ($_POST['action']=='remove') {
-		$number = $_POST['number'];
-		$pid = $_POST['pid'];
+		#$number = $_POST['number'];
+		#$pid = $_POST['pid'];
+
+		$number = '1112223333';
 
 		$result = $conn->prepare("DELETE FROM person_has_phone WHERE (number = ?) AND (pid = ?) LIMIT 1;");
 		$result->bind_param('si', $number, $pid);
@@ -78,7 +80,7 @@
 
 		$query = 'SELECT count(pid) as total FROM person_has_phone P WHERE number = ?';
 		$result2 = $conn->prepare($query2);
-		$result2->bind_param($number);
+		$result2->bind_param('s', $number);
 		$result2->execute();
 
 		$row = $result2->fetch_assoc();
