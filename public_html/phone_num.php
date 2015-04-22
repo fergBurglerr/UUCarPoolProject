@@ -78,13 +78,13 @@
 			echo "Phone Number was NOT removed successfully";
 		}
 
-		$query = "SELECT count(pid) as 'total' FROM person_has_phone WHERE (number = ?)";
-		$result2 = $conn->prepare($query2);
+		$query = "SELECT count(pid) as 'total' FROM person_has_phone WHERE (number = ?);";
+		$result2 = $conn->prepare($query);
 		$result2->bind_param('s', $number);
 		$result2->execute();
 
 		$row = $result2->fetch_assoc();
-
+		echo "     $row['total']      ";
 		if ($row['total'] > 0 ){
 			echo "THIS WORKED";
 		}
