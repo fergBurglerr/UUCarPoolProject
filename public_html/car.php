@@ -11,7 +11,6 @@
 	} 
 
 	###Insert function for Cars 
-<<<<<<< HEAD
 	if ($_POST['action']=='add'){
 		$openSeats = $_POST['openSeats'];
 		$make = htmlspecialchars($_POST['make']);

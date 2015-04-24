@@ -77,6 +77,85 @@ if(strcmp($_POST['action'],"get")==0){
 
 }
 
+if(strcmp($_POST['action'],"can_drive")==0){
+	$eid = $_POST['eid'];
+	$pid = $_POST['pid'];
+
+	$stmt = $conn->prepare("INSERT INTO person_drives_for_event VALUES (?,?)";);
+	$stmt->bind_param('ii', $pid, $eid);
+
+	if ($stmt->execute()) {
+		echo "You have signed up to drive for the event";
+	}
+	else {
+		echo "Something went wrong with your sign up";
+	}
+
+	$stmt->close();
+}
+
+if(strcmp($_POST['action'],"need_ride")==0){
+	#$eventName = $_POST['eventName'];
+	#$firstName = $_POST['firstName'];
+	#$lastName = $_POST['lastName'];
+	#$houseNumber = $_POST['houseNumber'];
+	#$street = $_POST['street'];
+	#$city = $_POST['city'];
+	#$state = $_POST['state'];
+	#$zipcode = $_POST['zipcode'];
+
+	$pid=$_POST['pid'];
+	$eid=$_POST['eid'];
+
+	$stmt = $conn->prepare("INSERT INTO person_needs_ride_for_event VALUES (?, ?)";);
+	$stmt->bind_param('ii', $pid, $eid);
+
+	if ($stmt->execute()) {
+		echo "You have signed up for needing a ride to the event";
+	}
+	else {
+		echo "Something went wrong with your sign up";
+	}
+
+	$stmt->close();
+}
+
+if(strcmp($_POST['action'],"find_drivers")==0)
+	$returnObject=array();
+	$eventName = $_POST['eventName'];
+
+	$result = $conn->prepare("SELECT eventName, firstName, lastName, openSeats FROM Person P INNER JOIN person_has_car phc INNER JOIN
+		person_drives_for_event pde INNER JOIN Event E WHERE E.eventName = ?";);
+	$result->bind_param('s', $eventName);
+
+	$result->execute();
+	$result->bind_result($eventName, $firstName, $lastName, $openSeats);
+	while ($result->fetch()) {
+		array_push($returnObject, array("Event"=>$eventName, "FirstName"=>$firstName,"LastName"=>$lastName,"OpenSeats"=>$openSeats));
+
+        //printf ("id: %s name: %s start time: %s end time: %s description: %s type: %s\n <br>", $eid, $name,$start,$end,$description,$type);
+    }
+    echo json_encode($returnObject);
+}
+
+if(strcmp($_POST['action'],"find_riders")==0)
+	$returnObject=array();
+	$eventName = $_POST['eventName'];
+
+	$result = $conn->prepare("SELECT eventName, firstName, lastName, houseNumber, street, city, state, zipcode FROM Person P INNER JOIN person_lives_at_address pla INNER JOIN
+		Address INNER JOIN person_needs_ride_for_event pnr INNER JOIN Event E WHERE E.eventName = ?";);
+	$result->bind_param('s', $eventName);
+
+	$result->execute();
+	$result->bind_result($eventName, $firstName, $lastName, $houseNumber, $street, $city, $state, $zipcode);
+	while ($result->fetch()) {
+		array_push($returnObject, array("Event"=>$eventName, "FirstName"=>$firstName,"LastName"=>$lastName,"HouseNumber"=>$houseNumber, "Street"=>$street, "City"=>$city, "State"=>$state, "Zipcode"=>$zipcode));
+
+        //printf ("id: %s name: %s start time: %s end time: %s description: %s type: %s\n <br>", $eid, $name,$start,$end,$description,$type);
+    }
+    echo json_encode($returnObject);
+}
+
 $result->close();
 
 $conn->close();
