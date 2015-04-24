@@ -84,13 +84,12 @@ CREATE TABLE person_lives_at_address(
 
 
 CREATE TABLE Car(
-	cid INTEGER AUTO_INCREMENT NOT NULL,
 	openSeats INTEGER NOT NULL,
 	make VARCHAR(63) NOT NULL,
 	model VARCHAR(63) NOT NULL,
 	color VARCHAR(20) NOT NULL,
 	license_num VARCHAR(20) NOT NULL,
-	PRIMARY KEY(cid))ENGINE=InnoDB;
+	PRIMARY KEY(license_num))ENGINE=InnoDB;
 
 
 CREATE TABLE Event(
@@ -121,10 +120,10 @@ CREATE TABLE person_needs_ride_for_event(
 
 CREATE TABLE person_has_car(
 	pid INTEGER NOT NULL,
-	cid INTEGER NOT NULL,
+	license_num VARCHAR(20) NOT NULL,
 	FOREIGN KEY(pid) REFERENCES Person(pid) ON DELETE CASCADE,
-	FOREIGN KEY(cid) REFERENCES Car(cid) ON DELETE CASCADE,
-	PRIMARY KEY(pid,cid))ENGINE=InnoDB;
+	FOREIGN KEY(license_num) REFERENCES Car(license_num) ON DELETE CASCADE,
+	PRIMARY KEY(pid,license_num))ENGINE=InnoDB;
 
 
 CREATE TABLE Photos(
