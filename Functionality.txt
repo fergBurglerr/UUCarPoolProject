@@ -24,10 +24,10 @@ Designate people to driver other people
 
 
 -----------TODO-----------------------
-Remove people from driving to events
-Remove people who need rides
-Designate drivers to riders
-Add/remove groups
+Remove people from driving to events --- DONE
+Remove people who need rides --- DONE
+Designate drivers to riders 
+Add/remove groups 
 Add/remove people to groups
 Add/remove Addresses to accounts
 Tie addresses to out of church events

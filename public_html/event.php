@@ -94,6 +94,23 @@ if(strcmp($_POST['action'],"can_drive")==0){
 	$stmt->close();
 }
 
+if(strcmp($_POST['action'],"remove_can_drive")==0) {
+	$eid = $_POST['eid'];
+	$pid = $_POST['pid'];
+
+	$stmt = $conn->prepare("DELETE FROM person_drives_for_event WHERE pid = ? AND eid = ?");
+	$stmt->bind_param('ii', $pid, $eid);
+
+	if ($stmt->execute()) {
+		echo "You have been removed from the driving list";
+	}
+	else {
+		echo "You could not be removed from the driving list for some reason";
+	}
+
+	$stmt->close();
+}
+
 if(strcmp($_POST['action'],"need_ride")==0){
 	#$eventName = $_POST['eventName'];
 	#$firstName = $_POST['firstName'];
@@ -115,6 +132,23 @@ if(strcmp($_POST['action'],"need_ride")==0){
 	}
 	else {
 		echo "Something went wrong with your sign up";
+	}
+
+	$stmt->close();
+}
+
+if(strcmp($_POST['action'],"remove_need_ride")==0) {
+	$eid = $_POST['eid'];
+	$pid = $_POST['pid'];
+
+	$stmt = $conn->prepare("DELETE FROM person_needs_ride_for_event WHERE pid = ? AND eid = ?");
+	$stmt->bind_param('ii', $pid, $eid);
+
+	if ($stmt->execute()) {
+		echo "You have been removed from the riders list";
+	}
+	else {
+		echo "You could not be removed from the riders list for some reason";
 	}
 
 	$stmt->close();
