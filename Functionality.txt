@@ -1,16 +1,37 @@
 Functionality:
 
-Add/delete/edit events
-Add/delete/edit announcements
-Add/delete/edit groups 
+Add/delete/edit Events
+Add/delete/edit Announcements 
+Tie announcements to groups/events
+Add/delete/edit Groups
+Tie events to groups
+
+Tie addresses to out of church events
+
 Add/delete/edit Accounts
 Add/remove/edit Phone numbers with accounts
 Add/remove/edit Emails to accounts
 Add/remove/edit Addresses to accounts
+Add/remove/edit cars to accounts
 
+Add/remove People going to events
 
-Add people to driver's list for event
-Add people to riders list for event
+Add/remove people to driver's list for event
+Add/remove people to riders list for event
 Add/Remove people to a group
 
 Designate people to driver other people
+
+
+-----------TODO-----------------------
+Remove people from driving to events
+Remove people who need rides
+Designate drivers to riders
+Add/remove groups
+Add/remove people to groups
+Add/remove Addresses to accounts
+Tie addresses to out of church events
+Tie events to groups
+Tie announcements to groups,events
+
+Create Triggers on Database???
