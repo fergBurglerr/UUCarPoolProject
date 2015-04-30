@@ -15,7 +15,8 @@ $(document).ready(function () {
 	}, function(json){
 		$("#announce").html("<div id=\"Announcements\"></div>");
 		$.each(JSON.parse(json), function(idx, obj){
-			$("#Announcements").append("<h3>" + obj.Date + "</h3>");
+			var pattern = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
+			$("#Announcements").append("<h3>" + obj.Content.substring(0,10) + "..." + "\t|\t" + pattern.exec(obj.Date) + "</h3>");
 			$("#Announcements").append("<div id=\"announcement" + idx + "\"></div>");
 			$("#announcement" + idx).append("<p>" + obj.Content + "</p>");
 		});
