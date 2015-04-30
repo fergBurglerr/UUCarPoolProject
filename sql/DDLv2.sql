@@ -52,6 +52,8 @@ DROP TABLE IF EXISTS Email;
 
 DROP TABLE IF EXISTS person_has_email;
 
+DROP TABLE IF EXISTS Authenticate;
+
 DROP TABLE IF EXISTS person_goes_to_event;
 SET foreign_key_checks=1;
 
@@ -64,6 +66,8 @@ CREATE TABLE Address(
 	street VARCHAR(127) NOT NULL,
 	city VARCHAR(127) NOT NULL,
 	zipcode INTEGER NOT NULL,
+	latitude NUMBER NOT NULL, 
+	longitude NUMBER NOT NULL,
 	PRIMARY KEY (aid))ENGINE=InnoDB;
 
 
@@ -74,6 +78,13 @@ CREATE TABLE Person(
 	emailAddress VARCHAR(255) NOT NULL,
 	PRIMARY KEY (pid))ENGINE=InnoDB;
 
+CREATE TABLE Authenticate(
+	userName VARCHAR(16),
+	password CHAR(40),
+	pid INTEGER,
+	PRIMARY KEY(userName),
+	FOREIGN KEY (pid) REFERENCES Person.pid ON DELETE CASCADE
+	)ENGINE=InnoDB;
 
 CREATE TABLE person_lives_at_address(
 	aid INTEGER NOT NULL,
@@ -219,12 +230,12 @@ CREATE TABLE event_out_of_church(
     PRIMARY KEY(eid))ENGINE=InnoDB;
 
 
-CREATE TABLE Family(
-	fid INTEGER NOT NULL,
-	name VARCHAR(63) NOT NULL,
-	pid INTEGER NOT NULL,
-	FOREIGN KEY(pid) REFERENCES Person(pid) ON DELETE CASCADE,
-	PRIMARY KEY(fid, pid))ENGINE=InnoDB;
+#CREATE TABLE Family(
+	#fid INTEGER NOT NULL,
+	#name VARCHAR(63) NOT NULL,
+	#pid INTEGER NOT NULL,
+	#FOREIGN KEY(pid) REFERENCES Person(pid) ON DELETE CASCADE,
+	#PRIMARY KEY(fid, pid))ENGINE=InnoDB;
 
 
 CREATE TABLE Phone(
