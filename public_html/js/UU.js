@@ -1,6 +1,8 @@
 $(document).ready(function () {
     $("#navBar").tabs();
 
+    loginForm();
+
     $('#homeTab').click(function(){
 	window.location = "http://uuchurch.net";
     });
@@ -34,4 +36,43 @@ $(document).ready(function () {
 		$('#events').html(json);
 	});
     });
+
+    $('#loginTab').click(function(){
+	$('#login').html('');
+	loginForm();
+    });
 });
+
+function login(){
+	var username = $('#username').val();
+	var password = $('#password').val();
+	if(!(username.trim())){
+		alert("Username field can't be empty!");
+	} else if (!(password.trim())){
+		alert("Password field can't be empty!");
+	} else {
+		$.post('login.php',
+		{
+			username:username,
+			password:password
+		},
+		function(data){
+			
+		});
+	}
+}
+
+function loginForm(){
+	$.get('loginForm.php', {loggedin:"false"},
+	function(form){
+		$('#login').html(form);
+	});
+}
+
+function registerForm(){
+
+}
+
+function register(){
+
+}
