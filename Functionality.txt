@@ -24,17 +24,20 @@ Designate people to driver other people
 
 
 -----------TODO-----------------------
-Remove people from driving to events --- DONE
-Remove people who need rides --- DONE
+--- Remove people from driving to events --- DONE
+--- Remove people who need rides --- DONE
+--- Add/remove groups --- DONE
+--- Add/remove people to groups --- DONE
 Designate drivers to riders 
-Add/remove groups --- DONE
-Add/remove people to groups --- DONE
 Add/remove Addresses to accounts 
-Tie addresses to out of church events 
+Tie addresses to out of church events
+Designate if event is in or out of church 
 Tie addresses to people
-Tie events to groups 
-Tie announcements to groups,events 
+Tie events to groups
+Tie announcements to groups
+Tie announcements to events 
 Add Person accounts and login 
-Sign up people for event 
+Sign up people for event and then choose if they need a ride or not
+Tell if a Person if a Member or Employee
 
-Create Triggers on Database???
+User login, admins, user add/delete, edit
