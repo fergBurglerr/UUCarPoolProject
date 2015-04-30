@@ -31,7 +31,10 @@ Add/remove groups --- DONE
 Add/remove people to groups --- DONE
 Add/remove Addresses to accounts 
 Tie addresses to out of church events 
+Tie addresses to people
 Tie events to groups 
 Tie announcements to groups,events 
+Add Person accounts and login 
+Sign up people for event 
 
-Create Triggers on Database??? 
+Create Triggers on Database???
