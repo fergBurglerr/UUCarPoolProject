@@ -110,7 +110,9 @@ CREATE TABLE Event(
 	endTime TIMESTAMP NOT NULL,
 	description VARCHAR(1023) NOT NULL,
 	eventType VARCHAR(31) NOT NULL,
-	PRIMARY KEY(eid))ENGINE=InnoDB;
+	gid INTEGER,
+	PRIMARY KEY(eid),
+	FOREIGN KEY(gid) REFERENCES Group.gid)ENGINE=InnoDB;
 
 
 CREATE TABLE person_drives_for_event(
@@ -137,10 +139,10 @@ CREATE TABLE person_has_car(
 	PRIMARY KEY(pid,license_num))ENGINE=InnoDB;
 
 
-CREATE TABLE Photos(
-	pid INTEGER AUTO_INCREMENT NOT NULL,
-	updloadDate TIMESTAMP NOT NULL,
-	PRIMARY KEY(pid))ENGINE=InnoDB;
+#CREATE TABLE Photos(
+	#pid INTEGER AUTO_INCREMENT NOT NULL,
+	#updloadDate TIMESTAMP NOT NULL,
+	#PRIMARY KEY(pid))ENGINE=InnoDB;
 
 
 CREATE TABLE Announcement(
@@ -186,12 +188,12 @@ CREATE TABLE group_has_members(
 	FOREIGN KEY(pid) REFERENCES Person(pid) ON DELETE CASCADE,
 	PRIMARY KEY(gid,pid))ENGINE=InnoDB;
 
-CREATE TABLE group_has_photos(
-	gid INTEGER NOT NULL,
-	pid INTEGER NOT NULL,
-	FOREIGN KEY(gid) REFERENCES `Group`(gid) ON DELETE CASCADE,
-	FOREIGN KEY(phid) REFERENCES Photos(pid) ON DELETE CASCADE,
-	PRIMARY KEY(gid,phid))ENGINE=InnoDB;
+#CREATE TABLE group_has_photos(
+	#gid INTEGER NOT NULL,
+	#pid INTEGER NOT NULL,
+	#FOREIGN KEY(gid) REFERENCES `Group`(gid) ON DELETE CASCADE,
+	#FOREIGN KEY(phid) REFERENCES Photos(pid) ON DELETE CASCADE,
+	#PRIMARY KEY(gid,phid))ENGINE=InnoDB;
 
 
 CREATE TABLE group_has_announcements(
@@ -202,20 +204,20 @@ CREATE TABLE group_has_announcements(
 	PRIMARY KEY(gid,aid))ENGINE=InnoDB;
 
 
-CREATE TABLE annoucement_has_photos(
-	aid INTEGER NOT NULL,
-	pid INTEGER NOT NULL,
-	FOREIGN KEY(aid) REFERENCES Announcement(aid) ON DELETE CASCADE,
-	FOREIGN KEY(pid) REFERENCES Photos(pid) ON DELETE CASCADE,
-	PRIMARY KEY(aid,pid))ENGINE=InnoDB;
+#CREATE TABLE annoucement_has_photos(
+	#aid INTEGER NOT NULL,
+	#pid INTEGER NOT NULL,
+	#FOREIGN KEY(aid) REFERENCES Announcement(aid) ON DELETE CASCADE,
+	#FOREIGN KEY(pid) REFERENCES Photos(pid) ON DELETE CASCADE,
+	#PRIMARY KEY(aid,pid))ENGINE=InnoDB;
 
 
-CREATE TABLE event_has_photos(
-	eid INTEGER NOT NULL,
-	pid INTEGER NOT NULL,
-	FOREIGN KEY(eid) REFERENCES Event(eid) ON DELETE CASCADE,
-	FOREIGN KEY(pid) REFERENCES Photos(pid) ON DELETE CASCADE,
-	PRIMARY KEY(eid,pid))ENGINE=InnoDB;
+#CREATE TABLE event_has_photos(
+	#eid INTEGER NOT NULL,
+	#pid INTEGER NOT NULL,
+	#FOREIGN KEY(eid) REFERENCES Event(eid) ON DELETE CASCADE,
+	#FOREIGN KEY(pid) REFERENCES Photos(pid) ON DELETE CASCADE,
+	#PRIMARY KEY(eid,pid))ENGINE=InnoDB;
 
 
 CREATE TABLE event_in_church(
@@ -270,3 +272,12 @@ CREATE TABLE person_goes_to_event(
 	FOREIGN KEY(pid) REFERENCES Person(pid) ON DELETE CASCADE,
 	FOREIGN KEY(eid) REFERENCES Event(eid) ON DELETE CASCADE
 	)ENGINE=InnoDB;
+
+CREATE TABLE admins(
+	aid INTEGER,
+	password CHAR(40),
+	firstName VARCHAR(50),
+	lastName VARCHAR(50),
+	emailAddress VARCHAR(100),
+	PRIMARY KEY (aid))ENGINE=InnoDB;
+
