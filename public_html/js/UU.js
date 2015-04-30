@@ -1,6 +1,12 @@
 $(document).ready(function () {
     $("#navBar").tabs();
 
+    $.get('loginForm.php', {loggedin:"false"},
+    function(form){
+	$('#login').html(form);
+    });
+
+
     $('#homeTab').click(function(){
 	window.location = "http://uuchurch.net";
     });
@@ -35,3 +41,15 @@ $(document).ready(function () {
 	});
     });
 });
+
+function login(){
+	console.log('hit');
+	$.post('login.php',
+	{
+		username:$('#username').val(),
+		password:$('#password').val()
+	},
+	function(data){
+		console.log($('#username').val());
+	});
+}
