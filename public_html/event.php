@@ -79,7 +79,7 @@ if(strcmp($_POST['action'],"can_drive")==0){
 	$eid = $_POST['eid'];
 	$pid = $_POST['pid'];
 
-	$stmt = $conn->prepare("INSERT INTO person_drives_for_event VALUES (?,?)";);
+	$stmt = $conn->prepare("INSERT INTO person_drives_for_event VALUES (?,?)");
 	$stmt->bind_param('ii', $pid, $eid);
 
 	if ($stmt->execute()) {
@@ -122,7 +122,7 @@ if(strcmp($_POST['action'],"need_ride")==0){
 	$pid=$_POST['pid'];
 	$eid=$_POST['eid'];
 
-	$stmt = $conn->prepare("INSERT INTO person_needs_ride_for_event VALUES (?, ?)";);
+	$stmt = $conn->prepare("INSERT INTO person_needs_ride_for_event VALUES (?, ?)");
 	$stmt->bind_param('ii', $pid, $eid);
 
 	if ($stmt->execute()) {
@@ -152,12 +152,12 @@ if(strcmp($_POST['action'],"remove_need_ride")==0) {
 	$stmt->close();
 }
 
-if(strcmp($_POST['action'],"find_drivers")==0)
+if(strcmp($_POST['action'],"find_drivers")==0){
 	$returnObject=array();
 	$eventName = $_POST['eventName'];
 
 	$result = $conn->prepare("SELECT eventName, firstName, lastName, openSeats FROM Person P INNER JOIN person_has_car phc INNER JOIN
-		person_drives_for_event pde INNER JOIN Event E WHERE E.eventName = ?";);
+		person_drives_for_event pde INNER JOIN Event E WHERE E.eventName = ?");
 	$result->bind_param('s', $eventName);
 
 	$result->execute();
@@ -170,12 +170,12 @@ if(strcmp($_POST['action'],"find_drivers")==0)
     echo json_encode($returnObject);
 }
 
-if(strcmp($_POST['action'],"find_riders")==0)
+if(strcmp($_POST['action'],"find_riders")==0){
 	$returnObject=array();
 	$eventName = $_POST['eventName'];
 
 	$result = $conn->prepare("SELECT eventName, firstName, lastName, houseNumber, street, city, state, zipcode FROM Person P INNER JOIN person_lives_at_address pla INNER JOIN
-		Address INNER JOIN person_needs_ride_for_event pnr INNER JOIN Event E WHERE E.eventName = ?";);
+		Address INNER JOIN person_needs_ride_for_event pnr INNER JOIN Event E WHERE E.eventName = ?");
 	$result->bind_param('s', $eventName);
 
 	$result->execute();
