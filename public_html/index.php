@@ -14,7 +14,7 @@
 		<ul>
 			<li id="loginTab"><a href="#login">Login/out</a></li>
 			<li id="homeTab"><a href="#home">Home</a></li>
-			<li id="eventTab"><a href="#events">Events</a></li>
+			<li id="eventTab"><a href="#event">Events</a></li>
 			<li id="announceTab"><a href="#announce">Announcements</a></li>
 			<li id="groupTab"><a href="#groups">Groups</a></li>
 			<li id="carpoolTab"><a href="#carpool">Carpooling</a></li>
@@ -26,7 +26,7 @@
 		<div id="home">
 			Home
 		</div>
-		<div id="events">
+		<div id="event">
 			Events
 		</div>
 		<div id="announce">

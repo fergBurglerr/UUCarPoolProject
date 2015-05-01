@@ -29,12 +29,12 @@ if(strcmp($_POST['action'],"insert")==0){
 	$result->close();
 }
 //get people
-if(strcmp($_GET['action'],"get")==0){
+if(strcmp($_POST['action'],"get")==0){
 	$returnObject=array();
 	$result = $conn->prepare("SELECT pid,firstName,LastName,emailAddress FROM Person WHERE pid=?");
 	$result->bind_param('i',$pid);
 
-	$pid=$_GET['pid'];
+	$pid=$_POST['pid'];
 	if ($result->execute()) {
 	$result->bind_result($pid,$firstname,$LastName,$email);
 	while ($result->fetch()) {
@@ -58,8 +58,9 @@ if(strcmp($_POST['action'], "delete")==0){
 	if($result->execute())
 		printf("%d Row Deleted.\n", $result->affected_rows);
 
-	$result->close();
 }
 
 
+
+$result->close();
 ?>

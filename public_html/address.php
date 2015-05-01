@@ -17,7 +17,7 @@
 		$city = htmlspecialchars($_POST['city']);
 		$zipcode = htmlspecialchars($_POST['zipcode']);
 
-		$result = $conn->prepare("INSERT INTO Address (houseNumber, suiteNumber, street, city, zipcode) VALUES (?,?,?,?,?);");
+		$result = $conn->prepare("INSERT INTO Address (houseNumber, suiteNumber, street, city, zipcode) VALUES (?,?,?,?,?)");
 		$result->bind_param('ssssi', $houseNumber, $suiteNumber, $street, $city, $zipcode);
 
 		if ($result->execute()) {
@@ -51,7 +51,7 @@
 		$city = htmlspecialchars($_POST['city']);
 		$zipcode = htmlspecialchars($_POST['zipcode']);
 
-		$result = $conn->prepare("UPDATE Address SET houseNumber=?, suiteNumber=?, street=?, city=?, zipcode=? WHERE (aid = ?);");
+		$result = $conn->prepare("UPDATE Address SET houseNumber=?, suiteNumber=?, street=?, city=?, zipcode=? WHERE (aid = ?)");
 		$result->bind_param('ssssii', $houseNumber, $suiteNumber, $street, $city, $zipcode, $aid);
 
 		if ($result->execute()) {
@@ -65,7 +65,7 @@
 	if ($_POST['action'] == 'get') {
 		#$offest=$_POST['aid'];
 		#$offset=0;
-		$result = $conn->prepare("SELECT houseNumber, suiteNumber, street, city, zipcode FROM Address;");
+		$result = $conn->prepare("SELECT houseNumber, suiteNumber, street, city, zipcode FROM Address");
 		#$result->bind_param('i',$offset);
 
 		#$offset=0;
@@ -77,8 +77,8 @@
 	    }
     	echo json_encode($returnObject);
 
+	$result->close();
 	}
 
-	$result->close();
 	$conn->close();
 ?>

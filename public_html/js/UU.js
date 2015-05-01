@@ -15,7 +15,8 @@ $(document).ready(function () {
 	}, function(json){
 		$("#announce").html("<div id=\"Announcements\"></div>");
 		$.each(JSON.parse(json), function(idx, obj){
-			$("#Announcements").append("<h3>" + obj.Date + "</h3>");
+			var pattern = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
+			$("#Announcements").append("<h3>" + obj.Content.substring(0,10) + "..." + "\t|\t" + pattern.exec(obj.Date) + "</h3>");
 			$("#Announcements").append("<div id=\"announcement" + idx + "\"></div>");
 			$("#announcement" + idx).append("<p>" + obj.Content + "</p>");
 		});
@@ -32,8 +33,18 @@ $(document).ready(function () {
 		action:"get",
 		offset:0
 	}, function(json){
-		$('#event').html('<div id="events"></div>');
-		$('#events').html(json);
+		$("#event").html("<div id=\"events\"></div>");
+		$.each(JSON.parse(json), function(idx, obj){
+			var datePattern = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
+			var timePattern = /[0-9]{2}:[0-9]{2}/;
+			$("#events").append("<h3>" + obj.Name + "\t|\t" + "<i>" + obj.Type + "</i>" + "</h3>");
+			$("#events").append("<p>Start Time: " + datePattern.exec(obj.Start) + "at " + timePattern.exec(obj.Start) + "</i>" + "</p>");
+			$("#events").append("<p>End Time: " + datePattern.exec(obj.End) + "at " + timePattern.exec(obj.End) + "</i>" + "</p>");
+			$("#events").append("<p>" + obj.Description + "</p>");
+		});
+		$("#Events").accordion({
+			collapsible: true
+		});
 	});
     });
 
