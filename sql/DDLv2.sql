@@ -55,6 +55,8 @@ DROP TABLE IF EXISTS person_has_email;
 DROP TABLE IF EXISTS Authenticate;
 
 DROP TABLE IF EXISTS person_goes_to_event;
+
+DROP TABLE IF EXISTS event_has_address;
 SET foreign_key_checks=1;
 
 
@@ -281,3 +283,9 @@ CREATE TABLE admins(
 	emailAddress VARCHAR(100),
 	PRIMARY KEY (aid))ENGINE=InnoDB;
 
+CREATE TABLE event_has_address(
+	aid INTEGER NOT NULL,
+	eid INTEGER NOT NULL,
+	FOREIGN KEY(aid) REFERENCES Address(aid),
+	FOREIGN KEY(eid) REFERENCES Event(eid) ON DELETE CASCADE,
+	PRIMARY KEY(aid, eid))ENGINE=InnoDB;
