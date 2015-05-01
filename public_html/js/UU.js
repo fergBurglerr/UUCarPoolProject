@@ -38,11 +38,12 @@ $(document).ready(function () {
 			var datePattern = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
 			var timePattern = /[0-9]{2}:[0-9]{2}/;
 			$("#events").append("<h3>" + obj.Name + "\t|\t" + "<i>" + obj.Type + "</i>" + "</h3>");
-			$("#events").append("<p>Start Time: " + datePattern.exec(obj.Start) + "at " + timePattern.exec(obj.Start) + "</i>" + "</p>");
-			$("#events").append("<p>End Time: " + datePattern.exec(obj.End) + "at " + timePattern.exec(obj.End) + "</i>" + "</p>");
-			$("#events").append("<p>" + obj.Description + "</p>");
+			$("#events").append("<div id=\"event" + idx + "\"></div>");
+			$("#event" + idx).append("<p>Start Time: " + datePattern.exec(obj.Start) + "at " + timePattern.exec(obj.Start) + "</i>" + "</p>");
+			$("#event" + idx).append("<p>End Time: " + datePattern.exec(obj.End) + "at " + timePattern.exec(obj.End) + "</i>" + "</p>");
+			$("#event" + idx).append("<p>" + obj.Description + "</p>");
 		});
-		$("#Events").accordion({
+		$("#events").accordion({
 			collapsible: true
 		});
 	});
