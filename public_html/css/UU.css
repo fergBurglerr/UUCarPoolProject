@@ -1,6 +1,9 @@
 body{
 	font-family:"arial";
 	background-color:rgb(65,92,72);
+	overflow:inherit;
+	width:100%;
+	height:100%;
 }
 
 div#fg{
@@ -10,8 +13,8 @@ div#fg{
 	background-color:rgb(255,255,255);
 	height: 90%;
 	width: 85%;
-	border-top-left-radius: 10%;
-	
+	border-top-left-radius: 10%;	
+	overflow:scroll;
 }
 
 h3#pageHeader{
@@ -61,3 +64,6 @@ div#navBar{
 	color:	#415C48;
 }
 
+.small{
+	font-size: .75em;
+}
