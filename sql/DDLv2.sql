@@ -289,3 +289,12 @@ CREATE TABLE event_has_address(
 	FOREIGN KEY(aid) REFERENCES Address(aid),
 	FOREIGN KEY(eid) REFERENCES Event(eid) ON DELETE CASCADE,
 	PRIMARY KEY(aid, eid))ENGINE=InnoDB;
+
+CREATE TABLE driver_drives_rider(
+	pid_driver INTEGER,
+	pid_rider INTEGER, 
+	eid INTEGER,
+	PRIMARY KEY(pid_driver, pid_rider, eid),
+	FOREIGN KEY(pid_driver) REFERENCES person_drives_for_event(pid),
+	FOREIGN KEY(pid_rider) REFERENCES person_needs_ride_for_event(pid)
+	)ENGINE=InnoDB;

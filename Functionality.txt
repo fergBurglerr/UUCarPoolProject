@@ -28,14 +28,14 @@ Designate people to driver other people
 --- Remove people who need rides --- DONE
 --- Add/remove groups --- DONE
 --- Add/remove people to groups --- DONE
-Designate drivers to riders 
-Add/remove Addresses to accounts 
-Tie addresses to out of church events
-Designate if event is in or out of church 
-Tie addresses to people
-Tie events to groups
-Tie announcements to groups
-Tie announcements to events 
+--- Tie announcements to groups --- DONE
+--- Tie announcements to events --- DONE
+--- Designate drivers to riders --- DONE
+--- Add/remove Addresses to accounts --- DONE 
+--- Tie addresses to out of church events --- DONE
+--- Designate if event is in or out of church --- DONE
+--- Tie addresses to people --- DONE 
+Tie events to groups 
 Add Person accounts and login 
 Sign up people for event and then choose if they need a ride or not
 Tell if a Person if a Member or Employee

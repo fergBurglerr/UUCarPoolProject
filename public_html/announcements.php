@@ -23,16 +23,33 @@
 			$stmt = $conn->prepare($query);
 			$stmt->bind_param("ss", $message, date("Y-m-d H:i:s"));
 			if ($stmt->execute()) { // after the announcement is valid, tie it to the event that it is for 
-				echo "$stmt->insert_id";
-				$aid = $stmt->insert_id; //Grabs the most recent aid created 
-				$stmt2 = $conn->prepare("INSERT INTO event_has_announcements (aid, eid) VALUES (?,?);");
-				$stmt2->bind_param('ii', $aid, $eid);
+				if (strcmp($_POST['announcement_type'], 'event')==0) {
+					$aid = $_POST['aid'];
+					echo "$stmt->insert_id";
+					$aid = $stmt->insert_id; //Grabs the most recent aid created 
+					$stmt2 = $conn->prepare("INSERT INTO event_has_announcements (aid, eid) VALUES (?,?);");
+					$stmt2->bind_param('ii', $aid, $eid);
 
-				if ($stmt2->execute()) { //print out a success message if both work successfully 
-					echo "New announcement created successfully!!!";
+					if ($stmt2->execute()) { //print out a success message if both work successfully 
+						echo "New announcement added to event successfully!!!";
+					}
+					else {
+						echo "The event does not exist";
+					}
 				}
-				else {
-					echo "The event does not exist";
+				else if (strcmp($_POST['announcement_type'],'group')==0) {
+					$gid = $_POST['gid'];
+					echo "$stmt->insert_id";
+					$aid = $stmt->insert_id; //Grabs the most recent aid created 
+					$stmt2 = $conn->prepare("INSERT INTO group_has_announcements (aid, gid) VALUES (?,?);");
+					$stmt2->bind_param('ii', $aid, $gid);
+
+					if ($stmt2->execute()) { //print out a success message if both work successfully 
+						echo "New announcement added to group successfully!!!";
+					}
+					else {
+						echo "The group does not exist";
+					}
 				}
 			}
 			else {
