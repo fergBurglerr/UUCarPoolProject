@@ -25,40 +25,41 @@
 
 		if ($test->num_rows == 0) { //checks to see if the number already exists in the table
 			
-			$query = 'SELECT aid FROM Address WHERE $houseNumber = ? AND $suiteNumber = ? AND $street = ? AND
-			$city = ? AND $zipcode = ?';
-			if ($stmt = $conn->prepare($query)) {
-				$stmt->bind_param('iisss', $houseNumber, $suiteNumber, $street, $city, $zipcode);
-				$result = $stmt->execute();
-				$stmt->store_result();
-				$row = $result->fetch_assoc();
-				$aid = $row["aid"];
-				$result->free();
-				$stmt->close();
+			$num = $conn->prepare("INSERT INTO Address VALUES (?,?,?,?,?);");
+			$num->bind_param('iisss', $houseNumber, $suiteNumber, $street, $city, $zipcode);
 
-				$num = $conn->prepare("INSERT INTO Address VALUES (?,?,?,?,?);");
-				$num->bind_param('iisss', $houseNumber, $suiteNumber, $street, $city, $zipcode);
-
-				if ($num->execute()) {
-					$result2 = $conn->prepare("INSERT INTO person_lives_at_address VALUES (?,?);");
-					$result2->bind_param('ii', $aid, $pid);
-
-					if ($result2->execute()) {
-						echo $num->affected_rows. "Address added successfully";
-					}
-					else {
-						echo "Person does not exist";
-					}
-					$result2->close();
+			if ($num->execute()) {
+				$query = 'SELECT aid FROM Address WHERE $houseNumber = ? AND $suiteNumber = ? AND $street = ? AND
+				$city = ? AND $zipcode = ?';
+				if ($stmt = $conn->prepare($query)) {
+					$stmt->bind_param('iisss', $houseNumber, $suiteNumber, $street, $city, $zipcode);
+					$result = $stmt->execute();
+					$stmt->store_result();
+					$row = $result->fetch_assoc();
+					$aid = $row["aid"];
+					$result->free();
+					$stmt->close();
 				}
 				else {
-					echo "Address NOT added successfully";
+					echo "Address could not be added";
+					return NULL;
 				}
-				$num->close();
+
+				$result2 = $conn->prepare("INSERT INTO person_lives_at_address VALUES (?,?);");
+				$result2->bind_param('ii', $aid, $pid);
+
+				if ($result2->execute()) {
+					echo $num->affected_rows. "Address added successfully";
+				}
+				else {
+					echo "Person does not exist";
+				}
+				$result2->close();
 			}
 			else {
-				echo "Address could not be added";
+				echo "Address NOT added successfully";
 			}
+			$num->close();
 		} // end if 
 		else { // if the number exists, it ONLY adds a tuple to the person_has_phone table 
 			$aid = $_POST['aid'];
@@ -153,7 +154,32 @@
 	}
 
 	if ($_POST['action'] == 'add') {
-		
+		$houseNumber = htmlspecialchars($_POST['houseNumber']);
+		$suiteNumber = htmlspecialchars($_POST['suiteNumber']);
+		$street = htmlspecialchars($_POST['street']);
+		$city = htmlspecialchars($_POST['city']);
+		$zipcode = htmlspecialchars($_POST['zipcode']);
+
+		$test = $conn->prepare("SELECT * FROM Address WHERE $houseNumber = ? AND $suiteNumber = ? AND $street = ? 
+			AND $city = ? AND $zipcode = ?;");
+		$test->bind_param('iisss', $houseNumber, $suiteNumber, $street, $city, $zipcode);
+		$test->execute();
+		$test->store_result();
+
+		if ($test->num_rows == 0) { //checks to see if the number already exists in the table
+			
+			$num = $conn->prepare("INSERT INTO Address VALUES (?,?,?,?,?);");
+			$num->bind_param('iisss', $houseNumber, $suiteNumber, $street, $city, $zipcode);
+
+			if ($num->execute()) {
+				echo "Address was added successfully to the table!!!";
+			}
+			else {
+				echo "Could not add the address to the address table!!!";
+			}
+			$num->close();
+		}
+		$test->close();
 	}
 
 	$conn->close();
