@@ -16,7 +16,7 @@
 			<li id="homeTab"><a href="#home">Home</a></li>
 			<li id="eventTab"><a href="#event">Events</a></li>
 			<li id="announceTab"><a href="#announce">Announcements</a></li>
-			<li id="groupTab"><a href="#groups">Groups</a></li>
+			<li id="groupTab"><a href="#group">Groups</a></li>
 			<li id="carpoolTab"><a href="#carpool">Carpooling</a></li>
 			<li id="adminTab"><a href="#admin">Admin</a></li>	
 		</ul>
@@ -32,7 +32,7 @@
 		<div id="announce">
 			Announcements
 		</div>
-		<div id="groups">
+		<div id="group">
 			Groups
 		</div>
 		<div id="carpool">
