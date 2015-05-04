@@ -32,7 +32,7 @@ if(strcmp($_POST['action'],"insert")==0){
 	if (strcmp($_POST['out_church'], "out")==0) {
 		$query = 'SELECT eid FROM Event WHERE $eventName = ? AND $startTime = ? AND $endTime = ? AND $eventType = ?';
 		if ($stmt = $conn->prepare($query)) {
-			$stmt->bind_param('ssss' $eventName, $startTime, $endTime, $eventType);
+			$stmt->bind_param('ssss', $eventName, $startTime, $endTime, $eventType);
 			$result = $stmt->execute();
 			$stmt->store_result();
 			$row = $result->fetch_assoc();
@@ -51,7 +51,7 @@ if(strcmp($_POST['action'],"insert")==0){
 	else {
 		$query = 'SELECT eid FROM Event WHERE $eventName = ? AND $startTime = ? AND $endTime = ? AND $eventType = ?';
 		if ($stmt = $conn->prepare($query)) {
-			$stmt->bind_param('ssss' $eventName, $startTime, $endTime, $eventType);
+			$stmt->bind_param('ssss', $eventName, $startTime, $endTime, $eventType);
 			$result = $stmt->execute();
 			$stmt->store_result();
 			$row = $result->fetch_assoc();
@@ -66,20 +66,6 @@ if(strcmp($_POST['action'],"insert")==0){
 			}
 			$stmt->close();
 		}
-	}
-}
-//Add an address to event
-if(strcmp($_POST['action'],"add_address")==0) {
-	$eid = $_POST['eid'];
-	$aid = $_POST['aid'];
-
-	$stmt = $conn->prepare("INSERT INTO event_has_address VALUES (?, ?);");
-	$stmt->bind_param('ii', $aid, $eid);
-	if ($stmt->execute()) {
-		echo "Address was added to event successfully!";
-	}
-	else {
-		echo "Address could NOT be added to event";
 	}
 }
 //edit
@@ -257,6 +243,69 @@ if(strcmp($_POST['action'], "designate_driver")==0) {
 	}
 
 	$stmt->close();
+}
+
+if(strcmp($_POST['action'], "add_event_to_group")==0) {
+	$eid = $_POST['eid'];
+	$gid = $_POST['gid'];
+
+	$test = $conn->prepare("SELECT gid FROM Event WHERE $eid = ?;");
+	$test->bind_param('i', $eid);
+	$result = $test->execute();
+	$test->store_result();
+	$row = $result->fetch_assoc();
+
+	if ($row["gid"] == NULL) {
+		$stmt = $conn->prepare("UPDATE Event SET gid = ? WHERE eid = ? AND gid IS NULL;");
+		$stmt->bind_param('ii', $gid, $eid);
+		if ($stmt->execute()) {
+			echo "Group was successfully added as the owner of the event!";
+		}
+		else {
+			echo "Group could not be added as the owner for the event";
+		}
+		$stmt->close();
+	}
+	else {
+		echo "Event could not be found!!!";
+		return;
+	}
+	$test->close();
+}
+
+if (strcmp($_POST['action'], "get_event_address")==0) {
+	$returnObject=array();
+	$eid = $_POST['eid'];
+
+	$query = 'SELECT aid FROM event_has_address WHERE $eid = ?';
+	if ($stmt = $conn->prepare($query)) {
+		$stmt->bind_param('i', $eid);
+		$result = $stmt->execute();
+		$stmt->store_result();
+		$row = $result->fetch_assoc();
+		$aid = $row["aid"];
+		$result->free();
+		$stmt->close();
+
+		$result = $conn->prepare("SELECT houseNumber, suiteNumber, street, city, zipcode FROM Address WHERE aid = ?");
+		$result->bind_param('i', $aid);
+		if ($result->execute()) {
+			$result->bind_result($houseNumber, $suiteNumber, $street, $city, $zipcode);
+			while ($result->fetch()) {
+			array_push($returnObject, array("House_number"=>$houseNumber, "Suite"=>$suiteNumber,"Street"=>$street,"city"=>$city,"Zipcode"=>$zipcode));
+			//printf ("houseNumber: %s suiteNumber: %s street: %s city: %s zipcode: %s\n <br>", $houseNumber, $suiteNumber, $street, $city, $zipcode);
+	    }
+    	echo json_encode($returnObject);
+		}
+		else {
+			echo "Address could not be found!!!";
+		}
+	}
+	else {
+		echo "Address could not be added";
+		return NULL;
+	}
+
 }
 
 $result->close();

@@ -35,7 +35,7 @@ Designate people to driver other people
 --- Tie addresses to out of church events --- DONE
 --- Designate if event is in or out of church --- DONE
 --- Tie addresses to people --- DONE 
-Tie events to groups 
+--- Tie events to groups --- DONE
 Add Person accounts and login 
 Sign up people for event and then choose if they need a ride or not
 Tell if a Person if a Member or Employee
