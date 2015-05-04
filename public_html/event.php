@@ -68,20 +68,6 @@ if(strcmp($_POST['action'],"insert")==0){
 		}
 	}
 }
-//Add an address to event
-if(strcmp($_POST['action'],"add_address")==0) {
-	$eid = $_POST['eid'];
-	$aid = $_POST['aid'];
-
-	$stmt = $conn->prepare("INSERT INTO event_has_address VALUES (?, ?);");
-	$stmt->bind_param('ii', $aid, $eid);
-	if ($stmt->execute()) {
-		echo "Address was added to event successfully!";
-	}
-	else {
-		echo "Address could NOT be added to event";
-	}
-}
 //edit
 if(strcmp($_POST['action'],"edit")==0){
 	echo "update";
