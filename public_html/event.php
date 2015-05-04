@@ -245,6 +245,34 @@ if(strcmp($_POST['action'], "designate_driver")==0) {
 	$stmt->close();
 }
 
+if(strcmp($_POST['action'], "add_event_to_group")==0) {
+	$eid = $_POST['eid'];
+	$gid = $_POST['gid'];
+
+	$test = $conn->prepare("SELECT gid FROM Event WHERE $eid = ?;");
+	$test->bind_param('i', $eid);
+	$result = $test->execute();
+	$test->store_result();
+	$row = $result->fetch_assoc();
+
+	if ($row["gid"] == NULL) {
+		$stmt = $conn->prepare("UPDATE Event SET gid = ? WHERE eid = ? AND gid IS NULL;");
+		$stmt->bind_param('ii', $gid, $eid);
+		if ($stmt->execute()) {
+			echo "Group was successfully added as the owner of the event!";
+		}
+		else {
+			echo "Group could not be added as the owner for the event";
+		}
+		$stmt->close();
+	}
+	else {
+		echo "Event could not be found!!!";
+		return;
+	}
+	$test->close();
+}
+
 $result->close();
 
 $conn->close();
