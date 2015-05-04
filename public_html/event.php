@@ -28,6 +28,59 @@ if(strcmp($_POST['action'],"insert")==0){
 	
 	printf("%d Row inserted.\n", $result->affected_rows);
 	$result->close();
+
+	if (strcmp($_POST['out_church'], "out")==0) {
+		$query = 'SELECT eid FROM Event WHERE $eventName = ? AND $startTime = ? AND $endTime = ? AND $eventType = ?';
+		if ($stmt = $conn->prepare($query)) {
+			$stmt->bind_param('ssss' $eventName, $startTime, $endTime, $eventType);
+			$result = $stmt->execute();
+			$stmt->store_result();
+			$row = $result->fetch_assoc();
+			$eid = $row["eid"];
+			$result->free();
+			$stmt->close();
+	
+			$stmt = $conn->prepare("INSERT INTO event_out_of_church VALUES (?);");
+			$stmt->bind_param('i', $eid);
+			if ($stmt->execute()) {
+				echo "Event was designated as an out of church event";
+			}
+			$stmt->close();
+		}
+	}
+	else {
+		$query = 'SELECT eid FROM Event WHERE $eventName = ? AND $startTime = ? AND $endTime = ? AND $eventType = ?';
+		if ($stmt = $conn->prepare($query)) {
+			$stmt->bind_param('ssss' $eventName, $startTime, $endTime, $eventType);
+			$result = $stmt->execute();
+			$stmt->store_result();
+			$row = $result->fetch_assoc();
+			$eid = $row["eid"];
+			$result->free();
+			$stmt->close();
+
+			$stmt = $conn->prepare("INSERT INTO event_in_church VALUES (?);");
+			$stmt->bind_param('i', $eid);
+			if ($stmt->execute()) {
+				echo "Event was designated as an in church event or could not be chosen as an out of church event";
+			}
+			$stmt->close();
+		}
+	}
+}
+//Add an address to event
+if(strcmp($_POST['action'],"add_address")==0) {
+	$eid = $_POST['eid'];
+	$aid = $_POST['aid'];
+
+	$stmt = $conn->prepare("INSERT INTO event_has_address VALUES (?, ?);");
+	$stmt->bind_param('ii', $aid, $eid);
+	if ($stmt->execute()) {
+		echo "Address was added to event successfully!";
+	}
+	else {
+		echo "Address could NOT be added to event";
+	}
 }
 //edit
 if(strcmp($_POST['action'],"edit")==0){
@@ -186,6 +239,24 @@ if(strcmp($_POST['action'],"find_riders")==0){
         //printf ("id: %s name: %s start time: %s end time: %s description: %s type: %s\n <br>", $eid, $name,$start,$end,$description,$type);
     }
     echo json_encode($returnObject);
+}
+
+if(strcmp($_POST['action'], "designate_driver")==0) {
+	$pid_driver = $_POST['pid_driver'];
+	$pid_rider = $_POST['pid_rider'];
+	$eid = $_POST['eid'];
+
+	$stmt = $conn->prepare("INSERT INTO driver_drives_rider VALUES (?, ?, ?)");
+	$stmt->bind_param('iii', $pid_driver, $pid_rider, $eid);
+
+	if ($stmt->execute()) {
+		echo "You have chosen to drive to the event";
+	}
+	else {
+		echo "Something went wrong with your choice";
+	}
+
+	$stmt->close();
 }
 
 $result->close();

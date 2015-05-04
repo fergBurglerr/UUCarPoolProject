@@ -10,49 +10,121 @@
 	} 
 
 	###Insert function for Address 
-	if ($_POST['action']=='add'){
+	if ($_POST['action']=='add_address_to_person'){
 		$houseNumber = htmlspecialchars($_POST['houseNumber']);
 		$suiteNumber = htmlspecialchars($_POST['suiteNumber']);
 		$street = htmlspecialchars($_POST['street']);
 		$city = htmlspecialchars($_POST['city']);
 		$zipcode = htmlspecialchars($_POST['zipcode']);
 
-		$result = $conn->prepare("INSERT INTO Address (houseNumber, suiteNumber, street, city, zipcode) VALUES (?,?,?,?,?)");
-		$result->bind_param('ssssi', $houseNumber, $suiteNumber, $street, $city, $zipcode);
+		$test = $conn->prepare("SELECT * FROM Address WHERE $houseNumber = ? AND $suiteNumber = ? AND $street = ? 
+			AND $city = ? AND $zipcode = ?;");
+		$test->bind_param('iisss', $houseNumber, $suiteNumber, $street, $city, $zipcode);
+		$test->execute();
+		$test->store_result();
 
-		if ($result->execute()) {
-			echo $result->affected_rows()."Address added successfully!";
-		}
-		else {
-			echo "Address was NOT added successfully";
-		}
+		if ($test->num_rows == 0) { //checks to see if the number already exists in the table
+			
+			$query = 'SELECT aid FROM Address WHERE $houseNumber = ? AND $suiteNumber = ? AND $street = ? AND
+			$city = ? AND $zipcode = ?';
+			if ($stmt = $conn->prepare($query)) {
+				$stmt->bind_param('iisss', $houseNumber, $suiteNumber, $street, $city, $zipcode);
+				$result = $stmt->execute();
+				$stmt->store_result();
+				$row = $result->fetch_assoc();
+				$aid = $row["aid"];
+				$result->free();
+				$stmt->close();
+
+				$num = $conn->prepare("INSERT INTO Address VALUES (?,?,?,?,?);");
+				$num->bind_param('iisss', $houseNumber, $suiteNumber, $street, $city, $zipcode);
+
+				if ($num->execute()) {
+					$result2 = $conn->prepare("INSERT INTO person_lives_at_address VALUES (?,?);");
+					$result2->bind_param('ii', $aid, $pid);
+
+					if ($result2->execute()) {
+						echo $num->affected_rows. "Address added successfully";
+					}
+					else {
+						echo "Person does not exist";
+					}
+					$result2->close();
+				}
+				else {
+					echo "Address NOT added successfully";
+				}
+				$num->close();
+			}
+			else {
+				echo "Address could not be added";
+			}
+		} // end if 
+		else { // if the number exists, it ONLY adds a tuple to the person_has_phone table 
+			$aid = $_POST['aid'];
+			$result2 = $conn->prepare("INSERT INTO person_lives_at_address VALUES (?,?);");
+			$result2->bind_param('ii', $aid, $pid);
+
+			if ($result2->execute()) {
+				echo $result2->affected_rows(). "Address added successfully";
+			}
+			else {
+				echo "Person does not exist";
+			}
+			$result2->close();
+		} // end else 
+		$test->close();
 	}
 
 	###Remove function for Address
 	if ($_POST['action']=='remove'){
 		$aid = $_POST['aid'];
+		$pid = $_POST['pid'];
 
-		$result = $conn->prepare("DELETE FROM Address WHERE (aid = ?) LIMIT 1;");
-		$result->bind_param('i', $aid);
+		$result = $conn->prepare("DELETE FROM person_lives_at_address WHERE (aid = ? AND pid = ?) LIMIT 1;");
+		$result->bind_param('ii', $aid, $pid);
 		if ($result->execute()) {
-			echo $result->affected_rows()." Address was removed successfully!";
+			echo $result->affected_rows." Address was removed successfully!";
 		}
 		else {
 			echo "Address was NOT removed successfully";
 		}
+
+		$query = "SELECT count(pid) as total FROM person_lives_at_address WHERE ('aid' = ?);";
+		$result2 = $conn->prepare($query); 
+		$result2->bind_param('i', $aid);
+		$param = $result2->execute();
+		if ($param) {
+			$result2->bind_result($col1);
+
+			$result2->fetch();
+			$result2->close();
+			if ($col1 == 0 ){
+				$stmt = $conn->prepare("DELETE FROM Address WHERE $aid = ? LIMIT 1");
+				$stmt->bind_param('i', $aid);
+				if($stmt->execute()) {
+					echo "\n$Address deleted from Email table";
+				}
+				else {
+					echo "There were problems deleting from the Address table";
+				}
+				$stmt->close();
+			}
+			else {
+				echo "The Address exists for other people still";
+			}
+		}
+
+		$result->close();
 	}
 
 	###Edit function for Address
-	if ($_POST['action']=='edit') {
+	/*if ($_POST['action']=='edit') {
 		$aid = $_POST['aid']; #Address ID 
-		$houseNumber = htmlspecialchars($_POST['houseNumber']);
-		$suiteNumber = htmlspecialchars($_POST['suiteNumber']);
-		$street = htmlspecialchars($_POST['street']);
-		$city = htmlspecialchars($_POST['city']);
-		$zipcode = htmlspecialchars($_POST['zipcode']);
+		$pid = $POST['pid'];
 
-		$result = $conn->prepare("UPDATE Address SET houseNumber=?, suiteNumber=?, street=?, city=?, zipcode=? WHERE (aid = ?)");
-		$result->bind_param('ssssii', $houseNumber, $suiteNumber, $street, $city, $zipcode, $aid);
+		$result = $conn->prepare("UPDATE person_lives_at_address SET aid = ? WHERE (pid = ? AND aid = ?)");
+		$result->bind_param('ii', $aid, $pid);
 
 		if ($result->execute()) {
 			echo $result->affected_rows()."Address was edited";
@@ -60,7 +132,7 @@
 		else {
 			echo "Address was NOT edited";
 		}
-	}
+	}*/
 
 	if ($_POST['action'] == 'get') {
 		#$offest=$_POST['aid'];
@@ -78,6 +150,10 @@
     	echo json_encode($returnObject);
 
 	$result->close();
+	}
+
+	if ($_POST['action'] == 'add') {
+		
 	}
 
 	$conn->close();
