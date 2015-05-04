@@ -273,6 +273,41 @@ if(strcmp($_POST['action'], "add_event_to_group")==0) {
 	$test->close();
 }
 
+if (strcmp($_POST['action'], "get_event_address")==0) {
+	$returnObject=array();
+	$eid = $_POST['eid'];
+
+	$query = 'SELECT aid FROM event_has_address WHERE $eid = ?';
+	if ($stmt = $conn->prepare($query)) {
+		$stmt->bind_param('i', $eid);
+		$result = $stmt->execute();
+		$stmt->store_result();
+		$row = $result->fetch_assoc();
+		$aid = $row["aid"];
+		$result->free();
+		$stmt->close();
+
+		$result = $conn->prepare("SELECT houseNumber, suiteNumber, street, city, zipcode FROM Address WHERE aid = ?");
+		$result->bind_param('i', $aid);
+		if ($result->execute()) {
+			$result->bind_result($houseNumber, $suiteNumber, $street, $city, $zipcode);
+			while ($result->fetch()) {
+			array_push($returnObject, array("House_number"=>$houseNumber, "Suite"=>$suiteNumber,"Street"=>$street,"city"=>$city,"Zipcode"=>$zipcode));
+			//printf ("houseNumber: %s suiteNumber: %s street: %s city: %s zipcode: %s\n <br>", $houseNumber, $suiteNumber, $street, $city, $zipcode);
+	    }
+    	echo json_encode($returnObject);
+		}
+		else {
+			echo "Address could not be found!!!";
+		}
+	}
+	else {
+		echo "Address could not be added";
+		return NULL;
+	}
+
+}
+
 $result->close();
 
 $conn->close();
