@@ -136,6 +136,7 @@
 	}*/
 
 	if ($_POST['action'] == 'get') {
+		$returnObject=array();
 		#$offest=$_POST['aid'];
 		#$offset=0;
 		$result = $conn->prepare("SELECT houseNumber, suiteNumber, street, city, zipcode FROM Address");
