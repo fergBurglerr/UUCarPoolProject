@@ -32,7 +32,7 @@ if(strcmp($_POST['action'],"insert")==0){
 	if (strcmp($_POST['out_church'], "out")==0) {
 		$query = 'SELECT eid FROM Event WHERE $eventName = ? AND $startTime = ? AND $endTime = ? AND $eventType = ?';
 		if ($stmt = $conn->prepare($query)) {
-			$stmt->bind_param('ssss' $eventName, $startTime, $endTime, $eventType);
+			$stmt->bind_param('ssss', $eventName, $startTime, $endTime, $eventType);
 			$result = $stmt->execute();
 			$stmt->store_result();
 			$row = $result->fetch_assoc();
@@ -51,7 +51,7 @@ if(strcmp($_POST['action'],"insert")==0){
 	else {
 		$query = 'SELECT eid FROM Event WHERE $eventName = ? AND $startTime = ? AND $endTime = ? AND $eventType = ?';
 		if ($stmt = $conn->prepare($query)) {
-			$stmt->bind_param('ssss' $eventName, $startTime, $endTime, $eventType);
+			$stmt->bind_param('ssss', $eventName, $startTime, $endTime, $eventType);
 			$result = $stmt->execute();
 			$stmt->store_result();
 			$row = $result->fetch_assoc();
