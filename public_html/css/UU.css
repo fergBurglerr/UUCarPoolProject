@@ -43,6 +43,10 @@ div#navBar{
 	height: 85%;
 }
 
+#createEventForm textarea{
+	width: 350px;
+	height: 200px;
+}
 .ui-widget-header{
 	position:	relative;
 	top:	-5px;

@@ -24,7 +24,8 @@ $(document).ready(function () {
 			$("#announcement" + idx).append("<p>" + obj.Content + "</p>");
 		});
 		$("#Announcements").accordion({
-			collapsible: true
+			collapsible: true,
+			active: false
 		});
 	});
     });
@@ -48,10 +49,36 @@ $(document).ready(function () {
 			$("#event" + idx).append("<p>" + obj.Description + "</p>");
 		});
 		$("#events").accordion({
-			collapsible: true
+			collapsible: true,
+			active: false
 		});
 	});
     });
+    
+    $("#adminForms").accordion({
+    	collapsible: true,
+    	active: false
+    });
+    
+    /*$('#groupTab').click(function(){
+	$('#group').html('');
+	$.post('group.php',
+	{
+		action:"get",
+		offset:0
+	}, function(json){
+		$("#group").html("<div id=\"groups\"></div>");
+		console.log(json);
+		$.each(JSON.parse(json), function(idx, obj){
+			var datePattern = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
+			var timePattern = /[0-9]{2}:[0-9]{2}/;
+			$("#groups").append("<h3>" + obj.Name + "Lead by" + obj.Sponsor + "</h3>");
+		});
+		$("#groups").accordion({
+			collapsible: true
+		});
+	});
+    });*/
 
     $('#loginTab').click(function(){
 	$('#login').html('');
