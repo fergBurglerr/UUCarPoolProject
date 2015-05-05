@@ -1,4 +1,7 @@
+var geocoder = new google.maps.Geocoder();
+
 $(document).ready(function () {
+    
     $("#navBar").tabs();
 
     loginForm();
@@ -102,44 +105,67 @@ function register(){
 	var zip = $('#zip').val();
 	var email = $('#email').val();
 	var phone = $('#phone').val();
+	var firstname = $('#firstname').val();
+	var lastname = $('#lastname').val();
+	var googleAddress = houseNumber + " " + street + ", " + city + ", MO, " + zip;
+	var latitude=0;
+	var longitude=0;
+	geocoder.geocode( {'address': googleAddress},function(results, status){
+		if(status == google.maps.GeocoderStatus.OK){
+			latitude = results[0].geometry.location.lat();
+			longitude = results[0].geometry.location.lng();
 
-	if(!(username.trim())){
-		alert("Username can't be blank");
-	} else if (!(password.trim())){
-		alert("Password can't be blank");
-	} else if (!(checkPass.trim())){
-		alert("Please retype password in second box!");
-	} else if (!(password == checkPass)){
-		alert("Passwords don't match!");
-	} else if (!(houseNumber.trim())){
-		alert("House number can't be blank!");
-	} else if (!(street.trim())){
-		alert("Street name can't be blank!");
-	} else if (!(city.trim())){
-		alert("City name can't be blank!");
-	} else if (!(zip.trim())){
-		alert("Zip code can't be blank!");
-	} else if (!(zip.length==5)){
-		alert("Zip code must be 5 chars long!");
-	} else if ((!(email)) && (!(phone))){
-		alert("An e-mail address or phone number is required!");
-	} else {
-		$.post('register.php',
-		{
-			username:username,
-			password:password,
-			houseNumber:houseNumber,
-			suiteNumber:suiteNumber,
-			street:street,
-			city:city,
-			zip:zip,
-			email:email,
-			phone:phone
-		},
-		function(data){
-			
-		});
-	}
+			if(!(username.trim())){
+				alert("Username can't be blank");
+			} else if (!(password.trim())){
+				alert("Password can't be blank");
+			} else if (!(checkPass.trim())){
+				alert("Please retype password in second box!");
+			} else if (!(password == checkPass)){
+				alert("Passwords don't match!");
+			} else if (!(houseNumber.trim())){
+				alert("House number can't be blank!");
+			} else if (!(street.trim())){
+				alert("Street name can't be blank!");
+			} else if (!(city.trim())){
+				alert("City name can't be blank!");
+			} else if (!(zip.trim())){
+				alert("Zip code can't be blank!");
+			} else if (!(zip.length==5)){
+				alert("Zip code must be 5 chars long!");
+			} else if (!(firstname.trim())){
+				alert("First name required");
+			} else if (!(lastname.trim())){
+				alert("Last name required");
+			} else if ((!(email)) && (!(phone))){
+				alert("An e-mail address or phone number is required!");
+			} else {
+				console.log('About to post');
+				$.post('register.php',
+				{
+					username:username,
+					password:password,
+					houseNumber:houseNumber,
+					suiteNumber:suiteNumber,
+					street:street,
+					city:city,
+					zip:zip,
+					email:email,
+					phone:phone,
+					latitude:latitude,
+					longitude:longitude,
+					firstname:firstname,
+					lastname:lastname
+				},
+				function(data){
+					$('#register').html(data);
+				});
+			}
+		}
+	});
+	//console.log('( ' + latitude + ', ' + longitude + ' )');
+
+	
 }
 
 //getCookie function curtosey of w3 schools
