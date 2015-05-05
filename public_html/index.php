@@ -40,7 +40,26 @@
 			Carpool
 		</div>
 		<div id="admin">
-			Admin
+			<div id="adminForms">
+				<h3>Create an Event</h3>
+				<div id="createEventForm">
+					<form>
+					
+					</form>
+				</div>
+				<h3>Create an Announcement</h3>
+				<div id="createAnnouncementForm">
+					<form>
+					
+					</form>
+				</div>
+				<h3>Manage Groups</h3>
+				<div id="manageGroupsForm">
+					<form>
+					
+					</form>
+				</div> 
+			</div>
 		</div>
 	</div>
 	

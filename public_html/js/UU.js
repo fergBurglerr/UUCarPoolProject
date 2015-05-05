@@ -24,7 +24,8 @@ $(document).ready(function () {
 			$("#announcement" + idx).append("<p>" + obj.Content + "</p>");
 		});
 		$("#Announcements").accordion({
-			collapsible: true
+			collapsible: true,
+			active: false
 		});
 	});
     });
@@ -51,6 +52,11 @@ $(document).ready(function () {
 			collapsible: true
 		});
 	});
+    });
+    
+    $("#adminForms").accordion({
+    	collapsible: true,
+    	active: false
     });
     
     /*$('#groupTab').click(function(){
