@@ -12,6 +12,7 @@
 		<p>Zip: <input type="text" id="zip" value="65201" maxlength="5"></p>
 		<br>
 		<h3>Contact Info:</h3>
+		<p>First name: <input type="text" id="firstname" placeholder="first"> Last name: <input type="text" id="lastname" placeholder="last"></p>
 		<h6>At least one required</h6>
 		<p>E-mail: <input type="text" id="email" placeholder="email@provider.com"></p>
 		<p>Phone number: <input type="text" id="phone" placeholder="##########" maxlength=10><span class="small">format: ##########</span></p>

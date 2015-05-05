@@ -1,6 +1,6 @@
 <?php
 	###PHP functions to add, modify, delete, and add assign phone numbers to people
-	include("sql/dbinfo.php");
+	include_once("sql/dbinfo.php");
 
 	###Create connection
 	$conn = new mysqli($host, $user, $pass, $db);
