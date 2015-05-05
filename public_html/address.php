@@ -136,6 +136,7 @@
 	}*/
 
 	if ($_POST['action'] == 'get') {
+		$returnObject=array();
 		#$offest=$_POST['aid'];
 		#$offset=0;
 		$result = $conn->prepare("SELECT houseNumber, suiteNumber, street, city, zipcode FROM Address");
@@ -180,6 +181,20 @@
 			$num->close();
 		}
 		$test->close();
+	}
+	//Add an address to event
+	if(strcmp($_POST['action'],"add_address_to_event")==0) {
+		$eid = $_POST['eid'];
+		$aid = $_POST['aid'];
+
+		$stmt = $conn->prepare("INSERT INTO event_has_address VALUES (?, ?);");
+		$stmt->bind_param('ii', $aid, $eid);
+		if ($stmt->execute()) {
+			echo "Address was added to event successfully!";
+		}
+		else {
+			echo "Address could NOT be added to event";
+		}
 	}
 
 	$conn->close();

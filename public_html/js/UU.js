@@ -37,6 +37,7 @@ $(document).ready(function () {
 		offset:0
 	}, function(json){
 		$("#event").html("<div id=\"events\"></div>");
+		console.log(json);
 		$.each(JSON.parse(json), function(idx, obj){
 			var datePattern = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
 			var timePattern = /[0-9]{2}:[0-9]{2}/;

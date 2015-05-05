@@ -68,8 +68,8 @@ CREATE TABLE Address(
 	street VARCHAR(127) NOT NULL,
 	city VARCHAR(127) NOT NULL,
 	zipcode INTEGER NOT NULL,
-	latitude NUMBER NOT NULL, 
-	longitude NUMBER NOT NULL,
+	latitude NUMERIC NOT NULL, 
+	longitude NUMERIC NOT NULL,
 	PRIMARY KEY (aid))ENGINE=InnoDB;
 
 
@@ -82,10 +82,10 @@ CREATE TABLE Person(
 
 CREATE TABLE Authenticate(
 	userName VARCHAR(16),
-	password CHAR(40),
-	pid INTEGER,
+	password CHAR(40) NOT NULL,
+	pid INTEGER NOT NULL,
 	PRIMARY KEY(userName),
-	FOREIGN KEY (pid) REFERENCES Person.pid ON DELETE CASCADE
+	FOREIGN KEY (pid) REFERENCES Person(pid) ON DELETE CASCADE
 	)ENGINE=InnoDB;
 
 CREATE TABLE person_lives_at_address(
@@ -104,6 +104,12 @@ CREATE TABLE Car(
 	license_num VARCHAR(20) NOT NULL,
 	PRIMARY KEY(license_num))ENGINE=InnoDB;
 
+CREATE TABLE `Group`(
+	gid INTEGER AUTO_INCREMENT NOT NULL,
+	name VARCHAR(63) NOT NULL,
+	sponsor INTEGER,
+	FOREIGN KEY(sponsor) REFERENCES Person(pid),
+	PRIMARY KEY(gid))ENGINE=InnoDB;
 
 CREATE TABLE Event(
 	eid INTEGER AUTO_INCREMENT NOT NULL,
@@ -114,7 +120,7 @@ CREATE TABLE Event(
 	eventType VARCHAR(31) NOT NULL,
 	gid INTEGER,
 	PRIMARY KEY(eid),
-	FOREIGN KEY(gid) REFERENCES Group.gid)ENGINE=InnoDB;
+	FOREIGN KEY(gid) REFERENCES `Group`(gid))ENGINE=InnoDB;
 
 
 CREATE TABLE person_drives_for_event(
@@ -175,12 +181,6 @@ CREATE TABLE is_a_member(
 	PRIMARY KEY(pid))ENGINE=InnoDB;
 
 
-CREATE TABLE `Group`(
-	gid INTEGER AUTO_INCREMENT NOT NULL,
-	name VARCHAR(63) NOT NULL,
-	sponsor INTEGER,
-	FOREIGN KEY(sponsor) REFERENCES Person(pid),
-	PRIMARY KEY(gid))ENGINE=InnoDB;
 
 
 CREATE TABLE group_has_members(
