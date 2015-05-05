@@ -287,7 +287,7 @@ CREATE TABLE event_has_address(
 	aid INTEGER NOT NULL,
 	eid INTEGER NOT NULL,
 	FOREIGN KEY(aid) REFERENCES Address(aid),
-	FOREIGN KEY(eid) REFERENCES Event(eid) ON DELETE CASCADE,
+	FOREIGN KEY(eid) REFERENCES event_out_of_church(eid) ON DELETE CASCADE,
 	PRIMARY KEY(aid, eid))ENGINE=InnoDB;
 
 CREATE TABLE driver_drives_rider(
