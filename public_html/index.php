@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="css/UU.css">
 	<script src="js/jquery-1.11.2.min.js"></script>
 	<script src="js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 	<script src="js/UU.js"></script>
 </head>
 <body>
