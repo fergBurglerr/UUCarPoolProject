@@ -43,9 +43,20 @@
 			<div id="adminForms">
 				<h3>Create an Event</h3>
 				<div id="createEventForm">
-					<form>
-					
+					<form id="eventForm">
+						Title<input type="text" name="eventName"><br>
+						Start Date<input type="text" name="startDate"><br>
+						Start Time<input type="text" name="startTime"><br>
+						End Date<input type="text" name="endDate"><br>
+						End Time<input type="text" name="endTIme"><br>
+						House #<input type="text" name="eventHouseNumber"><br>
+						Suite Number<input type="text" name="eventSuiteNumber"><br>
+						Street<input type="text" name="eventStreet"><br>
+						City<input type="text" name="eventCity"><br>
+						Zipcode<input type="text" name="eventZipcode"><br>
+						Description<br>
 					</form>
+					<textarea name="eventDescription" form="eventForm">Type description here...</textarea>
 				</div>
 				<h3>Create an Announcement</h3>
 				<div id="createAnnouncementForm">

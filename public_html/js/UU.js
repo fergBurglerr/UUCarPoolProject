@@ -49,7 +49,8 @@ $(document).ready(function () {
 			$("#event" + idx).append("<p>" + obj.Description + "</p>");
 		});
 		$("#events").accordion({
-			collapsible: true
+			collapsible: true,
+			active: false
 		});
 	});
     });
