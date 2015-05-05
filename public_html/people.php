@@ -12,11 +12,13 @@ if ($conn->connect_error) {
 if(strcmp($_POST['action'],"insert")==0){
 	$result = $conn->prepare("INSERT INTO Person (firstName,LastName,emailAddress) 
 	VALUES (?,?,?)");
-	$result->bind_param('sss',$firstName,$LastName,$email);
+//	$result->bind_param('sss',$firstName,$LastName,$email);
 
 	$firstName= $_POST['firstName'];
 	$LastName=$_POST['lastName'];
 	$email = $_POST['emailAddress'];
+
+	$result->bind_param('sss',$firstName,$LastName,$email);
 
 	if ($result->execute()) {
 		echo "You have signed up to drive for the event";
@@ -57,10 +59,6 @@ if(strcmp($_POST['action'], "delete")==0){
 	$personid=$_POST['pid'];
 	if($result->execute())
 		printf("%d Row Deleted.\n", $result->affected_rows);
-
+	$result->close();
 }
-
-
-
-$result->close();
 ?>

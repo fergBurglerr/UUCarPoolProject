@@ -69,14 +69,14 @@
 	$lastname = $p['lastname'];
 
 	//Input validated -- DB section begins here ====================
-
+	
 	$conn = new mysqli($host, $user, $pass, $db);
 	if($conn->connect_error){
 		//die("Connection failed: ". $conn->connect_error);
 		echo 'DB Connection error...';
 		exit;
 	}
-
+		
 	if($email <> null){
 		$query = "SELECT * FROM Email WHERE address = ?";
 		
@@ -84,16 +84,24 @@
 		$test->bind_param('s', $email);
 		$test->execute();
 		
+		echo $test->num_rows;
+		
 		if($test->num_rows==0){
 			$query = "INSERT INTO Email VALUES (?)";
-
-			$test = $conn->prepare($query);
-			$test = bind_param('s', $email);
+			echo $query . ' ';
+			/*
+			$result = $conn->prepare($query);
+			$result = bind_param('s', $email);
+			$result->execute();
+			
+			$result->close();
+			*/
 		}
 
 		$test->close();
+		
 	}
-
+	
 	$conn->close();
 	echo 'Registration successful!';
 ?>

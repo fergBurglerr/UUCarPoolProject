@@ -137,11 +137,23 @@ function register(){
 				alert("First name required");
 			} else if (!(lastname.trim())){
 				alert("Last name required");
-			} else if ((!(email)) && (!(phone))){
-				alert("An e-mail address or phone number is required!");
+			} else if (!(email)){
+				alert("An e-mail address is required!");
 			} else {
 				console.log('About to post');
-				$.post('register.php',
+				$.post('people.php',
+				{
+					action:'insert',
+					firstName:firstname,
+					lastName:lastname,
+					emailAddress:email
+					
+				},
+				function(data){
+					$('#register').html(data);
+				});
+
+				/*$.post('register.php',
 				{
 					username:username,
 					password:password,
@@ -159,7 +171,8 @@ function register(){
 				},
 				function(data){
 					$('#register').html(data);
-				});
+				});*/
+
 			}
 		}
 	});
