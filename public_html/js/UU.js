@@ -94,13 +94,18 @@ function login(){
 	} else if (!(password.trim())){
 		alert("Password field can't be empty!");
 	} else {
-		$.post('login.php',
+		$.post('auth.php',
 		{
+			action:'login',
 			username:username,
 			password:password
 		},
-		function(data){
-			
+		function(resp){
+			if(!(resp)){
+				location.reload(true);
+			} else {
+				alert(resp);
+			}
 		});
 	}
 }

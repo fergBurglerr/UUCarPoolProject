@@ -37,13 +37,35 @@
 				$stmt->close();
 
 				setcookie('loggedin', true, time()+3600*24*14);
-				setcookie('username', $username, time()+3600*24*14);
+				setcookie('pid', $pid, time()+3600*24*14);
 			} else {
 				echo "Database failure, please try again later";
 			}
 
 		} else {
 			echo 'ERROR: db error testing username';
+		}
+	}
+
+	if($action=='login'){
+		$sql = 'SELECT pid FROM Authenticate WHERE userName	=? AND password=?';
+		if($stmt = $conn->prepare($sql)){
+			$stmt->bind_param("ss", $username, $password);
+			$stmt->execute();
+			$stmt->store_result();
+
+			if($stmt->num_rows > 0){
+				$stmt->bind_result($pid);
+				$stmt->fetch();
+				setCookie('loggedin', true, time()+3600*24*14);
+				setCookie('pid', $pid, time()+3600*24*14);
+			} else {
+				echo "Bad Log in info!";
+			}
+
+			$stmt->close();
+		} else {
+			echo "Database error: please try again later";
 		}
 	}
 	$conn->close();
