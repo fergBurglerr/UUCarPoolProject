@@ -252,6 +252,8 @@ function register(){
 								function(resp){
 									if(resp)
 										alert(resp);
+									else
+										location.reload(true);
 								});
 							});
 						});
