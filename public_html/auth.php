@@ -15,6 +15,17 @@
 	if($action=='add'){
 		$pid = intval($p['pid']);
 
+		$query = 'SELECT * FROM Authenticate WHERE pid=?';
+		$stmt = $conn->prepare($query);
+		$stmt->bind_param('i', $pid);
+		$stmt->execute();
+		$stmt->store_result();
+		if($stmt->num_rows > 0){
+			echo "You have already created an account!";
+			exit;
+		}
+		$stmt->close();
+
 		$query = 'SELECT * FROM Authenticate WHERE userName=?';
 				
 		$test = $conn->prepare($query);

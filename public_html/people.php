@@ -10,13 +10,25 @@ if ($conn->connect_error) {
 
 //sign up account #addperson
 if(strcmp($_POST['action'],"insert")==0){
+	$firstName = $_POST['firstName'];
+	$LastName = $_POST['lastName'];
+	$email = $_POST['emailAddress'];
+	
+	$stmt = $conn->prepare("SELECT * FROM Person WHERE firstName=? AND LastName=? AND emailAddress=?");
+	$stmt->bind_param('sss', $firstName, $LastName, $email);
+	$stmt->execute();
+	$stmt->store_result();
+	if($stmt->num_rows > 0){
+		exit;
+	}
+
 	$result = $conn->prepare("INSERT INTO Person (firstName,LastName,emailAddress) 
 	VALUES (?,?,?)");
 //	$result->bind_param('sss',$firstName,$LastName,$email);
 
-	$firstName= $_POST['firstName'];
-	$LastName=$_POST['lastName'];
-	$email = $_POST['emailAddress'];
+	//$firstName= $_POST['firstName'];
+	//$LastName=$_POST['lastName'];
+	//$email = $_POST['emailAddress'];
 
 	$result->bind_param('sss',$firstName,$LastName,$email);
 
