@@ -22,8 +22,8 @@ SELECT P.name FROM Person P WHERE P.pid NOT IN (SELECT P.pid FROM Person_Email I
 SELECT P.name FROM Person P WHERE NOT EXISTS (SELECT E.eid FROM Events E WHERE E.eid NOT IN (SELECT Pae.eid FROM Person_attends_Event Pae WHERE Pae.pid = P.pid));
 #Query 10 (Find all announcements from the "Religious Studies" group)
 SELECT message FROM Announcement INNER JOIN group_has_announcement gha INNER JOIN Group G WHERE G.name = 'Religious Education';
-#Query 11 (Find all announcements from "Pastor Roth")
-SELECT message FROM Announcement INNER JOIN Person P WHERE P.name = 'Pastor Roth';
+#Query 11 (Find all cars owened by "Pastor Roth")
+SELECT message FROM Car INNER JOIN person_has_car INNER JOIN Person P WHERE P.name = 'Pastor Roth';
 #Query 12 (Find a list of all people who need a ride to the "Happy Hour")
 SELECT P.firstname, P.lastname FROM Person P INNER JOIN person_needs_ride_for_event P2 INNER JOIN Event E WHERE E.name = 'Happy Hour';
 #Query 13 (Return the number of people who attended the "Bible Study" on 4-13-2012)

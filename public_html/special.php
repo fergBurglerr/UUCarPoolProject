@@ -164,5 +164,154 @@
 		$stmt->close();
 	}
 
+	if(strcmp($_POST['action'],"find_events_attended_by_person")==0) {
+		#Query 11 (Find all events that "Pastor Roth" attended )
+
+		$returnObject = array();
+		$firstName = $_POST['firstName'];
+		$lastName = $_POST['lastName'];
+		$stmt = $conn->prepare("SELECT eventName FROM Event E INNER JOIN person_goes_to_event INNER JOIN Person P WHERE P.firstName LIKE ? AND P.lastName LIKE ?");
+		$stmt->bind_param('ss', $firstName, $lastName);
+		if ($stmt->execute()) {
+			$stmt->bind_result($eventName);
+			while ($stmt->fetch()) {
+				array_push($returnObject, array("eventName"=>$eventName));
+			}
+			echo json_encode($returnObject);
+		}
+		else {
+			echo "Cannot find any events for that person";
+		}
+		$stmt->close();
+	}
+
+	if(strcmp($_POST['action'],"find_events_attended_by_person")==0) {
+		#Query 12 (Find a list of all people who have a ride to the " ")
+
+		$returnObject = array();
+		$eventName = $_POST['eventName'];
+		$stmt = $conn->prepare("SELECT P.firstName P.lastName FROM Person P INNER JOIN  driver_drives_rider ddr INNER JOIN Event E WHERE P.pid = ddr.pid_rider AND E.eventName LIKE ?");
+		$stmt->bind_param('s', $eventName);
+		if ($stmt->execute()) {
+			$stmt->bind_result($firstName, $lastName);
+			while ($stmt->fetch()) {
+				array_push($returnObject, array("FirstName"=>$firstName, "LastName"=>$lastName));
+			}
+			echo json_encode($returnObject);
+		}
+		else {
+			echo "Could not find that event";
+		}
+		$stmt->close();
+	}
+
+	if(strcmp($_POST['action'],"find_events_attended_by_person")==0) {
+		#Query 13 (Return the number of people who attended the "Bible Study" on 4-13-2012)
+		
+		$returnObject = array();
+		$eventName = $_POST['eventName'];
+		$startTime = $_POST['startTime'];
+		$stmt = $conn->prepare("SELECT E.eventName, count(pid) AS number_of_people FROM person_goes_to_event pae INNER JOIN Event E WHERE E.eventName LIKE ? AND E.startTime = ? GROUP BY (E.eventName, E.startTime)");
+		$stmt->bind_param('s', $eventName, $startTime);
+		if ($stmt->execute()) {
+			$stmt->bind_result($eventName, $number_of_people);
+			while ($stmt->fetch()) {
+				array_push($returnObject, array("eventName"=>$eventName, "number"=>$number_of_people));
+			}
+			echo json_encode($returnObject);
+		}
+		else {
+			echo "Cound not find that event";
+		}
+		$stmt->close();
+	}
+
+	if(strcmp($_POST['action'],"find_drivers_for_event")==0) {
+		#Query 14 (Find how many people can drive to "Bible Study" on 3-12-2013)
+
+		$returnObject = array();
+		$eventName = $_POST['eventName'];
+		$startTime = $_POST['startTime'];
+		$stmt = $conn->prepare("SELECT count(person_drives_for_event.pid) AS drivers FROM person_drives_for_event INNER JOIN Event E WHERE E.eventName = ? AND E.startTime = ? GROUP BY (person_drives_for_event.eid)");
+		$stmt->bind_param('ss', $eventName, $startTime);
+		if ($stmt->execute()) {
+			$stmt->bind_result($drivers);
+			while ($stmt->fetch()) {
+				array_push($returnObject, array("drivers"=>$drivers));
+			}
+			json_encode($returnObject);
+		}
+		else {
+			echo "Cannot find this event";
+		}
+		$stmt->close();
+	}
+
+	if(strcmp($_POST['action'],"find_person_attened_most_events")==0) {
+		#Query 15 (Find the name of the person who attended the most events)
+
+		$returnObject = array();
+		$stmt = $conn->query("SELECT P.firstName, P.lastName FROM Person P INNER JOIN person_goes_to_event pae GROUP BY (pae.pid) ORDER BY count(pae.eid) DESC LIMIT 10");
+		while($row = $stmt->fetch_array(MYSQL_ASSOC)) {
+            $returnObject[] = $row;
+	    }
+	    echo json_encode($returnObject);
+	    $stmt->close();
+	}
+
+	if(strcmp($_POST['action'],"find_underaged_people")==0) {
+		#Query 16 (Find a list of all people under the age of 18 "not adults")
+
+		$stmt = $conn->query("SELECT P.name FROM Person P WHERE P.age < 18");
+		while($row = $stmt->fetch_array(MYSQL_ASSOC)) {
+            $returnObject[] = $row;
+	    }
+	    echo json_encode($returnObject);
+	    $stmt->close();
+	}
+
+	if(strcmp($_POST['action'],"find_events_attendance")==0) {
+		#Query 17 (Find a list of all events in order of attendence)
+
+		$stmt = $conn->query("SELECT E.eventName FROM Event E INNER JOIN person_goes_to_event pge GROUP BY pge.eid ORDER BY count(pge.pid) DESC");
+		while($row = $stmt->fetch_array(MYSQL_ASSOC)) {
+            $returnObject[] = $row;
+	    }
+	    echo json_encode($returnObject);
+	    $stmt->close();
+	}
+
+	if(strcmp($_POST['action'],"find_average_attendance")==0) {
+		#Query 18 (Find the average attendance at all events)
+
+		$stmt = $conn->query("SELECT avg(Ph.pid) AS average FROM person_goes_to_event Ph INNER JOIN Event E");
+		while($row = $stmt->fetch_array(MYSQL_ASSOC)) {
+            $returnObject[] = $row;
+	    }
+	    echo json_encode($returnObject);
+	    $stmt->close();
+	}
+
+	if(strcmp($_POST['action'],"find_most_attened_events")==0) {
+		#Query 19 find the event that the most people attended
+		$stmt = $conn->query("SELECT E.eventName, count(pge.pid) FROM Event E INNER JOIN person_goes_to_event pge GROUP BY (pge.eid) ORDER BY count(pge.pid) DESC LIMIT 10");
+		while($row = $stmt->fetch_array(MYSQL_ASSOC)) {
+            $returnObject[] = $row;
+	    }
+	    echo json_encode($returnObject);
+	    $stmt->close();
+	}
+
+	if(strcmp($_POST['action'],"find_most_attened_events")==0) {
+		#Query 20 (Find the names of everyone who has driven to AT LEAST one event)
+
+		$stmt = $conn->prepare("SELECT DISTINCT P.firstName, P.lastName FROM Person P INNER JOIN person_drives_for_event pde;");
+		while($row = $stmt->fetch_array(MYSQL_ASSOC)) {
+            $returnObject[] = $row;
+	    }
+	    echo json_encode($returnObject);
+	    $stmt->close();
+	}
+
 	$conn->close();
 ?>
