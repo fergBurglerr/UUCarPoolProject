@@ -298,7 +298,42 @@ function register(){
 }
 
 function registerCar(){
-
+	var pid = getCookie('pid');
+	var make =$('#make').val();
+	var model=$('#model').val();
+	var color=$('#color').val();
+	var seats=$('#numberOfSeats').val();
+	var license=$('#licensePlate').val();
+	if(!(color))
+		color = 'other';
+	
+	if(!(make))
+		alert('Make of car required!');
+	else if(!(model))
+		alert('Model of car required!');
+	else if(!(seats))
+		alert('Number of seats required!');
+	else if(!(license))
+		alert('License plate required!');
+	else if(!(pid))
+		alert('Something went wrong, please log out and back in!');
+	else {
+		$.post('car.php',
+		{
+			action:'add',
+			pid:pid,
+			openSeats:seats,
+			make:make,
+			model:model,
+			color:color,
+			license_num:license
+		}, function(resp){
+			if(resp)
+				alert(resp)
+			else
+				$('#carpool').html('<h4>Registered car successfully!</h4><button type="button" onclick="carpoolTab()">Back</button>');
+		});
+	}
 }
 
 function carForm(){

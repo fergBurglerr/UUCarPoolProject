@@ -32,12 +32,12 @@
 			$result->bind_param('issss', $openSeats, $make, $model, $color, $license_num);
 
 			if ($result->execute()) {
-				echo $result->affected_rows()." Car added successfully!";
+				//echo $result->affected_rows()." Car added successfully!";
 				$result2 = $conn->prepare("INSERT INTO person_has_car VALUES (?,?);");
 				$result2->bind_param('is', $pid, $license_num);
 
 				if ($result2->execute()) {
-					echo $num->affected_rows. "Car added successfully to person";
+					//echo $num->affected_rows. "Car added successfully to person";
 				}
 				else {
 					echo "Person does not exist";
@@ -55,7 +55,7 @@
 			$result2->bind_param('is', $pid, $license_num);
 
 			if ($result2->execute()) {
-				echo $result2->affected_rows(). "Car added successfully to person";
+				//echo $result2->affected_rows(). "Car added successfully to person";
 			}
 			else {
 				echo "Person does not exist";
