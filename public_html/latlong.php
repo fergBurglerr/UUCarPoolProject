@@ -22,7 +22,7 @@
 			$stmt->execute();
 			$stmt->store_result();
 			if($stmt->num_rows > 0){
-				echo "Address already exists!";
+				//echo "Address already exists!";
 				exit;
 			}
 		} else {
@@ -35,6 +35,41 @@
 			$stmt->bind_param("ssssidd", $houseNumber, $suiteNumber, $street, $city, $zip, $latitude, $longitude);
 			$stmt->execute();
 			$stmt->close();
+		}
+	}
+
+	if($action=='getAid'){
+		$sql = 'SELECT aid FROM Address WHERE houseNumber=? AND suiteNumber=? AND street=? AND city=? AND zipcode=? AND latitude=? AND longitude=?';
+
+		if($stmt = $conn->prepare($sql)){
+			$stmt->bind_param("ssssidd", $houseNumber, $suiteNumber, $street, $city, $zip, $latitude, $longitude);
+			$stmt->execute();
+			$stmt->store_result();
+			if($stmt->num_rows==0){
+				echo "Address not in database";
+			} else {
+				$stmt->bind_result($aid);
+				$stmt->fetch();
+				echo $aid;//this is important, throwing aid back to frontend
+				$stmt->close();
+			}
+		} else {
+			echo "Database error, try again later";
+		}
+	}
+
+	if($action=='matchAddressToPerson'){
+		$aid=intval($p['aid']);
+		$pid=intval($p['pid']);
+		echo "Aid: $aid, Pid: $pid";
+		$sql = 'INSERT INTO person_lives_at_address (aid, pid) VALUES (?,?)';
+
+		if($stmt = $conn->prepare($sql)){
+			$stmt->bind_param("ii", $aid, $pid);
+			$stmt->execute();
+			$stmt->close();
+		} else {
+			echo "Database error: Please try again later!";
 		}
 	}
 

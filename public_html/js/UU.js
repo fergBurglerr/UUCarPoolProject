@@ -195,47 +195,68 @@ function register(){
 					emailAddress:email
 					
 				},
-				function(data){
-					//$('#register').html(data);
-				});
-				var pid;
-				$.post('people.php',
-				{
-					action:'getPid',
-					firstname:firstname,
-					lastname:lastname,
-					email:email
-				},
-				function(data){
-					pid=data;
-					console.log(pid);
-					$.post('auth.php',
+				function(peopleResponse){
+					$.post('people.php',
 					{
-						action:'add',
-						username:username,
-						password:password,
-						pid:pid
+						action:'getPid',
+						firstname:firstname,
+						lastname:lastname,
+						email:email
 					},
-					function(resp){
-						if(resp)
-							alert(resp);
+					function(data){
+						var pid=data;
+						$.post('auth.php',
+						{
+							action:'add',
+							username:username,
+							password:password,
+							pid:pid
+						},
+						function(resp){
+							if(resp)
+								alert(resp);
+						});
+					
+						$.post('latlong.php',
+						{
+							action:'add',
+							houseNumber:houseNumber,
+							suiteNumber:suiteNumber,
+							street:street,
+							city:city,
+							zip:zip,
+							latitude:latitude,
+							longitude:longitude
+						},
+						function(resp){
+							if(resp)
+								alert(resp);
+							$.post('latlong.php',
+							{
+								action:'getAid',
+								houseNumber:houseNumber,
+								suiteNumber:suiteNumber,
+								street:street,
+								city:city,
+								zip:zip,
+								latitude:latitude,
+								longitude:longitude
+							},
+							function(aid){
+								$.post('latlong.php',
+								{
+									action:'matchAddressToPerson',
+									aid:aid,
+									pid:pid
+								},
+								function(resp){
+									if(resp)
+										alert(resp);
+								});
+							});
+						});
 					});
 					
-					$.post('latlong.php',
-					{
-						action:'add',
-						houseNumber:houseNumber,
-						suiteNumber:suiteNumber,
-						street:street,
-						city:city,
-						zip:zip,
-						latitude:latitude,
-						longitude:longitude
-					},
-					function(resp){
-						if(resp)
-							alert(resp);
-					});
 				});
 			}
 		}
