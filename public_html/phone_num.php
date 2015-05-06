@@ -1,6 +1,6 @@
 <?php
 	###PHP functions to add, modify, delete, and add assign phone numbers to people
-	include("sql/dbinfo.php");
+	include_once("sql/dbinfo.php");
 
 	###Create connection
 	$conn = new mysqli($host, $user, $pass, $db);
@@ -12,7 +12,7 @@
 	###Insert function for numbers 
 	if ($_POST['action']=='add'){
 		$number = $_POST['number']; // the phone number 
-		$pid = $_POST['pid'];  //ID of the person the phone number is tied to 
+		$pid = intval($_POST['pid']);  //ID of the person the phone number is tied to 
 		#$pid = 1;
 		#$number = '1112223338';
 
@@ -27,15 +27,15 @@
 			
 			#echo "THIS WORKED!!!!!!!!!!!!1";
 
-			$num = $conn->prepare("INSERT INTO Phone VALUES (?);");
+			$num = $conn->prepare("INSERT INTO Phone (phone_number) VALUES (?);");
 			$num->bind_param('s', $number);
 
 			if ($num->execute()) {
-				$result2 = $conn->prepare("INSERT INTO person_has_phone VALUES (?,?);");
+				$result2 = $conn->prepare("INSERT INTO person_has_phone (phone_number, pid) VALUES (?,?);");
 				$result2->bind_param('si', $number, $pid);
 
 				if ($result2->execute()) {
-					echo $num->affected_rows. "Phone number added successfully";
+					//echo $num->affected_rows. "Phone number added successfully";
 				}
 				else {
 					echo "Person does not exist";
@@ -43,7 +43,7 @@
 				$result2->close();
 			}
 			else {
-				echo "Phone number NOT added successfully";
+				echo "Phone number NOT added";
 			}
 			$num->close();
 		} // end if 
@@ -52,7 +52,7 @@
 			$result2->bind_param('si', $number, $pid);
 
 			if ($result2->execute()) {
-				echo $result2->affected_rows(). "Phone number added successfully";
+				//echo $result2->affected_rows(). "Phone number added successfully";
 			}
 			else {
 				echo "Person does not exist";

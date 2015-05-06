@@ -61,7 +61,6 @@
 	if($action=='matchAddressToPerson'){
 		$aid=intval($p['aid']);
 		$pid=intval($p['pid']);
-		echo "Aid: $aid, Pid: $pid";
 		$sql = 'INSERT INTO person_lives_at_address (aid, pid) VALUES (?,?)';
 
 		if($stmt = $conn->prepare($sql)){

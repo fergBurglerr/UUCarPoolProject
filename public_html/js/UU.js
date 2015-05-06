@@ -81,8 +81,13 @@ $(document).ready(function () {
     });*/
 
     $('#loginTab').click(function(){
-	$('#login').html('');
+	$('#login').html('Loading...');
 	loginForm();
+    });
+
+    $('#carpoolTab').click(function(){
+	$('#carpool').html('Loading...');
+	carpoolTab();
     });
 });
 
@@ -205,6 +210,17 @@ function register(){
 					},
 					function(data){
 						var pid=data;
+						if(phone){
+							$.post('phone_num.php',
+							{
+								action:'add',
+								number:phone,
+								pid:pid
+							},function(resp){
+								if(resp)
+									alert(resp);
+							});
+						}
 						$.post('auth.php',
 						{
 							action:'add',
@@ -266,6 +282,15 @@ function register(){
 	//console.log('( ' + latitude + ', ' + longitude + ' )');
 
 	
+}
+
+function carpoolTab(){
+	if(getCookie('loggedin')){
+		$('#carpool').html('<div id="carpoolHeader"></div><div id="carpoolBody"></div>');
+		$('#carpoolHeader').html('<h2>UU Car Pool App</h2>');
+	} else {
+		$('#carpool').html('<h3>Please log in or register to use the carpool web app!</h3>');
+	}
 }
 
 //getCookie function curtosey of w3 schools
