@@ -297,6 +297,18 @@ function register(){
 	
 }
 
+function registerCar(){
+
+}
+
+function carForm(){
+	$.get('carForm.php',
+	{
+	},function(form){
+		$('#carpool').html(form);
+	});
+}
+
 function carpoolTab(){
 	if(getCookie('loggedin')){
 		$.get('carpool.php',
