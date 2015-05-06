@@ -106,7 +106,7 @@ if(strcmp($_POST['action'],"get")==0){
 	$result->execute();
 	$result->bind_result($eid,$name,$start,$end,$description,$type);
 	while ($result->fetch()) {
-		array_push($returnObject, array("Name"=>$name, "Start"=>$start,"End"=>$end,"Description"=>$description,"Type"=>$type));
+		array_push($returnObject, array("eid"=>$eid, "Name"=>$name, "Start"=>$start,"End"=>$end,"Description"=>$description,"Type"=>$type));
 
         //printf ("id: %s name: %s start time: %s end time: %s description: %s type: %s\n <br>", $eid, $name,$start,$end,$description,$type);
     }

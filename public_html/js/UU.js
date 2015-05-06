@@ -31,7 +31,7 @@ $(document).ready(function () {
     });
 
     $('#eventTab').click(function(){
-	$('#event').html('');
+	$('#event').html('Loading...');
 	$.post('event.php',
 	{
 		action:"get",
@@ -304,6 +304,20 @@ function carpoolTab(){
 		},
 		function(form){
 			$('#carpool').html(form);
+			$.post('event.php',
+			{
+				action:"get",
+				offset:0
+			}, function(json){
+				$.each(JSON.parse(json), function(idx, obj){
+					var datePattern = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
+					var timePattern = /[0-9]{2}:[0-9]{2}/;
+					var optionString = '<option vale="' + obj.eid + '">' + obj.Name + ' on ' + datePattern.exec(obj.Start) + ' at ' + timePattern.exec(obj.Start) + '</option>';
+					$('#driveEvent').append(optionString);
+					$('#rideEvent').append(optionString);
+				});
+			});
+
 		});
 	} else {
 		$('#carpool').html('<h3>Please log in or register to use the carpool web app!</h3>');
