@@ -191,7 +191,8 @@ function register(){
 			} else if (!(email)){
 				alert("An e-mail address is required!");
 			} else {
-				console.log('About to post');
+				var good=true;
+				//console.log('About to post');
 				$.post('people.php',
 				{
 					action:'insert',
@@ -229,49 +230,55 @@ function register(){
 							pid:pid
 						},
 						function(resp){
-							if(resp)
+							if(resp){
 								alert(resp);
-						});
-					
-						$.post('latlong.php',
-						{
-							action:'add',
-							houseNumber:houseNumber,
-							suiteNumber:suiteNumber,
-							street:street,
-							city:city,
-							zip:zip,
-							latitude:latitude,
-							longitude:longitude
-						},
-						function(resp){
-							if(resp)
-								alert(resp);
-							$.post('latlong.php',
-							{
-								action:'getAid',
-								houseNumber:houseNumber,
-								suiteNumber:suiteNumber,
-								street:street,
-								city:city,
-								zip:zip,
-								latitude:latitude,
-								longitude:longitude
-							},
-							function(aid){
+								good=false;
+							} else {
+							
 								$.post('latlong.php',
 								{
-									action:'matchAddressToPerson',
-									aid:aid,
-									pid:pid
+									action:'add',
+									houseNumber:houseNumber,
+									suiteNumber:suiteNumber,
+									street:street,
+									city:city,
+									zip:zip,
+									latitude:latitude,
+									longitude:longitude
 								},
 								function(resp){
-									if(resp)
+									if(resp){
 										alert(resp);
-									else
-										location.reload(true);
+										good=false;
+									} else {
+										$.post('latlong.php',
+										{
+											action:'getAid',
+											houseNumber:houseNumber,
+											suiteNumber:suiteNumber,
+											street:street,
+											city:city,
+											zip:zip,
+											latitude:latitude,
+											longitude:longitude
+										},
+										function(aid){
+											$.post('latlong.php',
+											{
+												action:'matchAddressToPerson',
+												aid:aid,
+												pid:pid
+											},
+											function(resp){
+												if(resp)
+													alert(resp);
+												else
+													location.reload(true);
+											});
+											});
+									}
 								});
-							});
+							}
 						});
 					});
 					

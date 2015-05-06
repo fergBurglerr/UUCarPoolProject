@@ -57,6 +57,10 @@ DROP TABLE IF EXISTS Authenticate;
 DROP TABLE IF EXISTS person_goes_to_event;
 
 DROP TABLE IF EXISTS event_has_address;
+
+DROP TABLE IF EXISTS admins;
+
+DROP TABLE IF EXISTS driver_drives_rider;
 SET foreign_key_checks=1;
 
 
@@ -78,6 +82,7 @@ CREATE TABLE Person(
 	firstName VARCHAR(63) NOT NULL,
 	lastName VARCHAR(63) NOT NULL,
 	emailAddress VARCHAR(255) NOT NULL,
+	UNIQUE (emailAddress),
 	PRIMARY KEY (pid))ENGINE=InnoDB;
 
 CREATE TABLE Authenticate(
