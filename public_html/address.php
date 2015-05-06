@@ -17,20 +17,20 @@
 		$city = htmlspecialchars($_POST['city']);
 		$zipcode = htmlspecialchars($_POST['zipcode']);
 
-		$test = $conn->prepare("SELECT * FROM Address WHERE $houseNumber = ? AND $suiteNumber = ? AND $street = ? 
-			AND $city = ? AND $zipcode = ?;");
+		$test = $conn->prepare("SELECT * FROM Address WHERE houseNumber = ? AND suiteNumber = ? AND street = ? 
+			AND city = ? AND zipcode = ?;");
 		$test->bind_param('iisss', $houseNumber, $suiteNumber, $street, $city, $zipcode);
 		$test->execute();
 		$test->store_result();
 
 		if ($test->num_rows == 0) { //checks to see if the number already exists in the table
 			
-			$num = $conn->prepare("INSERT INTO Address VALUES (?,?,?,?,?);");
+			$num = $conn->prepare("INSERT INTO Address (houseNumber, suiteNumber, street, city, zipcode) VALUES (?,?,?,?,?);");
 			$num->bind_param('iisss', $houseNumber, $suiteNumber, $street, $city, $zipcode);
 
 			if ($num->execute()) {
-				$query = 'SELECT aid FROM Address WHERE $houseNumber = ? AND $suiteNumber = ? AND $street = ? AND
-				$city = ? AND $zipcode = ?';
+				$query = 'SELECT aid FROM Address WHERE houseNumber = ? AND suiteNumber = ? AND street = ? AND
+				city = ? AND zipcode = ?';
 				if ($stmt = $conn->prepare($query)) {
 					$stmt->bind_param('iisss', $houseNumber, $suiteNumber, $street, $city, $zipcode);
 					$result = $stmt->execute();
@@ -42,11 +42,13 @@
 				}
 				else {
 					echo "Address could not be added";
-					return NULL;
+					exit;
 				}
 
 				$result2 = $conn->prepare("INSERT INTO person_lives_at_address VALUES (?,?);");
 				$result2->bind_param('ii', $aid, $pid);
+
+				$pid=$_POST['pid'];
 
 				if ($result2->execute()) {
 					echo $num->affected_rows. "Address added successfully";
@@ -62,7 +64,17 @@
 			$num->close();
 		} // end if 
 		else { // if the number exists, it ONLY adds a tuple to the person_has_phone table 
-			$aid = $_POST['aid'];
+			$stmt = $conn->prepare('SELECT aid FROM Address WHERE houseNumber=? AND suiteNumber=? AND street=? AND city=? AND zipcode=?');
+			$stmt->bind_param('iisss', $houseNumber, $suiteNumber, $street, $city, $zipcode);
+
+			$result = $stmt->execute();
+			$stmt->store_result();
+			$row = $result->fetch_assoc();
+			$aid = $row["aid"];
+			$result->free();
+			$stmt->close();
+			
+			$pid = $_POST['pid'];
 			$result2 = $conn->prepare("INSERT INTO person_lives_at_address VALUES (?,?);");
 			$result2->bind_param('ii', $aid, $pid);
 

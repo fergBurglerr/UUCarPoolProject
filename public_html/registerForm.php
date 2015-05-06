@@ -13,7 +13,7 @@
 		<br>
 		<h3>Contact Info:</h3>
 		<p>First name: <input type="text" id="firstname" placeholder="first"> Last name: <input type="text" id="lastname" placeholder="last"></p>
-		<h6>At least one required</h6>
+		<h6>E-mail required, phone optional</h6>
 		<p>E-mail: <input type="text" id="email" placeholder="email@provider.com"></p>
 		<p>Phone number: <input type="text" id="phone" placeholder="##########" maxlength=10><span class="small">format: ##########</span></p>
 		<button type="button" onclick="register()">Register</button>

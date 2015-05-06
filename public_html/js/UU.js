@@ -177,9 +177,44 @@ function register(){
 					
 				},
 				function(data){
-					$('#register').html(data);
+					//$('#register').html(data);
 				});
-
+				var pid;
+				$.post('people.php',
+				{
+					action:'getPid',
+					firstname:firstname,
+					lastname:lastname,
+					email:email
+				},
+				function(data){
+					pid=data;
+					console.log(pid);
+					$.post('auth.php',
+					{
+						action:'add',
+						username:username,
+						password:password,
+						pid:pid
+					},
+					function(resp){
+						alert(resp);
+					});
+					
+					/*$.post('address.php',
+					{
+						action:'add_address_to_person',
+						houseNumber:houseNumber,
+						suiteNumber:suiteNumber,
+						street:street,
+						city:city,
+						zipcode:zip,
+						pid:pid
+					},
+					function(data){
+						$('#register').html(data);
+					});*/
+				});
 				/*$.post('register.php',
 				{
 					username:username,

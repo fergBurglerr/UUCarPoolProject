@@ -61,4 +61,23 @@ if(strcmp($_POST['action'], "delete")==0){
 		printf("%d Row Deleted.\n", $result->affected_rows);
 	$result->close();
 }
+
+//get pid
+if(strcmp($_POST['action'], "getPid")==0){
+	$result = $conn->prepare("SELECT pid FROM Person WHERE firstName=? AND lastName=? AND emailAddress=?");
+	$result->bind_param('sss', $firstname, $lastname, $email);
+
+	$firstname = $_POST['firstname'];
+	$lastname = $_POST['lastname'];
+	$email = $_POST['email'];
+
+	if($result->execute()){
+		$pid;
+		$result->bind_result($pid);
+		$result->fetch();
+		echo $pid;
+	} else {
+		echo "Person doesn't exist!";
+	}
+}
 ?>
