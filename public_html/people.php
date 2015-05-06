@@ -76,7 +76,7 @@ if(strcmp($_POST['action'], "delete")==0){
 
 //get pid
 if(strcmp($_POST['action'], "getPid")==0){
-	$result = $conn->prepare("SELECT pid WHERE emailAddress=?");
+	$result = $conn->prepare("SELECT pid FROM Person WHERE emailAddress=?");
 	$result->bind_param('s', $email);
 
 	$firstname = $_POST['firstname'];

@@ -202,6 +202,7 @@ function register(){
 					
 				},
 				function(peopleResponse){
+					//console.log('Inserted into people');
 					$.post('people.php',
 					{
 						action:'getPid',
@@ -210,6 +211,7 @@ function register(){
 						email:email
 					},
 					function(data){
+						//console.log('got pid');
 						var pid=data;
 						if(phone){
 							$.post('phone_num.php',
@@ -230,6 +232,7 @@ function register(){
 							pid:pid
 						},
 						function(resp){
+							//console.log('Added to Authenticate');
 							if(resp){
 								alert(resp);
 								good=false;
@@ -247,6 +250,7 @@ function register(){
 									longitude:longitude
 								},
 								function(resp){
+									//console.log('Address added');
 									if(resp){
 										alert(resp);
 										good=false;
@@ -263,6 +267,7 @@ function register(){
 											longitude:longitude
 										},
 										function(aid){
+											console.log('got aid');
 											$.post('latlong.php',
 											{
 												action:'matchAddressToPerson',
@@ -270,12 +275,13 @@ function register(){
 												pid:pid
 											},
 											function(resp){
+												//console.log('Person and address linked');
 												if(resp)
 													alert(resp);
 												else
 													location.reload(true);
 											});
-											});
+										});
 									}
 								});
 							}
@@ -293,8 +299,12 @@ function register(){
 
 function carpoolTab(){
 	if(getCookie('loggedin')){
-		$('#carpool').html('<div id="carpoolHeader"></div><div id="carpoolBody"></div>');
-		$('#carpoolHeader').html('<h2>UU Car Pool App</h2>');
+		$.get('carpool.php',
+		{
+		},
+		function(form){
+			$('#carpool').html(form);
+		});
 	} else {
 		$('#carpool').html('<h3>Please log in or register to use the carpool web app!</h3>');
 	}
