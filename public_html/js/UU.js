@@ -31,7 +31,7 @@ $(document).ready(function () {
     });
 
     $('#eventTab').click(function(){
-	$('#event').html('Loading...');
+	loading('#event');
 	$.post('event.php',
 	{
 		action:"get",
@@ -81,12 +81,12 @@ $(document).ready(function () {
     });*/
 
     $('#loginTab').click(function(){
-	$('#login').html('Loading...');
+	loading('#login');
 	loginForm();
     });
 
     $('#carpoolTab').click(function(){
-	$('#carpool').html('Loading...');
+	loading('#carpool');
 	carpoolTab();
     });
 });
@@ -107,6 +107,8 @@ function login(){
 		},
 		function(resp){
 			if(!(resp)){
+				//$('#login').html('Loading...');
+				loading('#login');
 				location.reload(true);
 			} else {
 				alert(resp);
@@ -120,11 +122,13 @@ function logout(){
 	{
 	},
 	function(resp){
+		loading('#login');
 		location.reload(true);
 	});
 }
 
 function loginForm(){
+	loading('#login');
 	if(!(getCookie('loggedin'))){
 		$.get('loginForm.php', {loggedin:"false"},
 		function(form){
@@ -137,6 +141,7 @@ function loginForm(){
 }
 
 function registerForm(){
+	loading('#login');
 	$.get('registerForm.php', {loggedin:"false"},
 	function(form){
 		$('#login').html(form);
@@ -337,6 +342,7 @@ function registerCar(){
 }
 
 function carForm(){
+	loading('#carpool');
 	$.get('carForm.php',
 	{
 	},function(form){
@@ -345,6 +351,7 @@ function carForm(){
 }
 
 function carpoolTab(){
+	loading('#carpool');
 	if(getCookie('loggedin')){
 		$.get('carpool.php',
 		{
@@ -380,4 +387,8 @@ function getCookie(cname){
 		if (c.indexOf(name)==0) return c.substring(name.length,c.length)
 	}
 	return "";
+}
+
+function loading(selector){
+	$(selector).html('<img src="img/load.gif" alt="loading..." width="9%" height="16%">');
 }
