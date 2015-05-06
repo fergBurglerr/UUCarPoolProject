@@ -40,7 +40,7 @@
 	}
 
 	if(strcmp($_POST['action'],"find_people_in_group")==0) {
-		#Query 3 (Find the names of all people from are in the "young adults" group)
+		#Query 3 (Find the names of all people from are in the group with ID ?)
 
 		$gid = $_POST['gid'];
 		$returnObject = array();
@@ -56,7 +56,7 @@
 	}
 
 	if(strcmp($_POST['action'],"find_people_who_need_ride")==0) {
-		#Query 4 (Find the names of all people who need a ride to the event named "test_name")
+		#Query 4 (Find the names of all people who need a ride to the event with ID ?)
 		
 		$eid = $_POST['eid'];
 		$returnObject = array();
@@ -72,12 +72,12 @@
 	}
 
 	if(strcmp($_POST['action'],"find_personal_email")==0) {
-		#Query 5 (Find the email addresses from all People)-----??? Check this one ???
+		#Query 5 (Find the email addresses of person with ID ?)
 		
 		$pid = $_POST['pid'];
 		$returnObject = array();
 		$stmt = $conn->prepare("SELECT E.address FROM Person P
-		 INNER JOIN Email E INNER JOIN person_has_email WHERE P.pid = ?"); // this one might be wrong (check the joining of the tables)
+		 INNER JOIN Email E INNER JOIN person_has_email WHERE P.pid = ?");
 		$stmt->bind_param('i', $pid);
 		$stmt->execute();
 		$stmt->bind_result($address);
@@ -93,7 +93,7 @@
 
 		$eid = $_POST['eid'];
 		$returnObject = array();
-		$stmt = $conn->prepare("SELECT E.name FROM Events E INNER JOIN event_out_of_church INNER JOIN event_has_address INNER JOIN Address A WHERE event_out_of_church.eid = ?");
+		$stmt = $conn->prepare("SELECT E.eventName FROM Events E INNER JOIN event_out_of_church INNER JOIN event_has_address INNER JOIN Address A WHERE event_out_of_church.eid = ?");
 		$stmt->bind_param('i', $eid);
 		$stmt->execute();
 		$stmt->bind_result($event_name);
@@ -105,7 +105,7 @@
 	}
 
 	if(strcmp($_POST['action'],"find_people_attending_event")==0) {
-		#Query 7 (Find the name and person ID of all people who are going to "Happy Hour" who are not in the "Adult" group)
+		#Query 7 (Find the name and person ID of all people who are going to "test" who are not in the "test" group)
 
 		$eventName = $_POST['eventName'];
 		$groupName = $_POST['groupName'];
@@ -150,11 +150,11 @@
 	}
 
 	if(strcmp($_POST['action'],"find_people_at_all_events")==0) {
-		#Query 10 (Find all announcements from the "Religious Studies" group)
+		#Query 10 (Find all announcements from the group with ID ?)
 
 		$gid = $_POST['gid'];
 		$returnObject = array();
-		$stmt = $conn->prepare("SELECT aid, content, aDate FROM Announcement INNER JOIN group_has_announcements gha INNER JOIN Group G WHERE G.gid = ?");
+		$stmt = $conn->prepare("SELECT A.aid, content, aDate FROM Announcement A INNER JOIN group_has_announcements gha INNER JOIN Group G WHERE G.gid = ?");
 		$stmt->bind_param('i', $gid);
 		$stmt->bind_result($aid, $content, $aDate);
 		while ($stmt->fetch()) {
@@ -165,7 +165,7 @@
 	}
 
 	if(strcmp($_POST['action'],"find_events_attended_by_person")==0) {
-		#Query 11 (Find all events that "Pastor Roth" attended )
+		#Query 11 (Find all events that "firstname lastname" attended )
 
 		$returnObject = array();
 		$firstName = $_POST['firstName'];
@@ -186,7 +186,7 @@
 	}
 
 	if(strcmp($_POST['action'],"find_events_attended_by_person")==0) {
-		#Query 12 (Find a list of all people who have a ride to the " ")
+		#Query 12 (Find the names of all people who have a ride to the "test" event)
 
 		$returnObject = array();
 		$eventName = $_POST['eventName'];
@@ -206,7 +206,7 @@
 	}
 
 	if(strcmp($_POST['action'],"find_events_attended_by_person")==0) {
-		#Query 13 (Return the number of people who attended the "Bible Study" on 4-13-2012)
+		#Query 13 (Return the number of people who attended the "test" event that starts at ?-??-????)
 		
 		$returnObject = array();
 		$eventName = $_POST['eventName'];
@@ -227,7 +227,7 @@
 	}
 
 	if(strcmp($_POST['action'],"find_drivers_for_event")==0) {
-		#Query 14 (Find how many people can drive to "Bible Study" on 3-12-2013)
+		#Query 14 (Find how many people can drive to "test" on ?-??-????)
 
 		$returnObject = array();
 		$eventName = $_POST['eventName'];
@@ -248,7 +248,7 @@
 	}
 
 	if(strcmp($_POST['action'],"find_person_attened_most_events")==0) {
-		#Query 15 (Find the name of the person who attended the most events)
+		#Query 15 (Find the name of the top 10 people who attended the most events)
 
 		$returnObject = array();
 		$stmt = $conn->query("SELECT P.firstName, P.lastName FROM Person P INNER JOIN person_goes_to_event pae GROUP BY (pae.pid) ORDER BY count(pae.eid) DESC LIMIT 10");
@@ -260,7 +260,7 @@
 	}
 
 	if(strcmp($_POST['action'],"find_underaged_people")==0) {
-		#Query 16 (Find a list of all people under the age of 18 "not adults")
+		#Query 16 (Find all names of all people under the age of 18 "not adults")
 
 		$stmt = $conn->query("SELECT P.name FROM Person P WHERE P.age < 18");
 		while($row = $stmt->fetch_array(MYSQL_ASSOC)) {
@@ -293,7 +293,7 @@
 	}
 
 	if(strcmp($_POST['action'],"find_most_attened_events")==0) {
-		#Query 19 find the event that the most people attended
+		#Query 19 find the top 10 events that the most people attended
 		$stmt = $conn->query("SELECT E.eventName, count(pge.pid) FROM Event E INNER JOIN person_goes_to_event pge GROUP BY (pge.eid) ORDER BY count(pge.pid) DESC LIMIT 10");
 		while($row = $stmt->fetch_array(MYSQL_ASSOC)) {
             $returnObject[] = $row;
