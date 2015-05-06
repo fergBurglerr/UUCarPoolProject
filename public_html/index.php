@@ -22,7 +22,7 @@
 			<li id="adminTab"><a href="#admin">Admin</a></li>	
 		</ul>
 		<div id="login">
-			login
+			Loading...
 		</div>
 		<div id="home">
 			Home

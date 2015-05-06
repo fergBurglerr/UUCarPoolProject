@@ -105,11 +105,25 @@ function login(){
 	}
 }
 
-function loginForm(){
-	$.get('loginForm.php', {loggedin:"false"},
-	function(form){
-		$('#login').html(form);
+function logout(){
+	$.get('logout.php',
+	{
+	},
+	function(resp){
+		location.reload(true);
 	});
+}
+
+function loginForm(){
+	if(!(getCookie('loggedin'))){
+		$.get('loginForm.php', {loggedin:"false"},
+		function(form){
+			$('#login').html(form);
+		});
+	} else {
+		var button = "<button type='button' onclick='logout()'>Logout</button>";
+		$('#login').html(button);
+	}
 }
 
 function registerForm(){
@@ -198,43 +212,26 @@ function register(){
 						pid:pid
 					},
 					function(resp){
-						alert(resp);
+						if(resp)
+							alert(resp);
 					});
 					
-					/*$.post('address.php',
+					$.post('latlong.php',
 					{
-						action:'add_address_to_person',
+						action:'add',
 						houseNumber:houseNumber,
 						suiteNumber:suiteNumber,
 						street:street,
 						city:city,
-						zipcode:zip,
-						pid:pid
+						zip:zip,
+						latitude:latitude,
+						longitude:longitude
 					},
-					function(data){
-						$('#register').html(data);
-					});*/
+					function(resp){
+						if(resp)
+							alert(resp);
+					});
 				});
-				/*$.post('register.php',
-				{
-					username:username,
-					password:password,
-					houseNumber:houseNumber,
-					suiteNumber:suiteNumber,
-					street:street,
-					city:city,
-					zip:zip,
-					email:email,
-					phone:phone,
-					latitude:latitude,
-					longitude:longitude,
-					firstname:firstname,
-					lastname:lastname
-				},
-				function(data){
-					$('#register').html(data);
-				});*/
-
 			}
 		}
 	});

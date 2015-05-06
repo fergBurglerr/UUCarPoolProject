@@ -68,8 +68,8 @@ CREATE TABLE Address(
 	street VARCHAR(127) NOT NULL,
 	city VARCHAR(127) NOT NULL,
 	zipcode INTEGER NOT NULL,
-	latitude NUMERIC NOT NULL, 
-	longitude NUMERIC NOT NULL,
+	latitude DOUBLE NOT NULL, 
+	longitude DOUBLE NOT NULL,
 	PRIMARY KEY (aid))ENGINE=InnoDB;
 
 

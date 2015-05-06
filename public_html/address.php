@@ -167,33 +167,9 @@
 	}
 
 	if ($_POST['action'] == 'add') {
-		$houseNumber = htmlspecialchars($_POST['houseNumber']);
-		$suiteNumber = htmlspecialchars($_POST['suiteNumber']);
-		$street = htmlspecialchars($_POST['street']);
-		$city = htmlspecialchars($_POST['city']);
-		$zipcode = htmlspecialchars($_POST['zipcode']);
-
-		$test = $conn->prepare("SELECT * FROM Address WHERE $houseNumber = ? AND $suiteNumber = ? AND $street = ? 
-			AND $city = ? AND $zipcode = ?;");
-		$test->bind_param('iisss', $houseNumber, $suiteNumber, $street, $city, $zipcode);
-		$test->execute();
-		$test->store_result();
-
-		if ($test->num_rows == 0) { //checks to see if the number already exists in the table
-			
-			$num = $conn->prepare("INSERT INTO Address VALUES (?,?,?,?,?);");
-			$num->bind_param('iisss', $houseNumber, $suiteNumber, $street, $city, $zipcode);
-
-			if ($num->execute()) {
-				echo "Address was added successfully to the table!!!";
-			}
-			else {
-				echo "Could not add the address to the address table!!!";
-			}
-			$num->close();
-		}
-		$test->close();
+		echo 'hit';
 	}
+
 	//Add an address to event
 	if(strcmp($_POST['action'],"add_address_to_event")==0) {
 		$eid = $_POST['eid'];
