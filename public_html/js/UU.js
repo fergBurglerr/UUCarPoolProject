@@ -55,31 +55,28 @@ $(document).ready(function () {
 		});
 	});
     });
-    
+      
     $("#adminForms").accordion({
     	collapsible: true,
     	active: false
     });
     
-    /*$('#groupTab').click(function(){
-	$('#group').html('');
-	$.post('group.php',
-	{
-		action:"get",
-		offset:0
-	}, function(json){
-		$("#group").html("<div id=\"groups\"></div>");
-		console.log(json);
-		$.each(JSON.parse(json), function(idx, obj){
-			var datePattern = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
-			var timePattern = /[0-9]{2}:[0-9]{2}/;
+    
+    $('#groupTab').click(function(){
+		$('#group').html('');
+		$.post('group.php',{
+			action:"get",
+			offset:0
+		}, function(json){
+			$("#group").html("<div id=\"groups\"></div>");
+			$.each(JSON.parse(json), function(idx, obj){
 			$("#groups").append("<h3>" + obj.Name + "Lead by" + obj.Sponsor + "</h3>");
 		});
-		$("#groups").accordion({
+		/*$("#groups").accordion({
 			collapsible: true
+		});*/
 		});
-	});
-    });*/
+    });
 
     $('#loginTab').click(function(){
 	loading('#login');
@@ -90,10 +87,15 @@ $(document).ready(function () {
     	loading('#manageGroupsForm');
     	groupForm();
     });
+    
+    $('#announcementForm').click(function(){
+    	loading('#createAnnouncementForm');
+    	announcementForm();
+    });
 
     $('#carpoolTab').click(function(){
-	loading('#carpool');
-	carpoolTab();
+		loading('#carpool');
+		carpoolTab();
     });
 });
 
@@ -452,13 +454,20 @@ function rideForm(){
 	});
 }
 
-
 function groupForm(){
 	loading('#manageGroupsForm');
 	$.get('groupform.php',{},
 	function(form){
 		$('#manageGroupsForm').html(form);
 		
+	});
+}
+
+function announcementForm(){
+	loading('#createAnnouncementForm');
+	$.get('announcementForm.php',{},
+	function(form){
+		$('#createAnnouncementForm').html(form);
 	});
 }
 
@@ -472,6 +481,7 @@ function createGroup(){
 	else{
 		$.post('group.php',
 			{
+				action:'add',
 				
 			}, function(resp){
 				if(resp)
@@ -496,20 +506,6 @@ function loading(selector){
 	$(selector).html('<img src="img/load.gif" alt="loading..." width="9%" height="16%">');
 }
 
-/*
-Title<input type="text" name="eventName"><br>
-						Start Date<input type="text" name="startDate"><br>
-						Start Time<input type="text" name="startTime"><br>
-						End Date<input type="text" name="endDate"><br>
-						End Time<input type="text" name="endTIme"><br>
-						House #<input type="text" name="eventHouseNumber"><br>
-						Suite Number<input type="text" name="eventSuiteNumber"><br>
-						Street<input type="text" name="eventStreet"><br>
-						City<input type="text" name="eventCity"><br>
-						Zipcode<input type="text" name="eventZipcode"><br>
-						Description<br>
-*/
-
 function makeEvent(){
 	var eventName = $("#eventName").val().trim();
 	var eventType = $("#eventType").val().trim();
@@ -526,6 +522,7 @@ function makeEvent(){
 	var eventLat;
 	var eventLong;
 	var googleAddress = houseNumber + " " + street + ", " + city + ", MO, " + zipcode;
+	var eid;
 	
 	geocoder.geocode({'address': googleAddress},function(results, status){
 		if(status == google.maps.GeocoderStatus.OK){
@@ -558,35 +555,21 @@ function makeEvent(){
 			description: description,
 			eventType: eventType
 		});
-		/*$.post('latlong.php',{
-			action:'getAid',
-			houseNumber:houseNumber,
-			suiteNumber:suiteNumber,
-			street:street,
-			city:city,
-			zip:zipcode,
-			latitude:eventLat,
-			longitude:eventLong
-		},function(resp){
-				if(resp){
-				
-				}
-				else{
-				
-				}
-		*/
-		$.post('event.php',{
-			action:'getEid',
-			eventName:eventName,
-			startTime:mysqlStart,
-			endTime:mysqlEnd,
-			eventType:eventType
-		},function(resp){
-			console.log(resp);
-		});
+		alert("Event Created!");
+		$("#eventName").val('');
+		$("#eventType").val('');
+		$("#startDate").val('');
+		$("#startTime").val('');
+		$("#endDate").val('');
+		$("#endTime").val('');
+		$("#eventHouseNumber").val('');
+		$("#eventSuiteNumber").val('');
+		$("#eventStreet").val('');
+		$("#eventCity").val('');
+		$("#eventZipcode").val('');
+		$("#eventDescription").val('');
 	}
 }
-
 
 function checkStartDateTime(date,time){
 	var datePattern = /[0-9]{4}-[0-1][0-9]-[0-3][0-9]/;

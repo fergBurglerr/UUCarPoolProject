@@ -61,11 +61,9 @@
 					</form>
 					
 				</div>
-				<h3>Create an Announcement</h3>
-				<div id="createAnnouncementForm">
-					<form>
-					
-					</form>
+				<h3 id="announcementForm">Create an Announcement</h3>
+				<div id="createAnnouncementForm" class="formwindow">
+				
 				</div>
 				<h3 id="groupForm">Manage Groups</h3>
 				<div id="manageGroupsForm" class="formwindow">

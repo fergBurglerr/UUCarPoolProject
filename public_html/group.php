@@ -82,7 +82,6 @@
 			array_push($returnObject, array("Name"=>$name, "Sponsor"=>$sponsor));
 	    }
 	    echo json_encode($returnObject);
-
 	    $result->close();
 	}
 

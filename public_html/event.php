@@ -121,16 +121,16 @@ if(strcmp($_POST['action'], "getEid")==0){
 	$eventType = $_POST['eventType'];
 	$returnObject=array();
 	
-	//$result = $conn->prepare("SELECT eid FROM Event WHERE eventName = ? AND startTime = ? AND endTime = ? AND eventType = ?");
-	$result = $conn->prepare("SELECT eid FROM Event");
-
-	//$result->bind_param('ssss', $eventName, $startTime, $endTime, $eventType);
+	$result = $conn->prepare("SELECT eid FROM Event WHERE eventName = ? AND startTime = ? AND endTime = ? AND eventType = ?");
+	$result->bind_param('ssss', $eventName, $startTime, $endTime, $eventType);
 	$result->execute();
-	while ($result->fetch()){
-		//array_push($returnObject, array("eid"=>$eid));
-		echo json_encode($returnObject);
-	}
+	$result->bind_result($eid);
 	
+	while ($result->fetch()){
+		array_push($returnObject, array("eid"=>$eid));
+	}
+	echo json_encode($returnObject);
+	$result->close();
 }
 /*
 $eventName=$_POST['eventName'];
