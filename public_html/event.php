@@ -99,7 +99,7 @@ if(strcmp($_POST['action'], "delete")==0){
 //getevent 
 if(strcmp($_POST['action'],"get")==0){
 	$returnObject=array();
-	$result = $conn->prepare("SELECT eid,eventName,startTime,endTime,description,eventType FROM Event ORDER BY startTime limit 10 offset ?");
+	$result = $conn->prepare("SELECT eid,eventName,startTime,endTime,description,eventType FROM Event WHERE startTime > NOW() ORDER BY startTime limit 10 offset ?");
 	$result->bind_param('i',$offset);
 
 	$offset=0;
@@ -218,18 +218,17 @@ if(strcmp($_POST['action'],"remove_need_ride")==0) {
 
 if(strcmp($_POST['action'],"find_drivers")==0){
 	$returnObject=array();
-	$eventName = $_POST['eventName'];
+	$eid = intval($_POST['eid']);
 
-	$result = $conn->prepare("SELECT eventName, firstName, lastName, openSeats FROM Person P INNER JOIN person_has_car phc INNER JOIN
-		person_drives_for_event pde INNER JOIN Event E WHERE E.eventName = ?");
-	$result->bind_param('s', $eventName);
+	$sql = "SELECT P.firstName, P.LastName, P.emailAddress FROM Person P NATURAL JOIN person_drives_for_event pdfe WHERE pdfe.eid=?";
+
+	$result = $conn->prepare($sql);
+	$result->bind_param('i', $eid);
 
 	$result->execute();
-	$result->bind_result($eventName, $firstName, $lastName, $openSeats);
+	$result->bind_result($firstname, $lastname, $email);
 	while ($result->fetch()) {
-		array_push($returnObject, array("Event"=>$eventName, "FirstName"=>$firstName,"LastName"=>$lastName,"OpenSeats"=>$openSeats));
-
-        //printf ("id: %s name: %s start time: %s end time: %s description: %s type: %s\n <br>", $eid, $name,$start,$end,$description,$type);
+		array_push($returnObject, array("firstname"=>$firstname, "lastname"=>$lastname,"email"=>$email));
     }
     echo json_encode($returnObject);
 }

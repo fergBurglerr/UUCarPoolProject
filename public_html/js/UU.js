@@ -403,13 +403,37 @@ function driveForm(){
 function rideForm(){
 	var eid = $('#rideEvent').val();
 	var pid = getCookie('pid');
+	var e = $('#rideEvent option:selected').text();
+	loading('#carpool');
+
 	$.post('event.php',
 	{
 		action:'remove_can_drive',
 		eid:eid,
 		pid:pid
 	}, function(resp){
-
+		$.get('rideForm.php',
+		{
+		}, function(form){
+			$('#carpool').html(form);
+			$('#eventHeader').html(e);
+			$.post('event.php',
+			{
+				action:'find_drivers',
+				eid:eid
+			},function(json){
+				var something = false;
+				$.each(JSON.parse(json), function(idx, obj){
+					something = true;
+					console.dir(obj);
+					$('#drivers').append('<tr><td>' + obj.firstname + '</td><td>' + obj.lastname + '</td><td><a href="mailto:' + obj.email + '">' + obj.email + '</td></tr>');
+				});
+				if(!(something)){
+					alert('It looks like no one has signed to drive for this event yet...');
+				}
+			});
+			
+		});
 	});
 	
 	$.post('event.php',
@@ -418,7 +442,7 @@ function rideForm(){
 		eid:eid,
 		pid:pid
 	},function(resp){
-		alert(resp);
+		//alert(resp);
 	});
 }
 
