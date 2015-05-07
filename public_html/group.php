@@ -19,7 +19,7 @@
 		$name = $_POST['name'];
 		$sponsor = $_POST['sponsor'];
 
-		$result = $conn->prepare("INSERT INTO Group(name,sponsor) VALUES (?,?)");
+		$result = $conn->prepare("INSERT INTO `Group`(name,sponsor) VALUES (?,?)");
 		$result->bind_param('si',$name,$sponsor);
 
 		if($result->execute()) {
@@ -36,7 +36,7 @@
 	//edit
 	if(strcmp($_POST['action'], "edit")==0){
 		echo "update";
-		$result = $conn->prepare("UPDATE Group SET name=?, $sponsor=? WHERE gid=?");
+		$result = $conn->prepare("UPDATE `Group` SET name=?, $sponsor=? WHERE gid=?");
 		echo $result->prepare_error;
 		$result->bind_param('sii', $name, $sponsor, $gid);
 
@@ -57,7 +57,7 @@
 	//remove
 	if(strcmp($_POST['action'], "delete")==0){
 		$gid = $_POST['gid'];
-		$result = $conn->prepare("DELETE FROM Group WHERE gid=?");
+		$result = $conn->prepare("DELETE FROM `Group` WHERE gid=?");
 		$result->bind_param('i', $gid);
 
 		if($result->execute()) {
@@ -73,7 +73,7 @@
 	//getevent 
 	if(strcmp($_POST['action'],"get")==0){
 		$returnObject=array();
-		$result = $conn->prepare("SELECT name,sponsor FROM Group");
+		$result = $conn->prepare("SELECT name,sponsor FROM `Group`");
 		#$result->bind_param('i',$offset);
 
 		$result->execute();
