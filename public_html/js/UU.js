@@ -44,8 +44,8 @@ $(document).ready(function () {
 			var timePattern = /[0-9]{2}:[0-9]{2}/;
 			$("#events").append("<h3>" + obj.Name + "\t|\t" + "<i>" + obj.Type + "</i>" + "</h3>");
 			$("#events").append("<div id=\"event" + idx + "\"></div>");
-			$("#event" + idx).append("<p>Start Time: " + datePattern.exec(obj.Start) + "at " + timePattern.exec(obj.Start) + "</i>" + "</p>");
-			$("#event" + idx).append("<p>End Time: " + datePattern.exec(obj.End) + "at " + timePattern.exec(obj.End) + "</i>" + "</p>");
+			$("#event" + idx).append("<p>Start Time: " + datePattern.exec(obj.Start) + " at " + timePattern.exec(obj.Start) + "</i>" + "</p>");
+			$("#event" + idx).append("<p>End Time: " + datePattern.exec(obj.End) + " at " + timePattern.exec(obj.End) + "</i>" + "</p>");
 			$("#event" + idx).append("<p>" + obj.Description + "</p>");
 		});
 		$("#events").accordion({
@@ -434,7 +434,7 @@ function rideForm(){
 					$('#drivers').append('<tr><td>' + obj.firstname + '</td><td>' + obj.lastname + '</td><td><a href="mailto:' + obj.email + '">' + obj.email + '</td></tr>');
 				});
 				if(!(something)){
-					alert('It looks like no one has signed to drive for this event yet...');
+					alert('It looks like no one has signed to drive for this event yet, please check back later!');
 				}
 			});
 			
