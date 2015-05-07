@@ -124,6 +124,7 @@ if(strcmp($_POST['action'],"can_drive")==0){
 	$stmt->store_result();
 	if($stmt->num_rows > 0){
 		echo "You have already signed up to drive for this event!";
+		$stmt->close();
 		exit;
 	}
 
@@ -172,6 +173,18 @@ if(strcmp($_POST['action'],"need_ride")==0){
 
 	$pid=$_POST['pid'];
 	$eid=$_POST['eid'];
+
+	$stmt = $conn->prepare("SELECT * FROM person_needs_ride_for_event WHERE pid=? AND eid=?");
+	$stmt->bind_param('ii', $pid, $eid);
+	$stmt->execute();
+	$stmt->store_result();
+	if($stmt->num_rows > 0){
+		echo "You've already requested a ride for this event!";
+		$stmt->close();
+		exit;
+	}
+
+	$stmt->close();
 
 	$stmt = $conn->prepare("INSERT INTO person_needs_ride_for_event VALUES (?, ?)");
 	$stmt->bind_param('ii', $pid, $eid);

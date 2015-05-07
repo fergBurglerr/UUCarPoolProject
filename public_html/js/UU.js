@@ -391,6 +391,19 @@ function driveForm(){
 	});
 }
 
+function rideForm(){
+	var eid = $('#rideEvent').val();
+	var pid = getCookie('pid');
+	$.post('event.php',
+	{
+		action:'need_ride',
+		eid:eid,
+		pid:pid
+	},function(resp){
+		alert(resp);
+	});
+}
+
 //getCookie function curtosey of w3 schools
 function getCookie(cname){
 	var name = cname + "=";
