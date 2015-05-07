@@ -547,7 +547,6 @@ function makeEvent(){
 		alert("Description is a required field");
 		return;
 	}else{
-	
 		var mysqlStart = startDate + " " + startTime;
 		var mysqlEnd = endDate + " " + endTime;
 		console.log(mysqlStart);
@@ -558,24 +557,36 @@ function makeEvent(){
 			endTime: mysqlEnd,
 			description: description,
 			eventType: eventType
-		}, function(resp){
-			alert(resp);
+		});
+		/*$.post('latlong.php',{
+			action:'getAid',
+			houseNumber:houseNumber,
+			suiteNumber:suiteNumber,
+			street:street,
+			city:city,
+			zip:zipcode,
+			latitude:eventLat,
+			longitude:eventLong
+		},function(resp){
+				if(resp){
+				
+				}
+				else{
+				
+				}
+		*/
+		$.post('event.php',{
+			action:'getEid',
+			eventName:eventName,
+			startTime:mysqlStart,
+			endTime:mysqlEnd,
+			eventType:eventType
+		},function(resp){
+			console.log(resp);
 		});
 	}
-	
 }
 
-/*
-
-$.post('event.php',
-	{
-		action:'need_ride',
-		eid:eid,
-		pid:pid
-	},function(resp){
-		//alert(resp);
-	});
-*/
 
 function checkStartDateTime(date,time){
 	var datePattern = /[0-9]{4}-[0-1][0-9]-[0-3][0-9]/;

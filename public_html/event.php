@@ -114,6 +114,32 @@ if(strcmp($_POST['action'],"get")==0){
 
 }
 
+if(strcmp($_POST['action'], "getEid")==0){
+	$eventName=$_POST['eventName'];
+	$startTime=$_POST['startTime'];
+	$endTime = $_POST['endTime'];
+	$eventType = $_POST['eventType'];
+	$returnObject=array();
+	
+	//$result = $conn->prepare("SELECT eid FROM Event WHERE eventName = ? AND startTime = ? AND endTime = ? AND eventType = ?");
+	$result = $conn->prepare("SELECT eid FROM Event");
+
+	//$result->bind_param('ssss', $eventName, $startTime, $endTime, $eventType);
+	$result->execute();
+	while ($result->fetch()){
+		//array_push($returnObject, array("eid"=>$eid));
+		echo json_encode($returnObject);
+	}
+	
+}
+/*
+$eventName=$_POST['eventName'];
+	$startTime=$_POST['startTime'];
+	$endTime = $_POST['endTime'];
+	$description = $_POST['description'];
+	$eventType = $_POST['eventType'];
+*/
+
 if(strcmp($_POST['action'],"can_drive")==0){
 	$eid = intval($_POST['eid']);
 	$pid = intval($_POST['pid']);
