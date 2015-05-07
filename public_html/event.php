@@ -22,7 +22,7 @@ if(strcmp($_POST['action'],"insert")==0){
 	$startTime=$_POST['startTime'];
 	$endTime = $_POST['endTime'];
 	$description = $_POST['description'];
-	$eventType = $_POST['test'];
+	$eventType = $_POST['eventType'];
 
 	$result->execute();
 	

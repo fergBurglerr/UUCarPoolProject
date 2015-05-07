@@ -45,7 +45,7 @@
 				<div id="createEventForm">
 					<form id="eventForm">
 						Title<input type="text" id="eventName"><br>
-						Type<input type="text" id=eventType"><br>
+						Type<input type="text" id="eventType"><br>
 						Start Date<input type="text" id="startDate">(YYYY-MM-DD)<br>
 						Start Time<input type="text" id="startTime">(HH:MM:SS)<br>
 						End Date<input type="text" id="endDate">(YYYY-MM-DD)<br>

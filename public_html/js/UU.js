@@ -522,16 +522,60 @@ function makeEvent(){
 	var street = $("#eventStreet").val().trim();
 	var city = $("#eventCity").val().trim();
 	var zipcode = $("#eventZipcode").val().trim();
-	var descriptopn = $("#eventDescription").val().trim();
+	var description = $("#eventDescription").val().trim();
+	var eventLat;
+	var eventLong;
+	var googleAddress = houseNumber + " " + street + ", " + city + ", MO, " + zipcode;
 	
+	geocoder.geocode({'address': googleAddress},function(results, status){
+		if(status == google.maps.GeocoderStatus.OK){
+			eventLat = results[0].geometry.location.lat();
+			eventLong = results[0].geometry.location.lng();
+		}
+	});	
 	if(!(eventName)){
 		alert("Event name must be present");
+	}else if(!(eventType)){
+		alert("Event type must be present");
 	}else if(!(checkStartDateTime(startDate, startTime))){
 		return;
 	}else if(!(checkEndDateTime(endDate, endTime))){
 		return;
+	}else if(!(testAddress(houseNumber, street, city, zipcode))){
+		return;
+	}else if(!(description)){
+		alert("Description is a required field");
+		return;
+	}else{
+	
+		var mysqlStart = startDate + " " + startTime;
+		var mysqlEnd = endDate + " " + endTime;
+		console.log(mysqlStart);
+		$.post('event.php', {
+			action:'insert',
+			eventName: eventName,
+			startTime: mysqlStart,
+			endTime: mysqlEnd,
+			description: description,
+			eventType: eventType
+		}, function(resp){
+			alert(resp);
+		});
 	}
+	
 }
+
+/*
+
+$.post('event.php',
+	{
+		action:'need_ride',
+		eid:eid,
+		pid:pid
+	},function(resp){
+		//alert(resp);
+	});
+*/
 
 function checkStartDateTime(date,time){
 	var datePattern = /[0-9]{4}-[0-1][0-9]-[0-3][0-9]/;
@@ -566,6 +610,26 @@ function checkEndDateTime(date,time){
 		return false;
 	}else if(!(timePattern.test(time))){
 		alert("End time is not in the correct format. Please use the format HH:MM:SS");
+		return false;
+	}
+	return true;
+}
+
+function testAddress(house, street, city, zipcode){
+	if(!house){
+		alert("House number is a required field");
+		return false;
+	}else if(!street){
+		alert("Street is a required field");
+		return false;
+	}else if(!city){
+		alert("City is a required field");
+		return false;
+	}else if(!zipcode){
+		alert("Zipcode is a required field");
+		return false;
+	}else if(zipcode.length != 5){
+		alert("Zipcodes should be 5 digits in length");
 		return false;
 	}
 	return true;
