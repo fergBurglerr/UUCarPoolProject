@@ -45,8 +45,8 @@ $(document).ready(function () {
 			var timePattern = /[0-9]{2}:[0-9]{2}/;
 			$("#events").append("<h3>" + obj.Name + "\t|\t" + "<i>" + obj.Type + "</i>" + "</h3>");
 			$("#events").append("<div id=\"event" + idx + "\"></div>");
-			$("#event" + idx).append("<p>Start Time: " + datePattern.exec(obj.Start) + "at " + timePattern.exec(obj.Start) + "</i>" + "</p>");
-			$("#event" + idx).append("<p>End Time: " + datePattern.exec(obj.End) + "at " + timePattern.exec(obj.End) + "</i>" + "</p>");
+			$("#event" + idx).append("<p>Start Time: " + datePattern.exec(obj.Start) + " at " + timePattern.exec(obj.Start) + "</i>" + "</p>");
+			$("#event" + idx).append("<p>End Time: " + datePattern.exec(obj.End) + " at " + timePattern.exec(obj.End) + "</i>" + "</p>");
 			$("#event" + idx).append("<p>" + obj.Description + "</p>");
 		});
 		$("#events").accordion({
@@ -84,6 +84,11 @@ $(document).ready(function () {
     $('#loginTab').click(function(){
 	loading('#login');
 	loginForm();
+    });
+
+    $('#groupForm').click(function(){
+    	loading('#manageGroupsForm');
+    	groupForm();
     });
 
     $('#carpoolTab').click(function(){
@@ -367,7 +372,7 @@ function carpoolTab(){
 				$.each(JSON.parse(json), function(idx, obj){
 					var datePattern = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
 					var timePattern = /[0-9]{2}:[0-9]{2}/;
-					var optionString = '<option vale="' + obj.eid + '">' + obj.Name + ' on ' + datePattern.exec(obj.Start) + ' at ' + timePattern.exec(obj.Start) + '</option>';
+					var optionString = '<option value="' + obj.eid + '">' + obj.Name + ' on ' + datePattern.exec(obj.Start) + ' at ' + timePattern.exec(obj.Start) + '</option>';
 					$('#driveEvent').append(optionString);
 					$('#rideEvent').append(optionString);
 				});
@@ -379,6 +384,103 @@ function carpoolTab(){
 	}
 }
 
+function driveForm(){
+	var eid = $('#driveEvent').val();
+	var pid = getCookie('pid');
+	$.post('event.php',
+	{
+		action:'remove_need_ride',
+		eid:eid,
+		pid:pid
+	},function(resp){
+
+	});
+	
+	$.post('event.php',
+	{
+		action:'can_drive',
+		eid:eid,
+		pid:pid
+	}, function(resp){
+		alert(resp);
+	});
+}
+
+function rideForm(){
+	var eid = $('#rideEvent').val();
+	var pid = getCookie('pid');
+	var e = $('#rideEvent option:selected').text();
+	loading('#carpool');
+
+	$.post('event.php',
+	{
+		action:'remove_can_drive',
+		eid:eid,
+		pid:pid
+	}, function(resp){
+		$.get('rideForm.php',
+		{
+		}, function(form){
+			$('#carpool').html(form);
+			$('#eventHeader').html(e);
+			$.post('event.php',
+			{
+				action:'find_drivers',
+				eid:eid
+			},function(json){
+				var something = false;
+				$.each(JSON.parse(json), function(idx, obj){
+					something = true;
+					console.dir(obj);
+					$('#drivers').append('<tr><td>' + obj.firstname + '</td><td>' + obj.lastname + '</td><td><a href="mailto:' + obj.email + '">' + obj.email + '</td></tr>');
+				});
+				if(!(something)){
+					alert('It looks like no one has signed to drive for this event yet, please check back later!');
+				}
+			});
+			
+		});
+	});
+	
+	$.post('event.php',
+	{
+		action:'need_ride',
+		eid:eid,
+		pid:pid
+	},function(resp){
+		//alert(resp);
+	});
+}
+
+
+function groupForm(){
+	loading('#manageGroupsForm');
+	$.get('groupform.php',{},
+	function(form){
+		$('#manageGroupsForm').html(form);
+		
+	});
+}
+
+function createGroup(){
+	var groupName=$('#groupName').val();
+	var Sponsor=$('#sponsor').val();
+	if(!(groupName))
+		alert('Group Name required!');
+	else if(!(Sponsor))
+		alert('Group Sponsor required!');
+	else{
+		$.post('group.php',
+			{
+				
+			}, function(resp){
+				if(resp)
+					alert(resp)
+				else
+					$('#manageGroupsForm').html('<h4>Registered Group successfully!</h4>');
+			});
+	}
+}
 //getCookie function curtosey of w3 schools
 function getCookie(cname){
 	var name = cname + "=";

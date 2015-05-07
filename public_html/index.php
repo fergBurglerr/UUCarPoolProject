@@ -67,11 +67,9 @@
 					
 					</form>
 				</div>
-				<h3>Manage Groups</h3>
-				<div id="manageGroupsForm">
-					<form>
-					
-					</form>
+				<h3 id="groupForm">Manage Groups</h3>
+				<div id="manageGroupsForm" class="formwindow">
+					Group form
 				</div> 
 			</div>
 		</div>

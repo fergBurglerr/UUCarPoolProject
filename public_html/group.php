@@ -1,5 +1,5 @@
 <?php 
-	include("sql/dbinfo.php");
+	include_once("sql/dbinfo.php");
 
 	//$conn = mysql_connect($host, $user, $pass);
 	// if (!$conn) {
@@ -19,14 +19,14 @@
 		$name = $_POST['name'];
 		$sponsor = $_POST['sponsor'];
 
-		$result = $conn->prepare("INSERT INTO Group VALUES (?,?,?)");
-		$result->bind_param('isi',$gid,$name,$sponsor);
+		$result = $conn->prepare("INSERT INTO Group(name,sponsor) VALUES (?,?)");
+		$result->bind_param('si',$name,$sponsor);
 
 		if($result->execute()) {
 			printf("%d Group added.\n", $result->affected_rows);
 		}
 		else {
-			echo "Could not add Group";
+			echo false;
 		}
 		
 		

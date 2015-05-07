@@ -99,7 +99,7 @@ if(strcmp($_POST['action'], "delete")==0){
 //getevent 
 if(strcmp($_POST['action'],"get")==0){
 	$returnObject=array();
-	$result = $conn->prepare("SELECT eid,eventName,startTime,endTime,description,eventType FROM Event ORDER BY startTime limit 10 offset ?");
+	$result = $conn->prepare("SELECT eid,eventName,startTime,endTime,description,eventType FROM Event WHERE startTime > NOW() ORDER BY startTime limit 10 offset ?");
 	$result->bind_param('i',$offset);
 
 	$offset=0;
@@ -115,20 +115,33 @@ if(strcmp($_POST['action'],"get")==0){
 }
 
 if(strcmp($_POST['action'],"can_drive")==0){
-	$eid = $_POST['eid'];
-	$pid = $_POST['pid'];
+	$eid = intval($_POST['eid']);
+	$pid = intval($_POST['pid']);
 
-	$stmt = $conn->prepare("INSERT INTO person_drives_for_event VALUES (?,?)");
+	$stmt = $conn->prepare("SELECT * FROM person_drives_for_event WHERE pid=? AND eid=?");
 	$stmt->bind_param('ii', $pid, $eid);
-
-	if ($stmt->execute()) {
-		echo "You have signed up to drive for the event";
-	}
-	else {
-		echo "Something went wrong with your sign up";
+	$stmt->execute();
+	$stmt->store_result();
+	if($stmt->num_rows > 0){
+		echo "You have already signed up to drive for this event!";
+		$stmt->close();
+		exit;
 	}
 
 	$stmt->close();
+
+	$stmt = $conn->prepare("INSERT INTO person_drives_for_event (pid, eid) VALUES (?,?)");
+	$stmt->bind_param('ii', $pid, $eid);
+
+	if ($stmt->execute()) {
+		echo "You have signed up to drive for the event!";
+	}
+	else {
+		echo "Something went wrong with your sign up... please try again later";
+	}
+
+	$stmt->close();
+	
 }
 
 if(strcmp($_POST['action'],"remove_can_drive")==0) {
@@ -160,6 +173,18 @@ if(strcmp($_POST['action'],"need_ride")==0){
 
 	$pid=$_POST['pid'];
 	$eid=$_POST['eid'];
+
+	$stmt = $conn->prepare("SELECT * FROM person_needs_ride_for_event WHERE pid=? AND eid=?");
+	$stmt->bind_param('ii', $pid, $eid);
+	$stmt->execute();
+	$stmt->store_result();
+	if($stmt->num_rows > 0){
+		echo "You've already requested a ride for this event!";
+		$stmt->close();
+		exit;
+	}
+
+	$stmt->close();
 
 	$stmt = $conn->prepare("INSERT INTO person_needs_ride_for_event VALUES (?, ?)");
 	$stmt->bind_param('ii', $pid, $eid);
@@ -193,18 +218,17 @@ if(strcmp($_POST['action'],"remove_need_ride")==0) {
 
 if(strcmp($_POST['action'],"find_drivers")==0){
 	$returnObject=array();
-	$eventName = $_POST['eventName'];
+	$eid = intval($_POST['eid']);
 
-	$result = $conn->prepare("SELECT eventName, firstName, lastName, openSeats FROM Person P INNER JOIN person_has_car phc INNER JOIN
-		person_drives_for_event pde INNER JOIN Event E WHERE E.eventName = ?");
-	$result->bind_param('s', $eventName);
+	$sql = "SELECT P.firstName, P.LastName, P.emailAddress FROM Person P NATURAL JOIN person_drives_for_event pdfe WHERE pdfe.eid=?";
+
+	$result = $conn->prepare($sql);
+	$result->bind_param('i', $eid);
 
 	$result->execute();
-	$result->bind_result($eventName, $firstName, $lastName, $openSeats);
+	$result->bind_result($firstname, $lastname, $email);
 	while ($result->fetch()) {
-		array_push($returnObject, array("Event"=>$eventName, "FirstName"=>$firstName,"LastName"=>$lastName,"OpenSeats"=>$openSeats));
-
-        //printf ("id: %s name: %s start time: %s end time: %s description: %s type: %s\n <br>", $eid, $name,$start,$end,$description,$type);
+		array_push($returnObject, array("firstname"=>$firstname, "lastname"=>$lastname,"email"=>$email));
     }
     echo json_encode($returnObject);
 }
@@ -308,7 +332,7 @@ if (strcmp($_POST['action'], "get_event_address")==0) {
 
 }
 
-$result->close();
+//$result->close();
 
 $conn->close();
 ?>
