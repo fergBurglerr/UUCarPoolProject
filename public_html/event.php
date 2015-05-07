@@ -115,20 +115,32 @@ if(strcmp($_POST['action'],"get")==0){
 }
 
 if(strcmp($_POST['action'],"can_drive")==0){
-	$eid = $_POST['eid'];
-	$pid = $_POST['pid'];
+	$eid = intval($_POST['eid']);
+	$pid = intval($_POST['pid']);
 
-	$stmt = $conn->prepare("INSERT INTO person_drives_for_event VALUES (?,?)");
+	$stmt = $conn->prepare("SELECT * FROM person_drives_for_event WHERE pid=? AND eid=?");
 	$stmt->bind_param('ii', $pid, $eid);
-
-	if ($stmt->execute()) {
-		echo "You have signed up to drive for the event";
-	}
-	else {
-		echo "Something went wrong with your sign up";
+	$stmt->execute();
+	$stmt->store_result();
+	if($stmt->num_rows > 0){
+		echo "You have already signed up to drive for this event!";
+		exit;
 	}
 
 	$stmt->close();
+
+	$stmt = $conn->prepare("INSERT INTO person_drives_for_event (pid, eid) VALUES (?,?)");
+	$stmt->bind_param('ii', $pid, $eid);
+
+	if ($stmt->execute()) {
+		echo "You have signed up to drive for the event!";
+	}
+	else {
+		echo "Something went wrong with your sign up... please try again later";
+	}
+
+	$stmt->close();
+	
 }
 
 if(strcmp($_POST['action'],"remove_can_drive")==0) {
@@ -308,7 +320,7 @@ if (strcmp($_POST['action'], "get_event_address")==0) {
 
 }
 
-$result->close();
+//$result->close();
 
 $conn->close();
 ?>

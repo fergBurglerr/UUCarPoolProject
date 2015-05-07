@@ -366,7 +366,7 @@ function carpoolTab(){
 				$.each(JSON.parse(json), function(idx, obj){
 					var datePattern = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
 					var timePattern = /[0-9]{2}:[0-9]{2}/;
-					var optionString = '<option vale="' + obj.eid + '">' + obj.Name + ' on ' + datePattern.exec(obj.Start) + ' at ' + timePattern.exec(obj.Start) + '</option>';
+					var optionString = '<option value="' + obj.eid + '">' + obj.Name + ' on ' + datePattern.exec(obj.Start) + ' at ' + timePattern.exec(obj.Start) + '</option>';
 					$('#driveEvent').append(optionString);
 					$('#rideEvent').append(optionString);
 				});
@@ -376,6 +376,19 @@ function carpoolTab(){
 	} else {
 		$('#carpool').html('<h3>Please log in or register to use the carpool web app!</h3>');
 	}
+}
+
+function driveForm(){
+	var eid = $('#driveEvent').val();
+	var pid = getCookie('pid');
+	$.post('event.php',
+	{
+		action:'can_drive',
+		eid:eid,
+		pid:pid
+	},function(resp){
+		alert(resp);
+	});
 }
 
 //getCookie function curtosey of w3 schools
