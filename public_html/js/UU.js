@@ -61,7 +61,7 @@ $(document).ready(function () {
     	active: false
     });
     
-    /*$('#groupTab').click(function(){
+    $('#groupTab').click(function(){
 	$('#group').html('');
 	$.post('group.php',
 	{
@@ -79,7 +79,7 @@ $(document).ready(function () {
 			collapsible: true
 		});
 	});
-    });*/
+    });
 
     $('#loginTab').click(function(){
 	loading('#login');
