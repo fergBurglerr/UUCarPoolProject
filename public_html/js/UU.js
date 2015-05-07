@@ -85,6 +85,11 @@ $(document).ready(function () {
 	loginForm();
     });
 
+    $('#groupForm').click(function(){
+    	loading('#manageGroupsForm');
+    	groupForm();
+    });
+
     $('#carpoolTab').click(function(){
 	loading('#carpool');
 	carpoolTab();
@@ -446,6 +451,35 @@ function rideForm(){
 	});
 }
 
+
+function groupForm(){
+	loading('#manageGroupsForm');
+	$.get('groupform.php',{},
+	function(form){
+		$('#manageGroupsForm').html(form);
+		
+	});
+}
+
+function createGroup(){
+	var groupName=$('#groupName').val();
+	var Sponsor=$('#sponsor').val();
+	if(!(groupName))
+		alert('Group Name required!');
+	else if(!(Sponsor))
+		alert('Group Sponsor required!');
+	else{
+		$.post('group.php',
+			{
+				
+			}, function(resp){
+				if(resp)
+					alert(resp)
+				else
+					$('#manageGroupsForm').html('<h4>Registered Group successfully!</h4>');
+			});
+	}
+}
 //getCookie function curtosey of w3 schools
 function getCookie(cname){
 	var name = cname + "=";
