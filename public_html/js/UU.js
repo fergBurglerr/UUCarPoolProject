@@ -11,6 +11,7 @@ $(document).ready(function () {
     });
 
     $('#announceTab').click(function(){
+	loading('#announce');
 	$('#announce').html('');
 	$.post('announcements.php',
 	{
@@ -40,7 +41,7 @@ $(document).ready(function () {
 		$("#event").html("<div id=\"events\"></div>");
 		console.log(json);
 		$.each(JSON.parse(json), function(idx, obj){
-			var datePattern = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
+			var datePattern = /[0-9]{4}-[0-1][0-9]-[0-3][0-9]/;
 			var timePattern = /[0-9]{2}:[0-9]{2}/;
 			$("#events").append("<h3>" + obj.Name + "\t|\t" + "<i>" + obj.Type + "</i>" + "</h3>");
 			$("#events").append("<div id=\"event" + idx + "\"></div>");
@@ -391,4 +392,79 @@ function getCookie(cname){
 
 function loading(selector){
 	$(selector).html('<img src="img/load.gif" alt="loading..." width="9%" height="16%">');
+}
+
+/*
+Title<input type="text" name="eventName"><br>
+						Start Date<input type="text" name="startDate"><br>
+						Start Time<input type="text" name="startTime"><br>
+						End Date<input type="text" name="endDate"><br>
+						End Time<input type="text" name="endTIme"><br>
+						House #<input type="text" name="eventHouseNumber"><br>
+						Suite Number<input type="text" name="eventSuiteNumber"><br>
+						Street<input type="text" name="eventStreet"><br>
+						City<input type="text" name="eventCity"><br>
+						Zipcode<input type="text" name="eventZipcode"><br>
+						Description<br>
+*/
+
+function makeEvent(){
+	var eventName = $("#eventName").val().trim();
+	var eventType = $("#eventType").val().trim();
+	var startDate = $("#startDate").val().trim();
+	var startTime = $("#startTime").val().trim();
+	var endDate = $("#endDate").val().trim();
+	var endTime = $("#endTime").val().trim();
+	var houseNumber = $("#eventHouseNumber").val().trim();
+	var suiteNumber = $("#eventSuiteNumber").val().trim();
+	var street = $("#eventStreet").val().trim();
+	var city = $("#eventCity").val().trim();
+	var zipcode = $("#eventZipcode").val().trim();
+	var descriptopn = $("#eventDescription").val().trim();
+	
+	if(!(eventName)){
+		alert("Event name must be present");
+	}else if(!(checkStartDateTime(startDate, startTime))){
+		return;
+	}else if(!(checkEndDateTime(endDate, endTime))){
+		return;
+	}
+}
+
+function checkStartDateTime(date,time){
+	var datePattern = /[0-9]{4}-[0-1][0-9]-[0-3][0-9]/;
+	var timePattern = /[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/;
+	if(!(date)){
+		alert("Start date cannot be empty");
+		return false;
+	}else if(!(datePattern.test(date))){
+		alert("Start date is not in the correct format. Please use the format YYYY-MM-DD");
+		return false;
+	}else if(!(time)){
+		alert("Start time cannot be empty");
+		return false;
+	}else if(!(timePattern.test(time))){
+		alert("Start time is not in the correct format. Please use the format HH:MM:SS");
+		return false;
+	}
+	return true;
+}
+
+function checkEndDateTime(date,time){
+	var datePattern = /[0-9]{4}-[0-1][0-9]-[0-3][0-9]/;
+	var timePattern = /[0-2][0-9]:[0-5][0-9]:[0-5][0-9]/;
+	if(!(date)){
+		alert("End date cannot be empty");
+		return false;
+	}else if(!(datePattern.test(date))){
+		alert("End date is not in the correct format. Please use the format YYYY-MM-DD");
+		return false;
+	}else if(!(time)){
+		alert("End time cannot be empty");
+		return false;
+	}else if(!(timePattern.test(time))){
+		alert("End time is not in the correct format. Please use the format HH:MM:SS");
+		return false;
+	}
+	return true;
 }

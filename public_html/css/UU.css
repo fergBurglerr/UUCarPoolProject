@@ -71,3 +71,7 @@ div#navBar{
 .small{
 	font-size: .75em;
 }
+
+.ui-accordion-content{
+	height: 200px;
+}
