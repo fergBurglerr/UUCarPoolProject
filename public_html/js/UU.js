@@ -383,10 +383,19 @@ function driveForm(){
 	var pid = getCookie('pid');
 	$.post('event.php',
 	{
-		action:'can_drive',
+		action:'remove_need_ride',
 		eid:eid,
 		pid:pid
 	},function(resp){
+
+	});
+	
+	$.post('event.php',
+	{
+		action:'can_drive',
+		eid:eid,
+		pid:pid
+	}, function(resp){
 		alert(resp);
 	});
 }
@@ -394,6 +403,15 @@ function driveForm(){
 function rideForm(){
 	var eid = $('#rideEvent').val();
 	var pid = getCookie('pid');
+	$.post('event.php',
+	{
+		action:'remove_can_drive',
+		eid:eid,
+		pid:pid
+	}, function(resp){
+
+	});
+	
 	$.post('event.php',
 	{
 		action:'need_ride',
