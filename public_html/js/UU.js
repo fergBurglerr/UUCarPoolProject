@@ -428,28 +428,57 @@ function rideForm(){
 		}, function(form){
 			$('#carpool').html(form);
 			$('#eventHeader').html(e);
-			$.post('event.php',
+			$.post('latlong.php',
 			{
-				action:'find_drivers',
-				eid:eid
-			},function(json){
-				$.post('latlong.php',
+				action:'get_lat_long_from_pid',
+				pid:pid
+			}, function(riderJson){
+				var riderJsonParsed = JSON.parse(riderJson);
+				var riderLat = riderJsonParsed.latitude;
+				var riderLong= riderJsonParsed.longitude;
+				$.post('event.php',
 				{
-					action:'get_lat_long_from_pid',
-					pid:pid
-				}, function(riderJson){
-					var riderJsonParsed = JSON.parse(riderJson);
-					var riderLat = riderJsonParsed.latitude;
-					var riderLong= riderJsonParsed.longitude;
+					action:'find_drivers',
+					eid:eid
+				},function(json){
 					var something = false;
-					$.each(JSON.parse(json), function(idx, obj){
+					var jsonParsed = JSON.parse(json);
+					$.each(jsonParsed, function(idx, obj){
+						$.post('latlong.php',
+						{
+							action:'get_lat_long_from_pid',
+							pid:obj.pid
+						}, function(driverJson){
+							var driverJsonParsed = JSON.parse(driverJson);
+							driverLat=driverJsonParsed.latitude;
+							driverLong=driverJsonParsed.longitude;
+							var a = driverLat - riderLat;
+							var b = driverLong- riderLong;
+							var c = Math.sqrt(a*a + b*b);
+							jsonParsed[idx].distance=c;
+							if(idx == JSON.parse(json).length - 1){
+								jsonParsed.sort(function(a,b){ return parseFloat(a.distance) - parseFloat(b.distance)});
+
+								$.each(jsonParsed, function(idx, obj){
+								something = true;
+								$('#drivers').append('<tr><td>' + obj.firstname + '</td><td>' + obj.lastname + '</td><td><a href="mailto:' + obj.email + '">' + obj.email + '</td></tr>');
+								});
+								if(!(something)){
+									alert('It looks like no one has signed to drive for this event yet, please check back later!');
+								}
+
+							}
+						});
+					});
+
+					/*$.each(JSON.parse(json), function(idx, obj){
 						something = true;
 						//console.dir(obj);
 						$('#drivers').append('<tr><td>' + obj.firstname + '</td><td>' + obj.lastname + '</td><td><a href="mailto:' + obj.email + '">' + obj.email + '</td></tr>');
 					});
 					if(!(something)){
 						alert('It looks like no one has signed to drive for this event yet, please check back later!');
-					}
+					}*/
 				});
 			});
 			

@@ -1,6 +1,6 @@
 <button type="button" onclick="carpoolTab()">Back</button><br>
 <h2 id="eventHeader"></h2>
-<p id="evenInfo">These drivers have offered to drive to this event, contact them via e-mail to organize further!</p>
+<p id="evenInfo">These drivers have offered to drive to this event.  <i>The driver at the top of the list is the one closest to you!</i>  Contact them via e-mail to organize further!</p>
 
 <style>
 td, th{
