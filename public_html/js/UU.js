@@ -452,16 +452,23 @@ function rideForm(){
 							var driverJsonParsed = JSON.parse(driverJson);
 							driverLat=driverJsonParsed.latitude;
 							driverLong=driverJsonParsed.longitude;
-							var a = driverLat - riderLat;
-							var b = driverLong- riderLong;
-							var c = Math.sqrt(a*a + b*b);
-							jsonParsed[idx].distance=c;
+
+							var r = 3963; //miles
+							var lat1=Math.radians(riderLat);
+							var lat2=Math.radians(driverLat);
+							var dlat=Math.radians(driverLat-riderLat);
+							var dlng=Math.radians(driverLong-riderLong);
+							var a = Math.sin(dlat/2) * Math.sin(dlat/2) + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dlng/2) * Math.sin(dlng/2);
+							var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+							var d = r*c;
+
+							jsonParsed[idx].distance=d;
 							if(idx == JSON.parse(json).length - 1){
-								jsonParsed.sort(function(a,b){ return parseFloat(a.distance) - parseFloat(b.distance)});
+								jsonParsed.sort(function(a,b){ return parseFloat(a.distance) + parseFloat(b.distance)});
 
 								$.each(jsonParsed, function(idx, obj){
 								something = true;
-								$('#drivers').append('<tr><td>' + obj.firstname + '</td><td>' + obj.lastname + '</td><td><a href="mailto:' + obj.email + '">' + obj.email + '</td></tr>');
+								$('#drivers').append('<tr><td>' + obj.firstname + '</td><td>' + obj.lastname + '</td><td>' + Math.round(obj.distance*100)/100 + '</td><td><a href="mailto:' + obj.email + '">' + obj.email + '</td></tr>');
 								});
 								if(!(something)){
 									alert('It looks like no one has signed to drive for this event yet, please check back later!');
@@ -470,15 +477,6 @@ function rideForm(){
 							}
 						});
 					});
-
-					/*$.each(JSON.parse(json), function(idx, obj){
-						something = true;
-						//console.dir(obj);
-						$('#drivers').append('<tr><td>' + obj.firstname + '</td><td>' + obj.lastname + '</td><td><a href="mailto:' + obj.email + '">' + obj.email + '</td></tr>');
-					});
-					if(!(something)){
-						alert('It looks like no one has signed to drive for this event yet, please check back later!');
-					}*/
 				});
 			});
 			
@@ -668,4 +666,8 @@ function testAddress(house, street, city, zipcode){
 		return false;
 	}
 	return true;
+}
+
+Math.radians = function(degrees){
+	return degrees * Math.PI / 180;
 }

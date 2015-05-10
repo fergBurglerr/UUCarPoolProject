@@ -9,5 +9,5 @@ td, th{
 </style>
 
 <table id="drivers" border="1px solid green" style="padding:1px">
-	<tr><th colspan="2">Driver</th><th>E-mail</th></tr>
+	<tr><th colspan="2">Driver</th><th>Distance (miles)</th><th>E-mail</th></tr>
 </div>
