@@ -69,7 +69,7 @@ $(document).ready(function () {
 		offset:0
 	}, function(json){
 		$("#group").html("<div id=\"groups\"></div>");
-		console.log(json);
+		//console.log(json);
 		$.each(JSON.parse(json), function(idx, obj){
 			var datePattern = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
 			var timePattern = /[0-9]{2}:[0-9]{2}/;
@@ -433,15 +433,24 @@ function rideForm(){
 				action:'find_drivers',
 				eid:eid
 			},function(json){
-				var something = false;
-				$.each(JSON.parse(json), function(idx, obj){
-					something = true;
-					console.dir(obj);
-					$('#drivers').append('<tr><td>' + obj.firstname + '</td><td>' + obj.lastname + '</td><td><a href="mailto:' + obj.email + '">' + obj.email + '</td></tr>');
+				$.post('latlong.php',
+				{
+					action:'get_lat_long_from_pid',
+					pid:pid
+				}, function(riderJson){
+					var riderJsonParsed = JSON.parse(riderJson);
+					var riderLat = riderJsonParsed.latitude;
+					var riderLong= riderJsonParsed.longitude;
+					var something = false;
+					$.each(JSON.parse(json), function(idx, obj){
+						something = true;
+						//console.dir(obj);
+						$('#drivers').append('<tr><td>' + obj.firstname + '</td><td>' + obj.lastname + '</td><td><a href="mailto:' + obj.email + '">' + obj.email + '</td></tr>');
+					});
+					if(!(something)){
+						alert('It looks like no one has signed to drive for this event yet, please check back later!');
+					}
 				});
-				if(!(something)){
-					alert('It looks like no one has signed to drive for this event yet, please check back later!');
-				}
 			});
 			
 		});

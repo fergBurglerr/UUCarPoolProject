@@ -246,15 +246,15 @@ if(strcmp($_POST['action'],"find_drivers")==0){
 	$returnObject=array();
 	$eid = intval($_POST['eid']);
 
-	$sql = "SELECT P.firstName, P.LastName, P.emailAddress FROM Person P NATURAL JOIN person_drives_for_event pdfe WHERE pdfe.eid=?";
+	$sql = "SELECT P.pid, P.firstName, P.LastName, P.emailAddress FROM Person P NATURAL JOIN person_drives_for_event pdfe WHERE pdfe.eid=?";
 
 	$result = $conn->prepare($sql);
 	$result->bind_param('i', $eid);
 
 	$result->execute();
-	$result->bind_result($firstname, $lastname, $email);
+	$result->bind_result($pid, $firstname, $lastname, $email);
 	while ($result->fetch()) {
-		array_push($returnObject, array("firstname"=>$firstname, "lastname"=>$lastname,"email"=>$email));
+		array_push($returnObject, array("pid"=>$pid, "firstname"=>$firstname, "lastname"=>$lastname,"email"=>$email));
     }
     echo json_encode($returnObject);
 }

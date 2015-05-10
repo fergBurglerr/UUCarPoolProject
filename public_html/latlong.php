@@ -72,7 +72,22 @@
 		}
 	}
 
-	
+	if($action=='get_lat_long_from_pid'){
+		$pid=intval($p['pid']);
+		$sql = 'SELECT A.latitude, A.longitude FROM Address A INNER JOIN person_lives_at_address plaa USING (aid) WHERE plaa.pid=?';
+
+		if($stmt = $conn->prepare($sql)){
+			$stmt->bind_param("i", $pid);
+			$stmt->execute();
+			$stmt->bind_result($lat, $long);
+			$stmt->fetch();
+			$returnObject = array("latitude"=>$lat, "longitude"=>$long);
+			echo json_encode($returnObject);
+			$stmt->close();
+		} else {
+			echo "Database error: Please try again later!";
+		}
+	}
 	
 	$conn->close();
 ?>
