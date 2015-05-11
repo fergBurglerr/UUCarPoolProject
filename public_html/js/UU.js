@@ -86,6 +86,11 @@ $(document).ready(function () {
 	loginForm();
     });
 
+	$('#eventForm').click(function(){
+    	loading('#manageEventForm');
+    	eventForm();
+    });
+
     $('#groupForm').click(function(){
     	loading('#manageGroupsForm');
     	groupForm();
@@ -502,6 +507,14 @@ function groupForm(){
 	});
 }
 
+function eventForm(){
+	loading('#manageEventForm');
+	$.get('manageEventForm.php',{},
+	function(form){
+		$('#manageEventForm').html(form);
+		
+	});
+}
 function announcementForm(){
 	loading('#createAnnouncementForm');
 	$.get('announcementForm.php',{},
@@ -594,6 +607,55 @@ function makeEvent(){
 			description: description,
 			eventType: eventType
 		});
+		
+		$.post("latlong.php", {
+				action:'add',
+				houseNumber:houseNumber,
+				suiteNumber:suiteNumber,
+				street:street,
+				city:city,
+				zip:zipcode,
+				latitude:eventLat,
+				longitude:eventLong
+		});
+		
+		var eid;
+		var aid;
+		
+		$.post("event.php", {
+			action:'getEid',
+			eventName: eventName,
+			startTime: mysqlStart,
+			endTime: mysqlEnd,
+			eventType: eventType
+		}, function(json){
+			var j = JSON.parse(json);
+			eid = j.eid;
+		});
+		
+		$.post("latlong.php", {
+			action:'getAid',
+			houseNumber:houseNumber,
+			suiteNumber:suiteNumber,
+			street:street,
+			city:city,
+			zip:zipcode,
+			latitude:eventLat,
+			longitude:eventLong
+		}, function(json){
+			var k = JSON.parse(json);
+			aid = k.aid;
+		});
+		
+		$.post('event.php', {
+			action:'insert_into_event_has_address',
+			aid:aid,
+			eid:eid
+		});
+		
+		
+		
+		
 		alert("Event Created!");
 		$("#eventName").val('');
 		$("#eventType").val('');

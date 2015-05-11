@@ -5,6 +5,8 @@
 		die("Connection failed: " . $conn->connect_error);
 	}
 	$p = $_POST;
+	$latitude;
+	$longitude;
 	$action = $p['action'];
 	$houseNumber = $p['houseNumber'];
 	$suiteNumber = $p['suiteNumber'];

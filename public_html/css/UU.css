@@ -43,7 +43,7 @@ div#navBar{
 	height: 85%;
 }
 
-#createEventForm textarea{
+#eventForm textarea{
 	width: 350px;
 	height: 200px;
 }

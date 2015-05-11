@@ -99,7 +99,7 @@ if(strcmp($_POST['action'], "delete")==0){
 //getevent 
 if(strcmp($_POST['action'],"get")==0){
 	$returnObject=array();
-	$result = $conn->prepare("SELECT eid,eventName,startTime,endTime,description,eventType FROM Event WHERE startTime > NOW() ORDER BY startTime limit 10 offset ?");
+	$result = $conn->prepare("SELECT eid,eventName,startTime,endTime,description,eventType FROM Event WHERE startTime > NOW() ORDER BY startTime ASC limit 10 offset ?");
 	$result->bind_param('i',$offset);
 
 	$offset=0;
@@ -356,6 +356,18 @@ if (strcmp($_POST['action'], "get_event_address")==0) {
 		return NULL;
 	}
 
+}
+
+if (strcmp($_POST['action'], "insert_into_event_has_address")==0) {
+	$aid = $_POST['aid'];
+	$eid = $_POST['eid'];
+	
+	$result = $conn->prepare("INSERT INTO event_has_address(aid, eid)  VALUES (?,?)");
+	$result->bind_param('ii',$aid, $eid);
+
+	$result->execute();
+	
+	$result->close();
 }
 
 //$result->close();
